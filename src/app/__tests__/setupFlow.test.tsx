@@ -1,22 +1,29 @@
-import { fireEvent, renderRouter, screen } from 'expo-router/testing-library';
+import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 
+import { useProfiles } from '@/state/profiles';
 import { useSessionSetup } from '@/state/sessionSetup';
 import { themeWrapper } from '@/test/render';
-
-import HomeScreen from '../index';
-import SessionScreen from '../session';
-import SetupScreen from '../setup';
-
-const routes = { index: HomeScreen, setup: SetupScreen, session: SessionScreen };
+import { appRoutes } from '@/test/routes';
 
 const press = (name: string | RegExp, role: 'button' | 'tab' = 'button') =>
   fireEvent.press(screen.getByRole(role, { name }));
 
-describe('Session setup flow', () => {
-  afterEach(() => useSessionSetup.getState().reset());
+beforeEach(async () => {
+  await act(() =>
+    useProfiles.setState({
+      profiles: [{ id: 'p1', name: 'Anna', avatar: 'moon', createdAt: '2026-01-01T00:00:00Z' }],
+      activeId: 'p1',
+    }),
+  );
+});
 
+afterEach(async () => {
+  await act(() => useSessionSetup.getState().reset());
+});
+
+describe('Session setup flow', () => {
   it('goes from home to the setup tabs', async () => {
-    await renderRouter(routes, { wrapper: themeWrapper() });
+    await renderRouter(appRoutes, { wrapper: themeWrapper(), initialUrl: '/home' });
 
     await press('Start session');
 
@@ -25,7 +32,7 @@ describe('Session setup flow', () => {
   });
 
   it('advances through the tabs and unlocks Begin when everything is chosen', async () => {
-    await renderRouter(routes, { wrapper: themeWrapper(), initialUrl: '/setup' });
+    await renderRouter(appRoutes, { wrapper: themeWrapper(), initialUrl: '/setup' });
     expect(screen.getByRole('button', { name: 'Begin' })).toBeDisabled();
 
     await press('Peace of Mind');
@@ -48,7 +55,7 @@ describe('Session setup flow', () => {
   });
 
   it('lets the user jump between tabs and change an earlier choice', async () => {
-    await renderRouter(routes, { wrapper: themeWrapper(), initialUrl: '/setup' });
+    await renderRouter(appRoutes, { wrapper: themeWrapper(), initialUrl: '/setup' });
 
     await press('Music', 'tab');
     expect(screen.getByText('Choose background music')).toBeTruthy();
@@ -69,9 +76,9 @@ describe('Session setup flow', () => {
 
 describe('Background preview on home', () => {
   it('switches the look when a period is chosen', async () => {
-    const { getByRole } = await renderRouter(routes, { wrapper: themeWrapper('morning') });
+    await renderRouter(appRoutes, { wrapper: themeWrapper('morning'), initialUrl: '/home' });
 
-    await fireEvent.press(getByRole('tab', { name: 'Night' }));
-    expect(getByRole('tab', { name: 'Night' })).toBeSelected();
+    await press('Night', 'tab');
+    expect(screen.getByRole('tab', { name: 'Night' })).toBeSelected();
   });
 });

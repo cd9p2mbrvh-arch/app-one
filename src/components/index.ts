@@ -1,7 +1,12 @@
 export { AppText } from './AppText';
+export { Avatar } from './Avatar';
+export { BackButton } from './BackButton';
 export { Background } from './Background';
 export { ChunkyButton } from './ChunkyButton';
+export { ChunkySurface } from './ChunkySurface';
 export { OptionCard, type IconName } from './OptionCard';
+export { ProfileForm } from './ProfileForm';
 export { ProgressBar, clampProgress } from './ProgressBar';
 export { Screen } from './Screen';
 export { Tabs, type TabItem } from './Tabs';
+export { TextField } from './TextField';

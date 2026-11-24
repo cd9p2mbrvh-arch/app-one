@@ -1,10 +1,11 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import type { ComponentProps } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 
-import { edge, radius, spacing, useTheme } from '@/theme';
+import { edge, spacing, useTheme } from '@/theme';
 
 import { AppText } from './AppText';
+import { ChunkySurface } from './ChunkySurface';
 
 export type IconName = ComponentProps<typeof Ionicons>['name'];
 
@@ -30,33 +31,25 @@ export function OptionCard({ label, icon, selected, onPress, testID }: Props) {
       style={styles.pressable}
     >
       {({ pressed }) => (
-        <View style={[styles.edge, { backgroundColor: edgeColor }]}>
-          <View
-            style={[
-              styles.face,
-              {
-                backgroundColor: selected ? colors.primary : colors.surface,
-                borderColor: selected ? colors.primary : colors.border,
-              },
-              { transform: [{ translateY: pressed ? 0 : -edge.card }] },
-            ]}
+        <ChunkySurface
+          pressed={pressed}
+          depth={edge.card}
+          face={selected ? colors.primary : colors.surface}
+          edge={edgeColor}
+          border={selected ? colors.primary : colors.border}
+          style={styles.face}
+        >
+          {icon ? (
+            <Ionicons name={icon} size={26} color={selected ? colors.onPrimary : colors.primary} />
+          ) : null}
+          <AppText
+            variant="label"
+            color={selected ? colors.onPrimary : colors.text}
+            style={styles.label}
           >
-            {icon ? (
-              <Ionicons
-                name={icon}
-                size={26}
-                color={selected ? colors.onPrimary : colors.primary}
-              />
-            ) : null}
-            <AppText
-              variant="label"
-              color={selected ? colors.onPrimary : colors.text}
-              style={styles.label}
-            >
-              {label}
-            </AppText>
-          </View>
-        </View>
+            {label}
+          </AppText>
+        </ChunkySurface>
       )}
     </Pressable>
   );
@@ -64,10 +57,7 @@ export function OptionCard({ label, icon, selected, onPress, testID }: Props) {
 
 const styles = StyleSheet.create({
   pressable: { flex: 1 },
-  edge: { borderRadius: radius.md, marginTop: edge.card },
   face: {
-    borderRadius: radius.md,
-    borderWidth: 2,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.sm,
     alignItems: 'center',

@@ -37,13 +37,15 @@ describe('isSetupComplete', () => {
 });
 
 describe('useSessionSetup store', () => {
-  afterEach(() => act(() => useSessionSetup.getState().reset()));
+  afterEach(async () => {
+    await act(() => useSessionSetup.getState().reset());
+  });
 
-  it('records choices and resets', () => {
-    act(() => useSessionSetup.getState().choose('music', 'music2'));
+  it('records choices and resets', async () => {
+    await act(() => useSessionSetup.getState().choose('music', 'music2'));
     expect(useSessionSetup.getState().music).toBe('music2');
 
-    act(() => useSessionSetup.getState().reset());
+    await act(() => useSessionSetup.getState().reset());
     expect(useSessionSetup.getState().music).toBeNull();
   });
 });

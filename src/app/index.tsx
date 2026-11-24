@@ -1,59 +1,15 @@
-import { router } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { Redirect } from 'expo-router';
 
-import { AppText, ChunkyButton, ProgressBar, Screen, Tabs } from '@/components';
-import { spacing, useTheme, type TimeOfDay } from '@/theme';
+import { useProfiles, useProfilesHydrated } from '@/state/profiles';
 
-// Temporary home screen. The real Home arrives with profiles (M2) and XP (M9).
+/** Entry point: sends the user to their last profile, the picker, or first-time setup. */
+export default function Entry() {
+  const hydrated = useProfilesHydrated();
+  const hasActive = useProfiles((s) => s.activeId !== null);
+  const hasProfiles = useProfiles((s) => s.profiles.length > 0);
 
-type PreviewKey = 'auto' | TimeOfDay;
-
-const PREVIEW_TABS: { key: PreviewKey; label: string }[] = [
-  { key: 'auto', label: 'Auto' },
-  { key: 'morning', label: 'Morning' },
-  { key: 'noon', label: 'Noon' },
-  { key: 'night', label: 'Night' },
-];
-
-export default function HomeScreen() {
-  const { colors, override, setOverride } = useTheme();
-
-  return (
-    <Screen
-      footer={
-        <>
-          <ChunkyButton title="Start session" onPress={() => router.push('/setup')} />
-          <ChunkyButton title="Switch profile" variant="secondary" onPress={() => {}} />
-        </>
-      }
-    >
-      <AppText variant="title">App One</AppText>
-
-      <View style={styles.block}>
-        <View style={styles.levelRow}>
-          <AppText variant="label">Level 3</AppText>
-          <AppText variant="label" color={colors.accent}>
-            124 / 200 XP
-          </AppText>
-        </View>
-        <ProgressBar value={124 / 200} accessibilityLabel="Level progress" />
-      </View>
-
-      <View style={styles.block}>
-        <AppText variant="caption" color={colors.textMuted}>
-          Background preview (temporary, for testing)
-        </AppText>
-        <Tabs
-          tabs={PREVIEW_TABS}
-          active={override ?? 'auto'}
-          onChange={(key) => setOverride(key === 'auto' ? null : key)}
-        />
-      </View>
-    </Screen>
-  );
+  if (!hydrated) return null;
+  if (hasActive) return <Redirect href="/home" />;
+  if (hasProfiles) return <Redirect href="/profiles" />;
+  return <Redirect href="/profiles/new" />;
 }
-
-const styles = StyleSheet.create({
-  block: { gap: spacing.sm },
-  levelRow: { flexDirection: 'row', justifyContent: 'space-between' },
-});

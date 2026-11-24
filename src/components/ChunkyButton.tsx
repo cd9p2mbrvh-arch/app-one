@@ -1,8 +1,9 @@
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 
-import { edge, radius, spacing, useTheme } from '@/theme';
+import { edge, spacing, useTheme } from '@/theme';
 
 import { AppText } from './AppText';
+import { ChunkySurface } from './ChunkySurface';
 
 type Props = {
   title: string;
@@ -34,32 +35,25 @@ export function ChunkyButton({ title, onPress, variant = 'primary', disabled, te
       style={{ opacity: disabled ? 0.5 : 1 }}
     >
       {({ pressed }) => (
-        <View style={[styles.edge, { backgroundColor: edgeColor }]}>
-          <View
-            style={[
-              styles.face,
-              { backgroundColor: face, borderColor: edgeColor },
-              { transform: [{ translateY: pressed ? 0 : -edge.button }] },
-            ]}
-          >
-            <AppText variant="button" color={textColor}>
-              {title.toUpperCase()}
-            </AppText>
-          </View>
-        </View>
+        <ChunkySurface
+          pressed={pressed}
+          depth={edge.button}
+          face={face}
+          edge={edgeColor}
+          border={edgeColor}
+          style={styles.face}
+        >
+          <AppText variant="button" color={textColor}>
+            {title.toUpperCase()}
+          </AppText>
+        </ChunkySurface>
       )}
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  edge: {
-    borderRadius: radius.md,
-    marginTop: edge.button,
-  },
   face: {
-    borderRadius: radius.md,
-    borderWidth: 2,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.lg,
     alignItems: 'center',

@@ -14,7 +14,9 @@ export default function SessionScreen() {
     list.find((x) => x.id === id)?.label ?? '—';
 
   return (
-    <Screen footer={<ChunkyButton title="Back to home" onPress={() => router.dismissAll()} />}>
+    <Screen
+      footer={<ChunkyButton title="Back to home" onPress={() => router.dismissTo('/home')} />}
+    >
       <AppText variant="title">Ready</AppText>
       <View style={styles.summary}>
         <AppText>Theme: {label(THEMES, theme)}</AppText>
