@@ -41,7 +41,7 @@ describe('First launch', () => {
     await press('Create profile');
 
     expect(screen).toHavePathname('/home');
-    expect(screen.getByText('Hi, Anna')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Switch profile, currently Anna' })).toBeTruthy();
     expect(useProfiles.getState().profiles[0]).toMatchObject({ name: 'Anna', avatar: 'star' });
   });
 
@@ -64,32 +64,34 @@ describe('Returning user', () => {
     await seed([profile('a', 'Anna'), profile('b', 'Tomek')], 'b');
     await launch();
 
-    expect(await screen.findByText('Hi, Tomek')).toBeTruthy();
+    expect(
+      await screen.findByRole('button', { name: 'Switch profile, currently Tomek' }),
+    ).toBeTruthy();
     expect(screen).toHavePathname('/home');
   });
 
   it('switches profile from the picker', async () => {
     await seed([profile('a', 'Anna'), profile('b', 'Tomek')], 'b');
     await launch();
-    await screen.findByText('Hi, Tomek');
+    await screen.findByRole('button', { name: 'Switch profile, currently Tomek' });
 
-    await press('Switch profile');
+    await press(/^Switch profile/);
     expect(screen).toHavePathname('/profiles');
     expect(screen.getByText("Who's meditating?")).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Tomek' })).toBeSelected();
 
     await press('Anna');
     expect(screen).toHavePathname('/home');
-    expect(screen.getByText('Hi, Anna')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Switch profile, currently Anna' })).toBeTruthy();
     expect(useProfiles.getState().activeId).toBe('a');
   });
 
   it('adds a second profile from the picker', async () => {
     await seed([profile('a', 'Anna')], 'a');
     await launch();
-    await screen.findByText('Hi, Anna');
+    await screen.findByRole('button', { name: 'Switch profile, currently Anna' });
 
-    await press('Switch profile');
+    await press(/^Switch profile/);
     await press('Add profile');
     expect(screen.getByText('New profile')).toBeTruthy();
 
@@ -100,24 +102,24 @@ describe('Returning user', () => {
     await type('Ola');
     await press('Create profile');
     expect(screen).toHavePathname('/home');
-    expect(screen.getByText('Hi, Ola')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Switch profile, currently Ola' })).toBeTruthy();
   });
 
   it('hides "Add profile" when 4 profiles exist', async () => {
     await seed([profile('a', 'A'), profile('b', 'B'), profile('c', 'C'), profile('d', 'D')], 'a');
     await launch();
-    await screen.findByText('Hi, A');
+    await screen.findByRole('button', { name: 'Switch profile, currently A' });
 
-    await press('Switch profile');
+    await press(/^Switch profile/);
     expect(screen.queryByRole('button', { name: 'Add profile' })).toBeNull();
   });
 
   it('edits a profile name and symbol', async () => {
     await seed([profile('a', 'Anna')], 'a');
     await launch();
-    await screen.findByText('Hi, Anna');
+    await screen.findByRole('button', { name: 'Switch profile, currently Anna' });
 
-    await press('Switch profile');
+    await press(/^Switch profile/);
     await press('Edit Anna');
     expect(screen.getByText('Edit profile')).toBeTruthy();
     expect(screen.getByLabelText('Name')).toHaveDisplayValue('Anna');
@@ -134,9 +136,9 @@ describe('Returning user', () => {
   it('deletes a profile only after confirmation', async () => {
     await seed([profile('a', 'Anna'), profile('b', 'Tomek')], 'a');
     await launch();
-    await screen.findByText('Hi, Anna');
+    await screen.findByRole('button', { name: 'Switch profile, currently Anna' });
 
-    await press('Switch profile');
+    await press(/^Switch profile/);
     await press('Edit Tomek');
     await press('Delete profile');
     expect(screen.getByText('Delete Tomek?')).toBeTruthy();
@@ -154,9 +156,9 @@ describe('Returning user', () => {
   it('goes back to first-time setup when the last profile is deleted', async () => {
     await seed([profile('a', 'Anna')], 'a');
     await launch();
-    await screen.findByText('Hi, Anna');
+    await screen.findByRole('button', { name: 'Switch profile, currently Anna' });
 
-    await press('Switch profile');
+    await press(/^Switch profile/);
     await press('Edit Anna');
     await press('Delete profile');
     await press('Yes, delete');

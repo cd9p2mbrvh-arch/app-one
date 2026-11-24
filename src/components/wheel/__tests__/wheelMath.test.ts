@@ -20,7 +20,7 @@ describe('geometryFor', () => {
   });
 
   it('uses fixed steps without wrapping for long lists', () => {
-    expect(long).toEqual({ count: 58, wrap: false, stepDeg: 24 });
+    expect(long).toEqual({ count: 58, wrap: false, stepDeg: 30 });
   });
 });
 
@@ -98,8 +98,8 @@ describe('placementFor', () => {
 
   it('hides far items on long lists', () => {
     expect(placementFor(2, long, 100).opacity).toBe(1);
-    expect(placementFor(7, long, 100).visible).toBe(false);
-    expect(placementFor(7, long, 100).opacity).toBe(0);
+    expect(placementFor(6, long, 100).visible).toBe(false);
+    expect(placementFor(6, long, 100).opacity).toBe(0);
   });
 });
 

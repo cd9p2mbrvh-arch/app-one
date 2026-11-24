@@ -70,6 +70,12 @@ describe('RotaryWheel', () => {
     expect(wheel()).toHaveAccessibilityValue({ text: 'Gamma, locked. Unlocks at level 3' });
   });
 
+  it('marks only locked items with a padlock', async () => {
+    await setup(0);
+    expect(screen.getByTestId('wheel-lock-c')).toBeTruthy();
+    expect(screen.queryByTestId('wheel-lock-a')).toBeNull();
+  });
+
   it('follows a new selection from its parent', async () => {
     const onChange = jest.fn();
     const props = {

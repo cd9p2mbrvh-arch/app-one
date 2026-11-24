@@ -9,7 +9,7 @@
 export type WheelGeometry = { count: number; wrap: boolean; stepDeg: number };
 
 export const MAX_WRAPPED_ITEMS = 12;
-export const LONG_LIST_STEP_DEG = 24;
+export const LONG_LIST_STEP_DEG = 30;
 /** Items further than this from the top are hidden on long lists. */
 export const LONG_LIST_VISIBLE_DEG = 150;
 

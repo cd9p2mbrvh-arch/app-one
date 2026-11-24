@@ -1,47 +1,67 @@
 import { create } from 'zustand';
 
+import {
+  DEFAULT_DURATION_MIN,
+  firstUnlocked,
+  isUnlocked,
+  MUSIC,
+  THEMES,
+  VOICES,
+  type CatalogItem,
+} from '@/content/manifest';
+
 export type SetupStep = 'theme' | 'voice' | 'music' | 'duration';
 
 export const SETUP_STEPS: SetupStep[] = ['theme', 'voice', 'music', 'duration'];
 
 export type SetupSelection = {
-  theme: string | null;
-  voice: string | null;
-  music: string | null;
-  duration: number | null;
+  theme: string;
+  voice: string;
+  music: string;
+  duration: number;
 };
 
 type SetupStore = SetupSelection & {
-  choose: <S extends SetupStep>(step: S, value: NonNullable<SetupSelection[S]>) => void;
+  choose: <S extends SetupStep>(step: S, value: SetupSelection[S]) => void;
   reset: () => void;
 };
 
-const EMPTY: SetupSelection = { theme: null, voice: null, music: null, duration: null };
+/** Starting choices: first theme, first unlocked voice and music, 10 minutes. */
+export function defaultSelection(level = 1): SetupSelection {
+  return {
+    theme: firstUnlocked(THEMES, level).id,
+    voice: firstUnlocked(VOICES, level).id,
+    music: firstUnlocked(MUSIC, level).id,
+    duration: DEFAULT_DURATION_MIN,
+  };
+}
 
-/** The choices made on the session setup tabs. Not persisted (yet). */
+/** The choices on the session setup tabs. Not persisted (yet). */
 export const useSessionSetup = create<SetupStore>((set) => ({
-  ...EMPTY,
+  ...defaultSelection(),
   choose: (step, value) => set({ [step]: value } as Partial<SetupSelection>),
-  reset: () => set(EMPTY),
+  reset: () => set(defaultSelection()),
 }));
 
-export function isStepDone(selection: SetupSelection, step: SetupStep): boolean {
-  return selection[step] !== null;
+const CATALOG: Record<Exclude<SetupStep, 'duration'>, CatalogItem[]> = {
+  theme: THEMES,
+  voice: VOICES,
+  music: MUSIC,
+};
+
+/** The catalogue item chosen for a step, if any (durations have none). */
+export function chosenItem(selection: SetupSelection, step: SetupStep): CatalogItem | undefined {
+  if (step === 'duration') return undefined;
+  return CATALOG[step].find((item) => item.id === selection[step]);
 }
 
-export function isSetupComplete(selection: SetupSelection): boolean {
-  return SETUP_STEPS.every((step) => isStepDone(selection, step));
+/** True when the choice for this step is locked at the given level. */
+export function isStepLocked(selection: SetupSelection, step: SetupStep, level: number): boolean {
+  const item = chosenItem(selection, step);
+  return !!item && !isUnlocked(item, level);
 }
 
-/**
- * Which tab to show after a choice on `current`: the first unfinished step after it
- * (wrapping around), or `current` itself when everything is already chosen.
- */
-export function nextStepAfter(selection: SetupSelection, current: SetupStep): SetupStep {
-  const start = SETUP_STEPS.indexOf(current);
-  for (let i = 1; i < SETUP_STEPS.length; i++) {
-    const step = SETUP_STEPS[(start + i) % SETUP_STEPS.length];
-    if (!isStepDone(selection, step)) return step;
-  }
-  return current;
+/** A session can start only when nothing chosen is locked. */
+export function canBegin(selection: SetupSelection, level: number): boolean {
+  return SETUP_STEPS.every((step) => !isStepLocked(selection, step, level));
 }

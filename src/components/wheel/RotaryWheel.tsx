@@ -131,9 +131,13 @@ export function RotaryWheel({
 
   const drag = useRef({ startX: 0, startY: 0, angle: 0, time: 0, velocity: 0 });
 
-  const onTouchStart = (e: GestureResponderEvent) => {
+  // Runs for every touch that starts on the wheel (including on its items), before
+  // any child decides to handle it. Records where the finger went down; returning
+  // false lets taps on items still work.
+  const recordTouchStart = (e: GestureResponderEvent) => {
     drag.current.startX = e.nativeEvent.pageX;
     drag.current.startY = e.nativeEvent.pageY;
+    return false;
   };
 
   // Become the touch responder once the finger has moved a little, so taps on
@@ -191,7 +195,8 @@ export function RotaryWheel({
       accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
       onAccessibilityAction={(e) => step(e.nativeEvent.actionName === 'increment' ? 1 : -1)}
       style={{ width: size, height: size }}
-      onTouchStart={onTouchStart}
+      onStartShouldSetResponderCapture={recordTouchStart}
+      onMoveShouldSetResponderCapture={onMoveShouldSetResponder}
       onMoveShouldSetResponder={onMoveShouldSetResponder}
       onResponderTerminationRequest={() => false}
       onResponderGrant={onResponderGrant}
@@ -244,19 +249,16 @@ export function RotaryWheel({
             )}
             {item.locked ? (
               <View
+                testID={testID ? `${testID}-lock-${item.key}` : undefined}
                 style={[
                   styles.lock,
                   {
-                    backgroundColor: colors.text,
-                    borderColor: isCurrent ? colors.primary : colors.surface,
+                    backgroundColor: colors.primary,
+                    borderColor: isCurrent ? colors.onPrimary : colors.surface,
                   },
                 ]}
               >
-                <Ionicons
-                  name="lock-closed"
-                  size={11}
-                  color={colors.onPrimary === colors.text ? colors.primary : colors.surface}
-                />
+                <Ionicons name="lock-closed" size={11} color={colors.onPrimary} />
               </View>
             ) : null}
           </Pressable>
