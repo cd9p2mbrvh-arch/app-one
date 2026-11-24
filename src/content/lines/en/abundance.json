@@ -1,0 +1,1141 @@
+{
+  "placeholder": true,
+  "theme": "abundance",
+  "language": "en",
+  "shared": [
+    {
+      "id": "s001",
+      "text": "I am open to abundance in every form."
+    },
+    {
+      "id": "s002",
+      "text": "I am open to new opportunities."
+    },
+    {
+      "id": "s003",
+      "text": "I am open to prosperity and ease."
+    },
+    {
+      "id": "s004",
+      "text": "I am open to all the good that is coming."
+    },
+    {
+      "id": "s005",
+      "text": "I am open to wealth that flows freely."
+    },
+    {
+      "id": "s006",
+      "text": "I am open to a life of plenty."
+    },
+    {
+      "id": "s007",
+      "text": "I am open to unexpected blessings."
+    },
+    {
+      "id": "s008",
+      "text": "I am open to generous possibilities."
+    },
+    {
+      "id": "s009",
+      "text": "I am open to success that feels natural."
+    },
+    {
+      "id": "s010",
+      "text": "I am open to everything I need and more."
+    },
+    {
+      "id": "s011",
+      "text": "I welcome abundance in every form."
+    },
+    {
+      "id": "s012",
+      "text": "I welcome new opportunities."
+    },
+    {
+      "id": "s013",
+      "text": "I welcome prosperity and ease."
+    },
+    {
+      "id": "s014",
+      "text": "I welcome all the good that is coming."
+    },
+    {
+      "id": "s015",
+      "text": "I welcome wealth that flows freely."
+    },
+    {
+      "id": "s016",
+      "text": "I welcome a life of plenty."
+    },
+    {
+      "id": "s017",
+      "text": "I welcome unexpected blessings."
+    },
+    {
+      "id": "s018",
+      "text": "I welcome generous possibilities."
+    },
+    {
+      "id": "s019",
+      "text": "I welcome success that feels natural."
+    },
+    {
+      "id": "s020",
+      "text": "I welcome everything I need and more."
+    },
+    {
+      "id": "s021",
+      "text": "I gently attract abundance in every form."
+    },
+    {
+      "id": "s022",
+      "text": "I gently attract new opportunities."
+    },
+    {
+      "id": "s023",
+      "text": "I gently attract prosperity and ease."
+    },
+    {
+      "id": "s024",
+      "text": "I gently attract all the good that is coming."
+    },
+    {
+      "id": "s025",
+      "text": "I gently attract wealth that flows freely."
+    },
+    {
+      "id": "s026",
+      "text": "I gently attract a life of plenty."
+    },
+    {
+      "id": "s027",
+      "text": "I gently attract unexpected blessings."
+    },
+    {
+      "id": "s028",
+      "text": "I gently attract generous possibilities."
+    },
+    {
+      "id": "s029",
+      "text": "I gently attract success that feels natural."
+    },
+    {
+      "id": "s030",
+      "text": "I gently attract everything I need and more."
+    },
+    {
+      "id": "s031",
+      "text": "Today I receive abundance in every form."
+    },
+    {
+      "id": "s032",
+      "text": "Today I receive new opportunities."
+    },
+    {
+      "id": "s033",
+      "text": "Today I receive prosperity and ease."
+    },
+    {
+      "id": "s034",
+      "text": "Today I receive all the good that is coming."
+    },
+    {
+      "id": "s035",
+      "text": "Today I receive wealth that flows freely."
+    },
+    {
+      "id": "s036",
+      "text": "Today I receive a life of plenty."
+    },
+    {
+      "id": "s037",
+      "text": "Today I receive unexpected blessings."
+    },
+    {
+      "id": "s038",
+      "text": "Today I receive generous possibilities."
+    },
+    {
+      "id": "s039",
+      "text": "Today I receive success that feels natural."
+    },
+    {
+      "id": "s040",
+      "text": "Today I receive everything I need and more."
+    },
+    {
+      "id": "s041",
+      "text": "I make room for abundance in every form."
+    },
+    {
+      "id": "s042",
+      "text": "I make room for new opportunities."
+    },
+    {
+      "id": "s043",
+      "text": "I make room for prosperity and ease."
+    },
+    {
+      "id": "s044",
+      "text": "I make room for all the good that is coming."
+    },
+    {
+      "id": "s045",
+      "text": "I make room for wealth that flows freely."
+    },
+    {
+      "id": "s046",
+      "text": "I make room for a life of plenty."
+    },
+    {
+      "id": "s047",
+      "text": "I make room for unexpected blessings."
+    },
+    {
+      "id": "s048",
+      "text": "I make room for generous possibilities."
+    },
+    {
+      "id": "s049",
+      "text": "I make room for success that feels natural."
+    },
+    {
+      "id": "s050",
+      "text": "I make room for everything I need and more."
+    },
+    {
+      "id": "s051",
+      "text": "I am worthy of abundance in every form."
+    },
+    {
+      "id": "s052",
+      "text": "I am worthy of new opportunities."
+    },
+    {
+      "id": "s053",
+      "text": "I am worthy of prosperity and ease."
+    },
+    {
+      "id": "s054",
+      "text": "I am worthy of all the good that is coming."
+    },
+    {
+      "id": "s055",
+      "text": "I am worthy of wealth that flows freely."
+    },
+    {
+      "id": "s056",
+      "text": "I am worthy of a life of plenty."
+    },
+    {
+      "id": "s057",
+      "text": "I am worthy of unexpected blessings."
+    },
+    {
+      "id": "s058",
+      "text": "I am worthy of generous possibilities."
+    },
+    {
+      "id": "s059",
+      "text": "I am worthy of success that feels natural."
+    },
+    {
+      "id": "s060",
+      "text": "I am worthy of everything I need and more."
+    },
+    {
+      "id": "s061",
+      "text": "I allow myself abundance in every form."
+    },
+    {
+      "id": "s062",
+      "text": "I allow myself new opportunities."
+    },
+    {
+      "id": "s063",
+      "text": "I allow myself prosperity and ease."
+    },
+    {
+      "id": "s064",
+      "text": "I allow myself all the good that is coming."
+    },
+    {
+      "id": "s065",
+      "text": "I allow myself wealth that flows freely."
+    },
+    {
+      "id": "s066",
+      "text": "I allow myself a life of plenty."
+    },
+    {
+      "id": "s067",
+      "text": "I allow myself unexpected blessings."
+    },
+    {
+      "id": "s068",
+      "text": "I allow myself generous possibilities."
+    },
+    {
+      "id": "s069",
+      "text": "I allow myself success that feels natural."
+    },
+    {
+      "id": "s070",
+      "text": "I allow myself everything I need and more."
+    },
+    {
+      "id": "s071",
+      "text": "I trust the flow of abundance in every form."
+    },
+    {
+      "id": "s072",
+      "text": "I trust the flow of new opportunities."
+    },
+    {
+      "id": "s073",
+      "text": "I trust the flow of prosperity and ease."
+    },
+    {
+      "id": "s074",
+      "text": "I trust the flow of all the good that is coming."
+    },
+    {
+      "id": "s075",
+      "text": "I trust the flow of wealth that flows freely."
+    },
+    {
+      "id": "s076",
+      "text": "I trust the flow of a life of plenty."
+    },
+    {
+      "id": "s077",
+      "text": "I trust the flow of unexpected blessings."
+    },
+    {
+      "id": "s078",
+      "text": "I trust the flow of generous possibilities."
+    },
+    {
+      "id": "s079",
+      "text": "I trust the flow of success that feels natural."
+    },
+    {
+      "id": "s080",
+      "text": "I trust the flow of everything I need and more."
+    },
+    {
+      "id": "s081",
+      "text": "I say yes to abundance in every form."
+    },
+    {
+      "id": "s082",
+      "text": "I say yes to new opportunities."
+    },
+    {
+      "id": "s083",
+      "text": "I say yes to prosperity and ease."
+    },
+    {
+      "id": "s084",
+      "text": "I say yes to all the good that is coming."
+    },
+    {
+      "id": "s085",
+      "text": "I say yes to wealth that flows freely."
+    },
+    {
+      "id": "s086",
+      "text": "I say yes to a life of plenty."
+    },
+    {
+      "id": "s087",
+      "text": "I say yes to unexpected blessings."
+    },
+    {
+      "id": "s088",
+      "text": "I say yes to generous possibilities."
+    },
+    {
+      "id": "s089",
+      "text": "I say yes to success that feels natural."
+    },
+    {
+      "id": "s090",
+      "text": "I say yes to everything I need and more."
+    },
+    {
+      "id": "s091",
+      "text": "I am surrounded by abundance in every form."
+    },
+    {
+      "id": "s092",
+      "text": "I am surrounded by new opportunities."
+    },
+    {
+      "id": "s093",
+      "text": "I am surrounded by prosperity and ease."
+    },
+    {
+      "id": "s094",
+      "text": "I am surrounded by all the good that is coming."
+    },
+    {
+      "id": "s095",
+      "text": "I am surrounded by wealth that flows freely."
+    },
+    {
+      "id": "s096",
+      "text": "I am surrounded by a life of plenty."
+    },
+    {
+      "id": "s097",
+      "text": "I am surrounded by unexpected blessings."
+    },
+    {
+      "id": "s098",
+      "text": "I am surrounded by generous possibilities."
+    },
+    {
+      "id": "s099",
+      "text": "I am surrounded by success that feels natural."
+    },
+    {
+      "id": "s100",
+      "text": "I am surrounded by everything I need and more."
+    }
+  ],
+  "voices": {
+    "voice1": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. Abundance flows to me easily."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. Money comes to me with ease."
+      },
+      {
+        "id": "v003",
+        "text": "Breathe in slowly. I feel wealthy and supported."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. I am a magnet for opportunity."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. My efforts are rewarded."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. Abundance flows to me easily."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. Money comes to me with ease."
+      },
+      {
+        "id": "v008",
+        "text": "Close your eyes for a moment. I feel wealthy and supported."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. I am a magnet for opportunity."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. My efforts are rewarded."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. Abundance flows to me easily."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. Money comes to me with ease."
+      },
+      {
+        "id": "v013",
+        "text": "Breathe out gently. I feel wealthy and supported."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. I am a magnet for opportunity."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. My efforts are rewarded."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. Abundance flows to me easily."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. Money comes to me with ease."
+      },
+      {
+        "id": "v018",
+        "text": "Notice the rise of your chest. I feel wealthy and supported."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. I am a magnet for opportunity."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. My efforts are rewarded."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. Abundance flows to me easily."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. Money comes to me with ease."
+      },
+      {
+        "id": "v023",
+        "text": "Take a deep breath. I feel wealthy and supported."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. I am a magnet for opportunity."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. My efforts are rewarded."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. Abundance flows to me easily."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. Money comes to me with ease."
+      },
+      {
+        "id": "v028",
+        "text": "Let your hands rest. I feel wealthy and supported."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. I am a magnet for opportunity."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. My efforts are rewarded."
+      }
+    ],
+    "voice2": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. I have more than enough."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. I receive with an open heart."
+      },
+      {
+        "id": "v003",
+        "text": "Breathe in slowly. Success is natural for me."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. My life is rich in every way."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. I am grateful for all I have."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. I have more than enough."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. I receive with an open heart."
+      },
+      {
+        "id": "v008",
+        "text": "Close your eyes for a moment. Success is natural for me."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. My life is rich in every way."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. I am grateful for all I have."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. I have more than enough."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. I receive with an open heart."
+      },
+      {
+        "id": "v013",
+        "text": "Breathe out gently. Success is natural for me."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. My life is rich in every way."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. I am grateful for all I have."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. I have more than enough."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. I receive with an open heart."
+      },
+      {
+        "id": "v018",
+        "text": "Notice the rise of your chest. Success is natural for me."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. My life is rich in every way."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. I am grateful for all I have."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. I have more than enough."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. I receive with an open heart."
+      },
+      {
+        "id": "v023",
+        "text": "Take a deep breath. Success is natural for me."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. My life is rich in every way."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. I am grateful for all I have."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. I have more than enough."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. I receive with an open heart."
+      },
+      {
+        "id": "v028",
+        "text": "Let your hands rest. Success is natural for me."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. My life is rich in every way."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. I am grateful for all I have."
+      }
+    ],
+    "voice3": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. Good things come to me every day."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. There is plenty for everyone."
+      },
+      {
+        "id": "v003",
+        "text": "Breathe in slowly. The universe provides for me."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. I deserve to prosper."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. New doors open for me."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. Good things come to me every day."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. There is plenty for everyone."
+      },
+      {
+        "id": "v008",
+        "text": "Close your eyes for a moment. The universe provides for me."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. I deserve to prosper."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. New doors open for me."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. Good things come to me every day."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. There is plenty for everyone."
+      },
+      {
+        "id": "v013",
+        "text": "Breathe out gently. The universe provides for me."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. I deserve to prosper."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. New doors open for me."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. Good things come to me every day."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. There is plenty for everyone."
+      },
+      {
+        "id": "v018",
+        "text": "Notice the rise of your chest. The universe provides for me."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. I deserve to prosper."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. New doors open for me."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. Good things come to me every day."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. There is plenty for everyone."
+      },
+      {
+        "id": "v023",
+        "text": "Take a deep breath. The universe provides for me."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. I deserve to prosper."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. New doors open for me."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. Good things come to me every day."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. There is plenty for everyone."
+      },
+      {
+        "id": "v028",
+        "text": "Let your hands rest. The universe provides for me."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. I deserve to prosper."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. New doors open for me."
+      }
+    ],
+    "voice4": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. I am a magnet for opportunity."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. My efforts are rewarded."
+      },
+      {
+        "id": "v003",
+        "text": "Let your shoulders soften. Abundance flows to me easily."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. Money comes to me with ease."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. I feel wealthy and supported."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. I am a magnet for opportunity."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. My efforts are rewarded."
+      },
+      {
+        "id": "v008",
+        "text": "Feel your feet on the ground. Abundance flows to me easily."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. Money comes to me with ease."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. I feel wealthy and supported."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. I am a magnet for opportunity."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. My efforts are rewarded."
+      },
+      {
+        "id": "v013",
+        "text": "Rest here for a while. Abundance flows to me easily."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. Money comes to me with ease."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. I feel wealthy and supported."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. I am a magnet for opportunity."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. My efforts are rewarded."
+      },
+      {
+        "id": "v018",
+        "text": "Let your jaw relax. Abundance flows to me easily."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. Money comes to me with ease."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. I feel wealthy and supported."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. I am a magnet for opportunity."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. My efforts are rewarded."
+      },
+      {
+        "id": "v023",
+        "text": "Feel the air around you. Abundance flows to me easily."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. Money comes to me with ease."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. I feel wealthy and supported."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. I am a magnet for opportunity."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. My efforts are rewarded."
+      },
+      {
+        "id": "v028",
+        "text": "Stay with this breath. Abundance flows to me easily."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. Money comes to me with ease."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. I feel wealthy and supported."
+      }
+    ],
+    "voice5": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. My life is rich in every way."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. I am grateful for all I have."
+      },
+      {
+        "id": "v003",
+        "text": "Let your shoulders soften. I have more than enough."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. I receive with an open heart."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. Success is natural for me."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. My life is rich in every way."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. I am grateful for all I have."
+      },
+      {
+        "id": "v008",
+        "text": "Feel your feet on the ground. I have more than enough."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. I receive with an open heart."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. Success is natural for me."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. My life is rich in every way."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. I am grateful for all I have."
+      },
+      {
+        "id": "v013",
+        "text": "Rest here for a while. I have more than enough."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. I receive with an open heart."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. Success is natural for me."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. My life is rich in every way."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. I am grateful for all I have."
+      },
+      {
+        "id": "v018",
+        "text": "Let your jaw relax. I have more than enough."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. I receive with an open heart."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. Success is natural for me."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. My life is rich in every way."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. I am grateful for all I have."
+      },
+      {
+        "id": "v023",
+        "text": "Feel the air around you. I have more than enough."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. I receive with an open heart."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. Success is natural for me."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. My life is rich in every way."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. I am grateful for all I have."
+      },
+      {
+        "id": "v028",
+        "text": "Stay with this breath. I have more than enough."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. I receive with an open heart."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. Success is natural for me."
+      }
+    ],
+    "voice6": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. I deserve to prosper."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. New doors open for me."
+      },
+      {
+        "id": "v003",
+        "text": "Let your shoulders soften. Good things come to me every day."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. There is plenty for everyone."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. The universe provides for me."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. I deserve to prosper."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. New doors open for me."
+      },
+      {
+        "id": "v008",
+        "text": "Feel your feet on the ground. Good things come to me every day."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. There is plenty for everyone."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. The universe provides for me."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. I deserve to prosper."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. New doors open for me."
+      },
+      {
+        "id": "v013",
+        "text": "Rest here for a while. Good things come to me every day."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. There is plenty for everyone."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. The universe provides for me."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. I deserve to prosper."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. New doors open for me."
+      },
+      {
+        "id": "v018",
+        "text": "Let your jaw relax. Good things come to me every day."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. There is plenty for everyone."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. The universe provides for me."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. I deserve to prosper."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. New doors open for me."
+      },
+      {
+        "id": "v023",
+        "text": "Feel the air around you. Good things come to me every day."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. There is plenty for everyone."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. The universe provides for me."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. I deserve to prosper."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. New doors open for me."
+      },
+      {
+        "id": "v028",
+        "text": "Stay with this breath. Good things come to me every day."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. There is plenty for everyone."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. The universe provides for me."
+      }
+    ]
+  }
+}

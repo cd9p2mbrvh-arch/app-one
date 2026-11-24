@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
 import { AppText, ChunkyButton, Screen } from '@/components';
-import { MUSIC, THEMES, VOICES } from '@/content/catalog';
+import { MUSIC, THEMES, VOICES } from '@/content/manifest';
 import { useSessionSetup } from '@/state/sessionSetup';
 import { spacing, useTheme } from '@/theme';
 

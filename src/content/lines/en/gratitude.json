@@ -1,0 +1,1141 @@
+{
+  "placeholder": true,
+  "theme": "gratitude",
+  "language": "en",
+  "shared": [
+    {
+      "id": "s001",
+      "text": "I am thankful for the people I love."
+    },
+    {
+      "id": "s002",
+      "text": "I am thankful for this very breath."
+    },
+    {
+      "id": "s003",
+      "text": "I am thankful for small everyday joys."
+    },
+    {
+      "id": "s004",
+      "text": "I am thankful for the lessons I have learned."
+    },
+    {
+      "id": "s005",
+      "text": "I am thankful for a safe place to rest."
+    },
+    {
+      "id": "s006",
+      "text": "I am thankful for the beauty around me."
+    },
+    {
+      "id": "s007",
+      "text": "I am thankful for the kindness of others."
+    },
+    {
+      "id": "s008",
+      "text": "I am thankful for my body and mind."
+    },
+    {
+      "id": "s009",
+      "text": "I am thankful for the gift of today."
+    },
+    {
+      "id": "s010",
+      "text": "I am thankful for everything that brought me here."
+    },
+    {
+      "id": "s011",
+      "text": "Today I appreciate the people I love."
+    },
+    {
+      "id": "s012",
+      "text": "Today I appreciate this very breath."
+    },
+    {
+      "id": "s013",
+      "text": "Today I appreciate small everyday joys."
+    },
+    {
+      "id": "s014",
+      "text": "Today I appreciate the lessons I have learned."
+    },
+    {
+      "id": "s015",
+      "text": "Today I appreciate a safe place to rest."
+    },
+    {
+      "id": "s016",
+      "text": "Today I appreciate the beauty around me."
+    },
+    {
+      "id": "s017",
+      "text": "Today I appreciate the kindness of others."
+    },
+    {
+      "id": "s018",
+      "text": "Today I appreciate my body and mind."
+    },
+    {
+      "id": "s019",
+      "text": "Today I appreciate the gift of today."
+    },
+    {
+      "id": "s020",
+      "text": "Today I appreciate everything that brought me here."
+    },
+    {
+      "id": "s021",
+      "text": "My heart is full of thanks for the people I love."
+    },
+    {
+      "id": "s022",
+      "text": "My heart is full of thanks for this very breath."
+    },
+    {
+      "id": "s023",
+      "text": "My heart is full of thanks for small everyday joys."
+    },
+    {
+      "id": "s024",
+      "text": "My heart is full of thanks for the lessons I have learned."
+    },
+    {
+      "id": "s025",
+      "text": "My heart is full of thanks for a safe place to rest."
+    },
+    {
+      "id": "s026",
+      "text": "My heart is full of thanks for the beauty around me."
+    },
+    {
+      "id": "s027",
+      "text": "My heart is full of thanks for the kindness of others."
+    },
+    {
+      "id": "s028",
+      "text": "My heart is full of thanks for my body and mind."
+    },
+    {
+      "id": "s029",
+      "text": "My heart is full of thanks for the gift of today."
+    },
+    {
+      "id": "s030",
+      "text": "My heart is full of thanks for everything that brought me here."
+    },
+    {
+      "id": "s031",
+      "text": "I notice and cherish the people I love."
+    },
+    {
+      "id": "s032",
+      "text": "I notice and cherish this very breath."
+    },
+    {
+      "id": "s033",
+      "text": "I notice and cherish small everyday joys."
+    },
+    {
+      "id": "s034",
+      "text": "I notice and cherish the lessons I have learned."
+    },
+    {
+      "id": "s035",
+      "text": "I notice and cherish a safe place to rest."
+    },
+    {
+      "id": "s036",
+      "text": "I notice and cherish the beauty around me."
+    },
+    {
+      "id": "s037",
+      "text": "I notice and cherish the kindness of others."
+    },
+    {
+      "id": "s038",
+      "text": "I notice and cherish my body and mind."
+    },
+    {
+      "id": "s039",
+      "text": "I notice and cherish the gift of today."
+    },
+    {
+      "id": "s040",
+      "text": "I notice and cherish everything that brought me here."
+    },
+    {
+      "id": "s041",
+      "text": "I am grateful for the people I love."
+    },
+    {
+      "id": "s042",
+      "text": "I am grateful for this very breath."
+    },
+    {
+      "id": "s043",
+      "text": "I am grateful for small everyday joys."
+    },
+    {
+      "id": "s044",
+      "text": "I am grateful for the lessons I have learned."
+    },
+    {
+      "id": "s045",
+      "text": "I am grateful for a safe place to rest."
+    },
+    {
+      "id": "s046",
+      "text": "I am grateful for the beauty around me."
+    },
+    {
+      "id": "s047",
+      "text": "I am grateful for the kindness of others."
+    },
+    {
+      "id": "s048",
+      "text": "I am grateful for my body and mind."
+    },
+    {
+      "id": "s049",
+      "text": "I am grateful for the gift of today."
+    },
+    {
+      "id": "s050",
+      "text": "I am grateful for everything that brought me here."
+    },
+    {
+      "id": "s051",
+      "text": "I celebrate the people I love."
+    },
+    {
+      "id": "s052",
+      "text": "I celebrate this very breath."
+    },
+    {
+      "id": "s053",
+      "text": "I celebrate small everyday joys."
+    },
+    {
+      "id": "s054",
+      "text": "I celebrate the lessons I have learned."
+    },
+    {
+      "id": "s055",
+      "text": "I celebrate a safe place to rest."
+    },
+    {
+      "id": "s056",
+      "text": "I celebrate the beauty around me."
+    },
+    {
+      "id": "s057",
+      "text": "I celebrate the kindness of others."
+    },
+    {
+      "id": "s058",
+      "text": "I celebrate my body and mind."
+    },
+    {
+      "id": "s059",
+      "text": "I celebrate the gift of today."
+    },
+    {
+      "id": "s060",
+      "text": "I celebrate everything that brought me here."
+    },
+    {
+      "id": "s061",
+      "text": "I give thanks for the people I love."
+    },
+    {
+      "id": "s062",
+      "text": "I give thanks for this very breath."
+    },
+    {
+      "id": "s063",
+      "text": "I give thanks for small everyday joys."
+    },
+    {
+      "id": "s064",
+      "text": "I give thanks for the lessons I have learned."
+    },
+    {
+      "id": "s065",
+      "text": "I give thanks for a safe place to rest."
+    },
+    {
+      "id": "s066",
+      "text": "I give thanks for the beauty around me."
+    },
+    {
+      "id": "s067",
+      "text": "I give thanks for the kindness of others."
+    },
+    {
+      "id": "s068",
+      "text": "I give thanks for my body and mind."
+    },
+    {
+      "id": "s069",
+      "text": "I give thanks for the gift of today."
+    },
+    {
+      "id": "s070",
+      "text": "I give thanks for everything that brought me here."
+    },
+    {
+      "id": "s071",
+      "text": "I warmly remember the people I love."
+    },
+    {
+      "id": "s072",
+      "text": "I warmly remember this very breath."
+    },
+    {
+      "id": "s073",
+      "text": "I warmly remember small everyday joys."
+    },
+    {
+      "id": "s074",
+      "text": "I warmly remember the lessons I have learned."
+    },
+    {
+      "id": "s075",
+      "text": "I warmly remember a safe place to rest."
+    },
+    {
+      "id": "s076",
+      "text": "I warmly remember the beauty around me."
+    },
+    {
+      "id": "s077",
+      "text": "I warmly remember the kindness of others."
+    },
+    {
+      "id": "s078",
+      "text": "I warmly remember my body and mind."
+    },
+    {
+      "id": "s079",
+      "text": "I warmly remember the gift of today."
+    },
+    {
+      "id": "s080",
+      "text": "I warmly remember everything that brought me here."
+    },
+    {
+      "id": "s081",
+      "text": "I treasure the people I love."
+    },
+    {
+      "id": "s082",
+      "text": "I treasure this very breath."
+    },
+    {
+      "id": "s083",
+      "text": "I treasure small everyday joys."
+    },
+    {
+      "id": "s084",
+      "text": "I treasure the lessons I have learned."
+    },
+    {
+      "id": "s085",
+      "text": "I treasure a safe place to rest."
+    },
+    {
+      "id": "s086",
+      "text": "I treasure the beauty around me."
+    },
+    {
+      "id": "s087",
+      "text": "I treasure the kindness of others."
+    },
+    {
+      "id": "s088",
+      "text": "I treasure my body and mind."
+    },
+    {
+      "id": "s089",
+      "text": "I treasure the gift of today."
+    },
+    {
+      "id": "s090",
+      "text": "I treasure everything that brought me here."
+    },
+    {
+      "id": "s091",
+      "text": "I smile when I think of the people I love."
+    },
+    {
+      "id": "s092",
+      "text": "I smile when I think of this very breath."
+    },
+    {
+      "id": "s093",
+      "text": "I smile when I think of small everyday joys."
+    },
+    {
+      "id": "s094",
+      "text": "I smile when I think of the lessons I have learned."
+    },
+    {
+      "id": "s095",
+      "text": "I smile when I think of a safe place to rest."
+    },
+    {
+      "id": "s096",
+      "text": "I smile when I think of the beauty around me."
+    },
+    {
+      "id": "s097",
+      "text": "I smile when I think of the kindness of others."
+    },
+    {
+      "id": "s098",
+      "text": "I smile when I think of my body and mind."
+    },
+    {
+      "id": "s099",
+      "text": "I smile when I think of the gift of today."
+    },
+    {
+      "id": "s100",
+      "text": "I smile when I think of everything that brought me here."
+    }
+  ],
+  "voices": {
+    "voice1": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. Gratitude fills my heart."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. I am grateful for how far I have come."
+      },
+      {
+        "id": "v003",
+        "text": "Breathe in slowly. I am thankful for my journey."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. My life is full of small gifts."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. My heart is open and thankful."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. Gratitude fills my heart."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. I am grateful for how far I have come."
+      },
+      {
+        "id": "v008",
+        "text": "Close your eyes for a moment. I am thankful for my journey."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. My life is full of small gifts."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. My heart is open and thankful."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. Gratitude fills my heart."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. I am grateful for how far I have come."
+      },
+      {
+        "id": "v013",
+        "text": "Breathe out gently. I am thankful for my journey."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. My life is full of small gifts."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. My heart is open and thankful."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. Gratitude fills my heart."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. I am grateful for how far I have come."
+      },
+      {
+        "id": "v018",
+        "text": "Notice the rise of your chest. I am thankful for my journey."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. My life is full of small gifts."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. My heart is open and thankful."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. Gratitude fills my heart."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. I am grateful for how far I have come."
+      },
+      {
+        "id": "v023",
+        "text": "Take a deep breath. I am thankful for my journey."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. My life is full of small gifts."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. My heart is open and thankful."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. Gratitude fills my heart."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. I am grateful for how far I have come."
+      },
+      {
+        "id": "v028",
+        "text": "Let your hands rest. I am thankful for my journey."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. My life is full of small gifts."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. My heart is open and thankful."
+      }
+    ],
+    "voice2": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. I see beauty in simple things."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. Thank you for this breath."
+      },
+      {
+        "id": "v003",
+        "text": "Breathe in slowly. Kindness surrounds me."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. I appreciate the people around me."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. I cherish the love I share."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. I see beauty in simple things."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. Thank you for this breath."
+      },
+      {
+        "id": "v008",
+        "text": "Close your eyes for a moment. Kindness surrounds me."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. I appreciate the people around me."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. I cherish the love I share."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. I see beauty in simple things."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. Thank you for this breath."
+      },
+      {
+        "id": "v013",
+        "text": "Breathe out gently. Kindness surrounds me."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. I appreciate the people around me."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. I cherish the love I share."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. I see beauty in simple things."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. Thank you for this breath."
+      },
+      {
+        "id": "v018",
+        "text": "Notice the rise of your chest. Kindness surrounds me."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. I appreciate the people around me."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. I cherish the love I share."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. I see beauty in simple things."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. Thank you for this breath."
+      },
+      {
+        "id": "v023",
+        "text": "Take a deep breath. Kindness surrounds me."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. I appreciate the people around me."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. I cherish the love I share."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. I see beauty in simple things."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. Thank you for this breath."
+      },
+      {
+        "id": "v028",
+        "text": "Let your hands rest. Kindness surrounds me."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. I appreciate the people around me."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. I cherish the love I share."
+      }
+    ],
+    "voice3": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. I am thankful for this moment."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. I notice the good in my life."
+      },
+      {
+        "id": "v003",
+        "text": "Breathe in slowly. I welcome today with thanks."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. Every day offers something good."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. I find joy in ordinary moments."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. I am thankful for this moment."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. I notice the good in my life."
+      },
+      {
+        "id": "v008",
+        "text": "Close your eyes for a moment. I welcome today with thanks."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. Every day offers something good."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. I find joy in ordinary moments."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. I am thankful for this moment."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. I notice the good in my life."
+      },
+      {
+        "id": "v013",
+        "text": "Breathe out gently. I welcome today with thanks."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. Every day offers something good."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. I find joy in ordinary moments."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. I am thankful for this moment."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. I notice the good in my life."
+      },
+      {
+        "id": "v018",
+        "text": "Notice the rise of your chest. I welcome today with thanks."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. Every day offers something good."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. I find joy in ordinary moments."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. I am thankful for this moment."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. I notice the good in my life."
+      },
+      {
+        "id": "v023",
+        "text": "Take a deep breath. I welcome today with thanks."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. Every day offers something good."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. I find joy in ordinary moments."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. I am thankful for this moment."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. I notice the good in my life."
+      },
+      {
+        "id": "v028",
+        "text": "Let your hands rest. I welcome today with thanks."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. Every day offers something good."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. I find joy in ordinary moments."
+      }
+    ],
+    "voice4": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. My life is full of small gifts."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. My heart is open and thankful."
+      },
+      {
+        "id": "v003",
+        "text": "Let your shoulders soften. Gratitude fills my heart."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. I am grateful for how far I have come."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. I am thankful for my journey."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. My life is full of small gifts."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. My heart is open and thankful."
+      },
+      {
+        "id": "v008",
+        "text": "Feel your feet on the ground. Gratitude fills my heart."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. I am grateful for how far I have come."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. I am thankful for my journey."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. My life is full of small gifts."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. My heart is open and thankful."
+      },
+      {
+        "id": "v013",
+        "text": "Rest here for a while. Gratitude fills my heart."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. I am grateful for how far I have come."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. I am thankful for my journey."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. My life is full of small gifts."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. My heart is open and thankful."
+      },
+      {
+        "id": "v018",
+        "text": "Let your jaw relax. Gratitude fills my heart."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. I am grateful for how far I have come."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. I am thankful for my journey."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. My life is full of small gifts."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. My heart is open and thankful."
+      },
+      {
+        "id": "v023",
+        "text": "Feel the air around you. Gratitude fills my heart."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. I am grateful for how far I have come."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. I am thankful for my journey."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. My life is full of small gifts."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. My heart is open and thankful."
+      },
+      {
+        "id": "v028",
+        "text": "Stay with this breath. Gratitude fills my heart."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. I am grateful for how far I have come."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. I am thankful for my journey."
+      }
+    ],
+    "voice5": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. I appreciate the people around me."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. I cherish the love I share."
+      },
+      {
+        "id": "v003",
+        "text": "Let your shoulders soften. I see beauty in simple things."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. Thank you for this breath."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. Kindness surrounds me."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. I appreciate the people around me."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. I cherish the love I share."
+      },
+      {
+        "id": "v008",
+        "text": "Feel your feet on the ground. I see beauty in simple things."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. Thank you for this breath."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. Kindness surrounds me."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. I appreciate the people around me."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. I cherish the love I share."
+      },
+      {
+        "id": "v013",
+        "text": "Rest here for a while. I see beauty in simple things."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. Thank you for this breath."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. Kindness surrounds me."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. I appreciate the people around me."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. I cherish the love I share."
+      },
+      {
+        "id": "v018",
+        "text": "Let your jaw relax. I see beauty in simple things."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. Thank you for this breath."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. Kindness surrounds me."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. I appreciate the people around me."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. I cherish the love I share."
+      },
+      {
+        "id": "v023",
+        "text": "Feel the air around you. I see beauty in simple things."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. Thank you for this breath."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. Kindness surrounds me."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. I appreciate the people around me."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. I cherish the love I share."
+      },
+      {
+        "id": "v028",
+        "text": "Stay with this breath. I see beauty in simple things."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. Thank you for this breath."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. Kindness surrounds me."
+      }
+    ],
+    "voice6": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. Every day offers something good."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. I find joy in ordinary moments."
+      },
+      {
+        "id": "v003",
+        "text": "Let your shoulders soften. I am thankful for this moment."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. I notice the good in my life."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. I welcome today with thanks."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. Every day offers something good."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. I find joy in ordinary moments."
+      },
+      {
+        "id": "v008",
+        "text": "Feel your feet on the ground. I am thankful for this moment."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. I notice the good in my life."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. I welcome today with thanks."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. Every day offers something good."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. I find joy in ordinary moments."
+      },
+      {
+        "id": "v013",
+        "text": "Rest here for a while. I am thankful for this moment."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. I notice the good in my life."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. I welcome today with thanks."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. Every day offers something good."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. I find joy in ordinary moments."
+      },
+      {
+        "id": "v018",
+        "text": "Let your jaw relax. I am thankful for this moment."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. I notice the good in my life."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. I welcome today with thanks."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. Every day offers something good."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. I find joy in ordinary moments."
+      },
+      {
+        "id": "v023",
+        "text": "Feel the air around you. I am thankful for this moment."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. I notice the good in my life."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. I welcome today with thanks."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. Every day offers something good."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. I find joy in ordinary moments."
+      },
+      {
+        "id": "v028",
+        "text": "Stay with this breath. I am thankful for this moment."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. I notice the good in my life."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. I welcome today with thanks."
+      }
+    ]
+  }
+}

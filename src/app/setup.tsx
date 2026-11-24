@@ -13,7 +13,9 @@ import {
   type IconName,
   type TabItem,
 } from '@/components';
-import { DURATION_PRESETS_MIN, MUSIC, THEMES, VOICES } from '@/content/catalog';
+import { MUSIC, THEMES, VOICES } from '@/content/manifest';
+
+const DURATION_PRESETS_MIN = [3, 5, 10, 15, 20, 30, 45, 60];
 import {
   isSetupComplete,
   isStepDone,

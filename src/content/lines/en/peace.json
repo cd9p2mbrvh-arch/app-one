@@ -1,0 +1,1141 @@
+{
+  "placeholder": true,
+  "theme": "peace",
+  "language": "en",
+  "shared": [
+    {
+      "id": "s001",
+      "text": "I am calm and still."
+    },
+    {
+      "id": "s002",
+      "text": "I am calm and quiet and clear."
+    },
+    {
+      "id": "s003",
+      "text": "I am calm and at ease."
+    },
+    {
+      "id": "s004",
+      "text": "I am calm and safe and grounded."
+    },
+    {
+      "id": "s005",
+      "text": "I am calm and gentle with myself."
+    },
+    {
+      "id": "s006",
+      "text": "I am calm and relaxed and open."
+    },
+    {
+      "id": "s007",
+      "text": "I am calm and free of worry."
+    },
+    {
+      "id": "s008",
+      "text": "I am calm and soft and steady."
+    },
+    {
+      "id": "s009",
+      "text": "I am calm and patient and kind."
+    },
+    {
+      "id": "s010",
+      "text": "I am calm and deeply at peace."
+    },
+    {
+      "id": "s011",
+      "text": "My mind is still."
+    },
+    {
+      "id": "s012",
+      "text": "My mind is quiet and clear."
+    },
+    {
+      "id": "s013",
+      "text": "My mind is at ease."
+    },
+    {
+      "id": "s014",
+      "text": "My mind is safe and grounded."
+    },
+    {
+      "id": "s015",
+      "text": "My mind is gentle with myself."
+    },
+    {
+      "id": "s016",
+      "text": "My mind is relaxed and open."
+    },
+    {
+      "id": "s017",
+      "text": "My mind is free of worry."
+    },
+    {
+      "id": "s018",
+      "text": "My mind is soft and steady."
+    },
+    {
+      "id": "s019",
+      "text": "My mind is patient and kind."
+    },
+    {
+      "id": "s020",
+      "text": "My mind is deeply at peace."
+    },
+    {
+      "id": "s021",
+      "text": "With each breath I become still."
+    },
+    {
+      "id": "s022",
+      "text": "With each breath I become quiet and clear."
+    },
+    {
+      "id": "s023",
+      "text": "With each breath I become at ease."
+    },
+    {
+      "id": "s024",
+      "text": "With each breath I become safe and grounded."
+    },
+    {
+      "id": "s025",
+      "text": "With each breath I become gentle with myself."
+    },
+    {
+      "id": "s026",
+      "text": "With each breath I become relaxed and open."
+    },
+    {
+      "id": "s027",
+      "text": "With each breath I become free of worry."
+    },
+    {
+      "id": "s028",
+      "text": "With each breath I become soft and steady."
+    },
+    {
+      "id": "s029",
+      "text": "With each breath I become patient and kind."
+    },
+    {
+      "id": "s030",
+      "text": "With each breath I become deeply at peace."
+    },
+    {
+      "id": "s031",
+      "text": "Right now I feel still."
+    },
+    {
+      "id": "s032",
+      "text": "Right now I feel quiet and clear."
+    },
+    {
+      "id": "s033",
+      "text": "Right now I feel at ease."
+    },
+    {
+      "id": "s034",
+      "text": "Right now I feel safe and grounded."
+    },
+    {
+      "id": "s035",
+      "text": "Right now I feel gentle with myself."
+    },
+    {
+      "id": "s036",
+      "text": "Right now I feel relaxed and open."
+    },
+    {
+      "id": "s037",
+      "text": "Right now I feel free of worry."
+    },
+    {
+      "id": "s038",
+      "text": "Right now I feel soft and steady."
+    },
+    {
+      "id": "s039",
+      "text": "Right now I feel patient and kind."
+    },
+    {
+      "id": "s040",
+      "text": "Right now I feel deeply at peace."
+    },
+    {
+      "id": "s041",
+      "text": "I choose to be still."
+    },
+    {
+      "id": "s042",
+      "text": "I choose to be quiet and clear."
+    },
+    {
+      "id": "s043",
+      "text": "I choose to be at ease."
+    },
+    {
+      "id": "s044",
+      "text": "I choose to be safe and grounded."
+    },
+    {
+      "id": "s045",
+      "text": "I choose to be gentle with myself."
+    },
+    {
+      "id": "s046",
+      "text": "I choose to be relaxed and open."
+    },
+    {
+      "id": "s047",
+      "text": "I choose to be free of worry."
+    },
+    {
+      "id": "s048",
+      "text": "I choose to be soft and steady."
+    },
+    {
+      "id": "s049",
+      "text": "I choose to be patient and kind."
+    },
+    {
+      "id": "s050",
+      "text": "I choose to be deeply at peace."
+    },
+    {
+      "id": "s051",
+      "text": "My body is still."
+    },
+    {
+      "id": "s052",
+      "text": "My body is quiet and clear."
+    },
+    {
+      "id": "s053",
+      "text": "My body is at ease."
+    },
+    {
+      "id": "s054",
+      "text": "My body is safe and grounded."
+    },
+    {
+      "id": "s055",
+      "text": "My body is gentle with myself."
+    },
+    {
+      "id": "s056",
+      "text": "My body is relaxed and open."
+    },
+    {
+      "id": "s057",
+      "text": "My body is free of worry."
+    },
+    {
+      "id": "s058",
+      "text": "My body is soft and steady."
+    },
+    {
+      "id": "s059",
+      "text": "My body is patient and kind."
+    },
+    {
+      "id": "s060",
+      "text": "My body is deeply at peace."
+    },
+    {
+      "id": "s061",
+      "text": "In this moment I am still."
+    },
+    {
+      "id": "s062",
+      "text": "In this moment I am quiet and clear."
+    },
+    {
+      "id": "s063",
+      "text": "In this moment I am at ease."
+    },
+    {
+      "id": "s064",
+      "text": "In this moment I am safe and grounded."
+    },
+    {
+      "id": "s065",
+      "text": "In this moment I am gentle with myself."
+    },
+    {
+      "id": "s066",
+      "text": "In this moment I am relaxed and open."
+    },
+    {
+      "id": "s067",
+      "text": "In this moment I am free of worry."
+    },
+    {
+      "id": "s068",
+      "text": "In this moment I am soft and steady."
+    },
+    {
+      "id": "s069",
+      "text": "In this moment I am patient and kind."
+    },
+    {
+      "id": "s070",
+      "text": "In this moment I am deeply at peace."
+    },
+    {
+      "id": "s071",
+      "text": "I allow myself to be still."
+    },
+    {
+      "id": "s072",
+      "text": "I allow myself to be quiet and clear."
+    },
+    {
+      "id": "s073",
+      "text": "I allow myself to be at ease."
+    },
+    {
+      "id": "s074",
+      "text": "I allow myself to be safe and grounded."
+    },
+    {
+      "id": "s075",
+      "text": "I allow myself to be gentle with myself."
+    },
+    {
+      "id": "s076",
+      "text": "I allow myself to be relaxed and open."
+    },
+    {
+      "id": "s077",
+      "text": "I allow myself to be free of worry."
+    },
+    {
+      "id": "s078",
+      "text": "I allow myself to be soft and steady."
+    },
+    {
+      "id": "s079",
+      "text": "I allow myself to be patient and kind."
+    },
+    {
+      "id": "s080",
+      "text": "I allow myself to be deeply at peace."
+    },
+    {
+      "id": "s081",
+      "text": "My heart is still."
+    },
+    {
+      "id": "s082",
+      "text": "My heart is quiet and clear."
+    },
+    {
+      "id": "s083",
+      "text": "My heart is at ease."
+    },
+    {
+      "id": "s084",
+      "text": "My heart is safe and grounded."
+    },
+    {
+      "id": "s085",
+      "text": "My heart is gentle with myself."
+    },
+    {
+      "id": "s086",
+      "text": "My heart is relaxed and open."
+    },
+    {
+      "id": "s087",
+      "text": "My heart is free of worry."
+    },
+    {
+      "id": "s088",
+      "text": "My heart is soft and steady."
+    },
+    {
+      "id": "s089",
+      "text": "My heart is patient and kind."
+    },
+    {
+      "id": "s090",
+      "text": "My heart is deeply at peace."
+    },
+    {
+      "id": "s091",
+      "text": "I return to being still."
+    },
+    {
+      "id": "s092",
+      "text": "I return to being quiet and clear."
+    },
+    {
+      "id": "s093",
+      "text": "I return to being at ease."
+    },
+    {
+      "id": "s094",
+      "text": "I return to being safe and grounded."
+    },
+    {
+      "id": "s095",
+      "text": "I return to being gentle with myself."
+    },
+    {
+      "id": "s096",
+      "text": "I return to being relaxed and open."
+    },
+    {
+      "id": "s097",
+      "text": "I return to being free of worry."
+    },
+    {
+      "id": "s098",
+      "text": "I return to being soft and steady."
+    },
+    {
+      "id": "s099",
+      "text": "I return to being patient and kind."
+    },
+    {
+      "id": "s100",
+      "text": "I return to being deeply at peace."
+    }
+  ],
+  "voices": {
+    "voice1": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. I let go of what I cannot control."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. My mind becomes quiet."
+      },
+      {
+        "id": "v003",
+        "text": "Breathe in slowly. Silence feels comforting."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. Peace begins with my breath."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. I welcome stillness."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. I let go of what I cannot control."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. My mind becomes quiet."
+      },
+      {
+        "id": "v008",
+        "text": "Close your eyes for a moment. Silence feels comforting."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. Peace begins with my breath."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. I welcome stillness."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. I let go of what I cannot control."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. My mind becomes quiet."
+      },
+      {
+        "id": "v013",
+        "text": "Breathe out gently. Silence feels comforting."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. Peace begins with my breath."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. I welcome stillness."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. I let go of what I cannot control."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. My mind becomes quiet."
+      },
+      {
+        "id": "v018",
+        "text": "Notice the rise of your chest. Silence feels comforting."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. Peace begins with my breath."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. I welcome stillness."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. I let go of what I cannot control."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. My mind becomes quiet."
+      },
+      {
+        "id": "v023",
+        "text": "Take a deep breath. Silence feels comforting."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. Peace begins with my breath."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. I welcome stillness."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. I let go of what I cannot control."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. My mind becomes quiet."
+      },
+      {
+        "id": "v028",
+        "text": "Let your hands rest. Silence feels comforting."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. Peace begins with my breath."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. I welcome stillness."
+      }
+    ],
+    "voice2": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. My thoughts drift away like clouds."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. I am exactly where I need to be."
+      },
+      {
+        "id": "v003",
+        "text": "Breathe in slowly. Every exhale brings more calm."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. Nothing needs to be solved this moment."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. I move through life with ease."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. My thoughts drift away like clouds."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. I am exactly where I need to be."
+      },
+      {
+        "id": "v008",
+        "text": "Close your eyes for a moment. Every exhale brings more calm."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. Nothing needs to be solved this moment."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. I move through life with ease."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. My thoughts drift away like clouds."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. I am exactly where I need to be."
+      },
+      {
+        "id": "v013",
+        "text": "Breathe out gently. Every exhale brings more calm."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. Nothing needs to be solved this moment."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. I move through life with ease."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. My thoughts drift away like clouds."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. I am exactly where I need to be."
+      },
+      {
+        "id": "v018",
+        "text": "Notice the rise of your chest. Every exhale brings more calm."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. Nothing needs to be solved this moment."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. I move through life with ease."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. My thoughts drift away like clouds."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. I am exactly where I need to be."
+      },
+      {
+        "id": "v023",
+        "text": "Take a deep breath. Every exhale brings more calm."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. Nothing needs to be solved this moment."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. I move through life with ease."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. My thoughts drift away like clouds."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. I am exactly where I need to be."
+      },
+      {
+        "id": "v028",
+        "text": "Let your hands rest. Every exhale brings more calm."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. Nothing needs to be solved this moment."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. I move through life with ease."
+      }
+    ],
+    "voice3": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. I am safe right now."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. Calm spreads through my body."
+      },
+      {
+        "id": "v003",
+        "text": "Breathe in slowly. I rest in this quiet moment."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. I release the tension of the day."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. I am gentle with my thoughts."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. I am safe right now."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. Calm spreads through my body."
+      },
+      {
+        "id": "v008",
+        "text": "Close your eyes for a moment. I rest in this quiet moment."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. I release the tension of the day."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. I am gentle with my thoughts."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. I am safe right now."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. Calm spreads through my body."
+      },
+      {
+        "id": "v013",
+        "text": "Breathe out gently. I rest in this quiet moment."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. I release the tension of the day."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. I am gentle with my thoughts."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. I am safe right now."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. Calm spreads through my body."
+      },
+      {
+        "id": "v018",
+        "text": "Notice the rise of your chest. I rest in this quiet moment."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. I release the tension of the day."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. I am gentle with my thoughts."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. I am safe right now."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. Calm spreads through my body."
+      },
+      {
+        "id": "v023",
+        "text": "Take a deep breath. I rest in this quiet moment."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. I release the tension of the day."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. I am gentle with my thoughts."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. I am safe right now."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. Calm spreads through my body."
+      },
+      {
+        "id": "v028",
+        "text": "Let your hands rest. I rest in this quiet moment."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. I release the tension of the day."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. I am gentle with my thoughts."
+      }
+    ],
+    "voice4": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. Peace begins with my breath."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. I welcome stillness."
+      },
+      {
+        "id": "v003",
+        "text": "Let your shoulders soften. I let go of what I cannot control."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. My mind becomes quiet."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. Silence feels comforting."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. Peace begins with my breath."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. I welcome stillness."
+      },
+      {
+        "id": "v008",
+        "text": "Feel your feet on the ground. I let go of what I cannot control."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. My mind becomes quiet."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. Silence feels comforting."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. Peace begins with my breath."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. I welcome stillness."
+      },
+      {
+        "id": "v013",
+        "text": "Rest here for a while. I let go of what I cannot control."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. My mind becomes quiet."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. Silence feels comforting."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. Peace begins with my breath."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. I welcome stillness."
+      },
+      {
+        "id": "v018",
+        "text": "Let your jaw relax. I let go of what I cannot control."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. My mind becomes quiet."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. Silence feels comforting."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. Peace begins with my breath."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. I welcome stillness."
+      },
+      {
+        "id": "v023",
+        "text": "Feel the air around you. I let go of what I cannot control."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. My mind becomes quiet."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. Silence feels comforting."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. Peace begins with my breath."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. I welcome stillness."
+      },
+      {
+        "id": "v028",
+        "text": "Stay with this breath. I let go of what I cannot control."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. My mind becomes quiet."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. Silence feels comforting."
+      }
+    ],
+    "voice5": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. Nothing needs to be solved this moment."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. I move through life with ease."
+      },
+      {
+        "id": "v003",
+        "text": "Let your shoulders soften. My thoughts drift away like clouds."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. I am exactly where I need to be."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. Every exhale brings more calm."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. Nothing needs to be solved this moment."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. I move through life with ease."
+      },
+      {
+        "id": "v008",
+        "text": "Feel your feet on the ground. My thoughts drift away like clouds."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. I am exactly where I need to be."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. Every exhale brings more calm."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. Nothing needs to be solved this moment."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. I move through life with ease."
+      },
+      {
+        "id": "v013",
+        "text": "Rest here for a while. My thoughts drift away like clouds."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. I am exactly where I need to be."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. Every exhale brings more calm."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. Nothing needs to be solved this moment."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. I move through life with ease."
+      },
+      {
+        "id": "v018",
+        "text": "Let your jaw relax. My thoughts drift away like clouds."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. I am exactly where I need to be."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. Every exhale brings more calm."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. Nothing needs to be solved this moment."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. I move through life with ease."
+      },
+      {
+        "id": "v023",
+        "text": "Feel the air around you. My thoughts drift away like clouds."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. I am exactly where I need to be."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. Every exhale brings more calm."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. Nothing needs to be solved this moment."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. I move through life with ease."
+      },
+      {
+        "id": "v028",
+        "text": "Stay with this breath. My thoughts drift away like clouds."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. I am exactly where I need to be."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. Every exhale brings more calm."
+      }
+    ],
+    "voice6": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. I release the tension of the day."
+      },
+      {
+        "id": "v002",
+        "text": "Breathe in slowly. I am gentle with my thoughts."
+      },
+      {
+        "id": "v003",
+        "text": "Let your shoulders soften. I am safe right now."
+      },
+      {
+        "id": "v004",
+        "text": "Let your shoulders soften. Calm spreads through my body."
+      },
+      {
+        "id": "v005",
+        "text": "Let your shoulders soften. I rest in this quiet moment."
+      },
+      {
+        "id": "v006",
+        "text": "Close your eyes for a moment. I release the tension of the day."
+      },
+      {
+        "id": "v007",
+        "text": "Close your eyes for a moment. I am gentle with my thoughts."
+      },
+      {
+        "id": "v008",
+        "text": "Feel your feet on the ground. I am safe right now."
+      },
+      {
+        "id": "v009",
+        "text": "Feel your feet on the ground. Calm spreads through my body."
+      },
+      {
+        "id": "v010",
+        "text": "Feel your feet on the ground. I rest in this quiet moment."
+      },
+      {
+        "id": "v011",
+        "text": "Breathe out gently. I release the tension of the day."
+      },
+      {
+        "id": "v012",
+        "text": "Breathe out gently. I am gentle with my thoughts."
+      },
+      {
+        "id": "v013",
+        "text": "Rest here for a while. I am safe right now."
+      },
+      {
+        "id": "v014",
+        "text": "Rest here for a while. Calm spreads through my body."
+      },
+      {
+        "id": "v015",
+        "text": "Rest here for a while. I rest in this quiet moment."
+      },
+      {
+        "id": "v016",
+        "text": "Notice the rise of your chest. I release the tension of the day."
+      },
+      {
+        "id": "v017",
+        "text": "Notice the rise of your chest. I am gentle with my thoughts."
+      },
+      {
+        "id": "v018",
+        "text": "Let your jaw relax. I am safe right now."
+      },
+      {
+        "id": "v019",
+        "text": "Let your jaw relax. Calm spreads through my body."
+      },
+      {
+        "id": "v020",
+        "text": "Let your jaw relax. I rest in this quiet moment."
+      },
+      {
+        "id": "v021",
+        "text": "Take a deep breath. I release the tension of the day."
+      },
+      {
+        "id": "v022",
+        "text": "Take a deep breath. I am gentle with my thoughts."
+      },
+      {
+        "id": "v023",
+        "text": "Feel the air around you. I am safe right now."
+      },
+      {
+        "id": "v024",
+        "text": "Feel the air around you. Calm spreads through my body."
+      },
+      {
+        "id": "v025",
+        "text": "Feel the air around you. I rest in this quiet moment."
+      },
+      {
+        "id": "v026",
+        "text": "Let your hands rest. I release the tension of the day."
+      },
+      {
+        "id": "v027",
+        "text": "Let your hands rest. I am gentle with my thoughts."
+      },
+      {
+        "id": "v028",
+        "text": "Stay with this breath. I am safe right now."
+      },
+      {
+        "id": "v029",
+        "text": "Stay with this breath. Calm spreads through my body."
+      },
+      {
+        "id": "v030",
+        "text": "Stay with this breath. I rest in this quiet moment."
+      }
+    ]
+  }
+}
