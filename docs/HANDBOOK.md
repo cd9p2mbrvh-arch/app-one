@@ -231,10 +231,11 @@ testing before review.
 
 ## 10. Change log
 
-| Date       | What changed                                                                              |
-| ---------- | ----------------------------------------------------------------------------------------- |
-| 2026-11-24 | Project set up; design system; time-of-day looks; profiles (up to 4).                     |
-| 2026-11-24 | Session setup: theme squares, narrator character select, music list, clock dial for time. |
-| 2026-11-24 | Haptics tuned; tab slide animation; Begin zoom-into-blur animation.                       |
-| 2026-11-24 | Animated scenes: sunrise, beach sunset, moon and stars.                                   |
-| 2026-11-24 | Paid narrators 7–9 and music 5–7 with a demo purchase sheet. This handbook created.       |
+| Date       | What changed                                                                                                                          |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-11-24 | Project set up; design system; time-of-day looks; profiles (up to 4).                                                                 |
+| 2026-11-24 | Session setup: theme squares, narrator character select, music list, clock dial for time.                                             |
+| 2026-11-24 | Haptics tuned; tab slide animation; Begin zoom-into-blur animation.                                                                   |
+| 2026-11-24 | Animated scenes: sunrise, beach sunset, moon and stars.                                                                               |
+| 2026-11-24 | Paid narrators 7–9 and music 5–7 with a demo purchase sheet. This handbook created.                                                   |
+| 2026-11-24 | Random scene events about every 10 s (airplane, birds, fish, seagull, UFO, shooting star); shimmering stars; 3-second music previews. |
