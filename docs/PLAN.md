@@ -4,22 +4,23 @@ Living document. Update it when a decision changes.
 
 ## Product decisions (agreed)
 
-| Topic             | Decision                                                                                               |
-| ----------------- | ------------------------------------------------------------------------------------------------------ |
-| Accounts          | None. Up to 4 local profiles per device, no PIN.                                                       |
-| App start         | Opens the last-used profile; a "Switch" button leads to the profile picker.                            |
-| Flow              | Theme → Voice → Music → Duration (3–60 min wheel with haptics) → Session.                              |
-| Themes            | Abundance, Peace of Mind, Health, Gratitude. Data-driven, so more can be added.                        |
-| Lines             | 100 shared lines per theme (read by every voice) + ~30 voice-specific lines per theme.                 |
-| Gap between lines | Random 10–20 s, measured from the **end** of the previous line.                                        |
-| Pool exhaustion   | Reshuffle and continue; never replay any of the most recent ~50 lines.                                 |
-| Session end       | Music fades out, XP is saved, completion screen shown (iOS forbids closing the app).                   |
-| Ending early      | Allowed; earns reduced XP (see below).                                                                 |
-| Voices            | ~6 voices bundled in the base app; more voices sold as paid downloadable packs (DLC).                  |
-| Audio             | Placeholder TTS audio for now; real recordings replace it later (same file layout).                    |
-| Languages         | English only at launch. Architecture supports 6 languages; non-English content is a separate download. |
-| Kids              | Not targeted. A possible separate kids app later.                                                      |
-| Health theme      | Show a "not medical advice" note.                                                                      |
+| Topic             | Decision                                                                                                                       |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Accounts          | None. Up to 4 local profiles per device, no PIN.                                                                               |
+| App start         | Opens the last-used profile; a "Switch" button leads to the profile picker.                                                    |
+| Flow              | Theme → Voice → Music → Duration (3–60 min wheel with haptics) → Session.                                                      |
+| Themes            | Abundance, Peace of Mind, Health, Gratitude. Data-driven, so more can be added.                                                |
+| Lines             | 100 shared lines per theme (read by every voice) + ~30 voice-specific lines per theme.                                         |
+| Gap between lines | Random 10–20 s, measured from the **end** of the previous line.                                                                |
+| Pool exhaustion   | Reshuffle and continue; never replay any of the most recent ~50 lines.                                                         |
+| Session end       | Music fades out, XP is saved, completion screen shown (iOS forbids closing the app).                                           |
+| Ending early      | Allowed; earns reduced XP (see below).                                                                                         |
+| Voices            | ~6 voices bundled in the base app; more voices sold as paid downloadable packs (DLC).                                          |
+| Audio             | Placeholder TTS audio for now; real recordings replace it later (same file layout).                                            |
+| Languages         | English only at launch. Architecture supports 6 languages; non-English content is a separate download.                         |
+| Kids              | Not targeted. A possible separate kids app later.                                                                              |
+| Health theme      | Show a "not medical advice" note.                                                                                              |
+| Visual style      | Palette "Fog": cool white + blue-gray, neutral theme cards with icons (may change; see `src/theme/palettes.ts`). Font: Nunito. |
 
 ## XP & levels (v1, to be refined)
 
