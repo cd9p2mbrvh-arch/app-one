@@ -24,6 +24,8 @@ jest.mock('expo-audio', () => {
     pause: jest.fn(),
     remove: jest.fn(),
     seekTo: jest.fn(() => Promise.resolve()),
+    setActiveForLockScreen: jest.fn(),
+    clearLockScreenControls: jest.fn(),
     volume: 1,
     loop: false,
   }));

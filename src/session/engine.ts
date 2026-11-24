@@ -110,6 +110,19 @@ export class SessionEngine {
     this.scheduleLine(INTRO_MS);
   }
 
+  /**
+   * Call when the app comes back to the foreground. If the system paused the
+   * music while the app was away, start it again; the clock is based on real
+   * time, so it is already correct (and finishes the session if time is up).
+   */
+  resync() {
+    if (this.state.status !== 'playing') return;
+    this.deps.music.play();
+    const elapsedMs = Math.min(this.elapsed(), this.state.durationMs);
+    if (elapsedMs >= this.state.durationMs) this.finish(true);
+    else this.update({ elapsedMs });
+  }
+
   /** Ends the session early, at the user's request. */
   end() {
     if (this.state.status === 'playing' || this.state.status === 'paused') this.finish(false);

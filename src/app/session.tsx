@@ -46,6 +46,7 @@ export default function SessionScreen() {
 
   const { state, pause, resume, end } = useSession({
     lines,
+    nowPlaying: { title: theme?.label ?? 'Meditation', artist: narrator.label },
     durationMs: selection.duration * 60000,
     narrator,
     narratorIndex,

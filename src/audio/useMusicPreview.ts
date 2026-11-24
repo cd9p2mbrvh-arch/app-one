@@ -1,5 +1,7 @@
-import { createAudioPlayer, setAudioModeAsync, type AudioPlayer } from 'expo-audio';
+import { createAudioPlayer, type AudioPlayer } from 'expo-audio';
 import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { configureAudioSession } from './session';
 
 /** Length of a music preview, and the fade-out at its end. */
 export const PREVIEW_SECONDS = 3;
@@ -7,15 +9,9 @@ export const PREVIEW_FADE_MS = 500;
 const PREVIEW_VOLUME = 0.8;
 const FADE_STEPS = 10;
 
-let audioModeSet = false;
-
-/** Plays even when the iPhone's silent switch is on, as music apps do. */
+/** Applies the app's audio session settings (silent switch, background). */
 export function ensurePlaybackAudioMode() {
-  if (audioModeSet) return;
-  audioModeSet = true;
-  setAudioModeAsync({ playsInSilentMode: true, shouldPlayInBackground: true }).catch(() => {
-    audioModeSet = false;
-  });
+  configureAudioSession().catch(() => {});
 }
 
 /**

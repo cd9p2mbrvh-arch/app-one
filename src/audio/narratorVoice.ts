@@ -48,6 +48,9 @@ export async function speakAs(
   Speech.speak(text, {
     language: 'en',
     voice,
+    // Share the app's audio session, so narration keeps going with the music
+    // when the screen is locked.
+    useApplicationAudioSession: true,
     pitch: narrator.speech.pitch,
     rate: narrator.speech.rate,
     onDone,

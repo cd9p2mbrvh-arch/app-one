@@ -166,3 +166,34 @@ describe('SessionEngine', () => {
     expect(music.release).toHaveBeenCalled();
   });
 });
+
+describe('SessionEngine.resync (back from the lock screen)', () => {
+  beforeEach(() => jest.useFakeTimers({ now: new Date(2026, 0, 1, 9) }));
+  afterEach(() => jest.useRealTimers());
+
+  it('restarts the music and catches the clock up', () => {
+    const { engine, music } = setup({ durationMs: 10 * MIN });
+    engine.start();
+    // Simulate the app being frozen: time passes without timers running.
+    jest.setSystemTime(Date.now() + 3 * MIN);
+    engine.resync();
+    expect(music.play).toHaveBeenCalledTimes(2);
+    expect(engine.getState().elapsedMs).toBeGreaterThanOrEqual(3 * MIN);
+  });
+
+  it('finishes the session if its time ran out meanwhile', () => {
+    const { engine, onFinish } = setup({ durationMs: 3 * MIN });
+    engine.start();
+    jest.setSystemTime(Date.now() + 5 * MIN);
+    engine.resync();
+    expect(onFinish).toHaveBeenCalledWith(expect.objectContaining({ completed: true }));
+  });
+
+  it('does nothing while paused', () => {
+    const { engine, music } = setup();
+    engine.start();
+    engine.pause();
+    engine.resync();
+    expect(music.play).toHaveBeenCalledTimes(1);
+  });
+});

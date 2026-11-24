@@ -1,4 +1,5 @@
 import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
+import { createAudioPlayer, setAudioModeAsync } from 'expo-audio';
 import * as Speech from 'expo-speech';
 
 import { useProfiles } from '@/state/profiles';
@@ -50,6 +51,28 @@ describe('A meditation session', () => {
     const spoken = (Speech.speak as jest.Mock).mock.calls[0][0];
     expect(screen.getByTestId('subtitle')).toHaveTextContent(spoken);
     expect(screen.getByTestId('time-left')).toHaveTextContent('02:55');
+  });
+
+  it('sets up background playback and the lock screen before the music starts', async () => {
+    await startSession(3);
+    expect(setAudioModeAsync).toHaveBeenCalledWith({
+      playsInSilentMode: true,
+      shouldPlayInBackground: true,
+      interruptionMode: 'doNotMix',
+    });
+    const music = (createAudioPlayer as jest.Mock).mock.results.at(-1)?.value;
+    expect(music.loop).toBe(true);
+    expect(music.setActiveForLockScreen).toHaveBeenCalledWith(true, {
+      title: 'Abundance',
+      artist: 'Narrator 1',
+      albumTitle: 'App One',
+    });
+    expect(music.play).toHaveBeenCalled();
+    expect(Speech.speak).not.toHaveBeenCalled();
+    await wait(5000);
+    expect((Speech.speak as jest.Mock).mock.calls[0][1]).toMatchObject({
+      useApplicationAudioSession: true,
+    });
   });
 
   it('pauses and resumes the clock', async () => {
