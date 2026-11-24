@@ -13,7 +13,22 @@ export type CatalogItem = {
   icon: IconName;
   /** Profile level needed to use this item. 1 = available from the start. */
   unlockLevel: number;
+  /**
+   * Set for paid items: unlocked by a one-time purchase instead of by level.
+   * `productId` will be the App Store / Google Play product identifier.
+   */
+  purchase?: { productId: string; priceLabel: string };
 };
+
+/** Why an item cannot be used yet, or null when it can. */
+export type LockReason =
+  { kind: 'level'; level: number } | { kind: 'purchase'; priceLabel: string };
+
+/** No purchases (the default for code that does not track them). */
+export const NO_PURCHASES: ReadonlySet<string> = new Set();
+
+/** Placeholder price for paid content (real prices will come from the stores). */
+export const PAID_PRICE_LABEL = '$1';
 
 export const THEMES: CatalogItem[] = [
   { id: 'abundance', label: 'Abundance', icon: 'sparkles-outline', unlockLevel: 1 },
@@ -43,11 +58,13 @@ const narrator = (
   accent: string,
   pitch: number,
   rate: number,
+  paid = false,
 ): Narrator => ({
   id: `voice${n}`,
   label: `Narrator ${n}`,
   icon: 'person',
   unlockLevel,
+  ...(paid ? { purchase: { productId: `narrator.voice${n}`, priceLabel: PAID_PRICE_LABEL } } : {}),
   tagline,
   accent,
   speech: { pitch, rate },
@@ -61,6 +78,10 @@ export const VOICES: Narrator[] = [
   narrator(4, 2, 'Soft and soothing', '#B79CC4', 1.05, 0.8),
   narrator(5, 3, 'Steady and grounded', '#C7B27A', 0.9, 0.9),
   narrator(6, 5, 'Slow and serene', '#7FB3B0', 0.95, 0.75),
+  // Paid narrators (one-time purchase each).
+  narrator(7, 1, 'Whisper soft', '#D49AAE', 1.1, 0.78, true),
+  narrator(8, 1, 'Deep and resonant', '#8E8FC7', 0.8, 0.82, true),
+  narrator(9, 1, 'Bright and uplifting', '#E0B26A', 1.2, 0.92, true),
 ];
 
 export type MusicTrack = CatalogItem & {
@@ -108,6 +129,37 @@ export const MUSIC: MusicTrack[] = [
     accent: '#B79CC4',
     source: require('../../assets/music/music4.m4a'),
   },
+  // Paid music (one-time purchase each).
+  {
+    id: 'music5',
+    label: 'Music 5',
+    icon: 'rainy-outline',
+    unlockLevel: 1,
+    purchase: { productId: 'music.music5', priceLabel: PAID_PRICE_LABEL },
+    mood: 'Gentle rain · Pad',
+    accent: '#7E9CB8',
+    source: require('../../assets/music/music5.m4a'),
+  },
+  {
+    id: 'music6',
+    label: 'Music 6',
+    icon: 'radio-button-on-outline',
+    unlockLevel: 1,
+    purchase: { productId: 'music.music6', priceLabel: PAID_PRICE_LABEL },
+    mood: 'Singing bowls · Deep',
+    accent: '#B08E6E',
+    source: require('../../assets/music/music6.m4a'),
+  },
+  {
+    id: 'music7',
+    label: 'Music 7',
+    icon: 'leaf-outline',
+    unlockLevel: 1,
+    purchase: { productId: 'music.music7', priceLabel: PAID_PRICE_LABEL },
+    mood: 'Morning birds · Light',
+    accent: '#8DB38B',
+    source: require('../../assets/music/music7.m4a'),
+  },
 ];
 
 export const MIN_DURATION_MIN = 3;
@@ -119,8 +171,25 @@ export const DURATIONS_MIN: number[] = Array.from(
   (_, i) => MIN_DURATION_MIN + i,
 );
 
-export function isUnlocked(item: Pick<CatalogItem, 'unlockLevel'>, level: number): boolean {
-  return level >= item.unlockLevel;
+export function lockReason(
+  item: Pick<CatalogItem, 'unlockLevel' | 'purchase'>,
+  level: number,
+  owned: ReadonlySet<string> = NO_PURCHASES,
+): LockReason | null {
+  if (item.purchase) {
+    return owned.has(item.purchase.productId)
+      ? null
+      : { kind: 'purchase', priceLabel: item.purchase.priceLabel };
+  }
+  return level >= item.unlockLevel ? null : { kind: 'level', level: item.unlockLevel };
+}
+
+export function isUnlocked(
+  item: Pick<CatalogItem, 'unlockLevel' | 'purchase'>,
+  level: number,
+  owned: ReadonlySet<string> = NO_PURCHASES,
+): boolean {
+  return lockReason(item, level, owned) === null;
 }
 
 export function firstUnlocked(items: CatalogItem[], level: number): CatalogItem {

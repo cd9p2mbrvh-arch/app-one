@@ -3,6 +3,7 @@ import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-librar
 import * as Speech from 'expo-speech';
 
 import { useProfiles } from '@/state/profiles';
+import { usePurchases } from '@/state/purchases';
 import { useSessionSetup } from '@/state/sessionSetup';
 import { themeWrapper } from '@/test/render';
 import { appRoutes } from '@/test/routes';
@@ -52,6 +53,7 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await act(() => useSessionSetup.getState().reset());
+  await act(() => usePurchases.setState({ owned: [] }));
 });
 
 describe('Main screen', () => {
@@ -250,6 +252,52 @@ describe('Main screen', () => {
     await press('Time', 'tab');
     await press('Begin');
     expect(screen).toHavePathname('/session');
+  });
+
+  it('previews a paid narrator and unlocks it through the demo purchase', async () => {
+    await open();
+    await press('Narrator', 'tab');
+
+    await press('Narrator 7, $1 to unlock');
+    await flush();
+    expect(Speech.speak).toHaveBeenCalled();
+    expect(screen.getByTestId('narrator-spotlight')).toHaveAccessibleName(
+      'Narrator 7. Whisper soft. Available for $1.',
+    );
+    expect(useSessionSetup.getState().voice).toBe('voice1');
+
+    // Opening the sheet and cancelling keeps it locked.
+    await press('Unlock Narrator 7 for $1');
+    expect(screen.getByText('DEMO · no payment is made')).toBeTruthy();
+    await press('Not now');
+    expect(usePurchases.getState().owned).toEqual([]);
+
+    await press('Unlock Narrator 7 for $1');
+    await press('Buy for $1');
+    expect(usePurchases.getState().owned).toEqual(['narrator.voice7']);
+    expect(useSessionSetup.getState().voice).toBe('voice7');
+    expect(screen.getByRole('button', { name: 'Narrator 7' })).toBeSelected();
+  });
+
+  it('unlocks paid music through the demo purchase', async () => {
+    await open();
+    await press('Music', 'tab');
+
+    await press(/^Music 5, Gentle rain.*\$1 to unlock/);
+    expect(screen.getByText('Preview only · unlock to use this music')).toBeTruthy();
+    await press('Unlock Music 5 for $1');
+    await press('Buy for $1');
+
+    expect(usePurchases.getState().owned).toEqual(['music.music5']);
+    expect(useSessionSetup.getState().music).toBe('music5');
+  });
+
+  it('keeps purchases for every profile on the device', async () => {
+    await act(() => usePurchases.setState({ owned: ['narrator.voice8'] }));
+    await open();
+    await press('Narrator', 'tab');
+    await press('Narrator 8');
+    expect(useSessionSetup.getState().voice).toBe('voice8');
   });
 
   it('opens the profile picker from the header', async () => {

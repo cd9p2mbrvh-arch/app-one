@@ -1,4 +1,4 @@
-"""Generates four PLACEHOLDER ambient music loops (30 s, seamless) as .m4a.
+"""Generates PLACEHOLDER ambient music loops (30 s, seamless) as .m4a.
 
 Real music will replace these files later. Needs numpy and ffmpeg.
 Usage: python3 scripts/generate_placeholder_music.py
@@ -59,6 +59,37 @@ def chords(progression, bright=0.25, vib=0.0, overlap=2.0):
     return sum(pad(c, i * step, step + overlap, bright, vib) for i, c in enumerate(progression))
 
 
+def rain():
+    noise = rng.standard_normal(len(t))
+    hiss = noise - np.convolve(noise, np.ones(40) / 40, mode="same")  # bright hiss
+    drops = np.zeros_like(t)
+    for start in rng.uniform(0, SECONDS - 0.2, 260):
+        i = int(start * SR)
+        n = int(0.03 * SR)
+        drops[i:i + n] += rng.uniform(0.3, 1) * np.exp(-np.arange(n) / (0.004 * SR)) * rng.standard_normal(n)
+    return hiss * 0.15 + drops * 0.5
+
+
+def chirp(start, f0, f1, length=0.12):
+    out = np.zeros_like(t)
+    i = int(start * SR)
+    n = int(length * SR)
+    local = np.arange(n) / SR
+    freq = np.linspace(f0, f1, n)
+    tone = np.sin(2 * np.pi * np.cumsum(freq) / SR) * np.sin(np.pi * local / length) ** 2
+    out[i:i + n] = tone[: len(out) - i]
+    return out
+
+
+def birds():
+    out = np.zeros_like(t)
+    for start in rng.uniform(0.5, SECONDS - 1, 28):
+        f = rng.uniform(2600, 4200)
+        for k in range(rng.integers(2, 5)):
+            out += chirp(start + k * 0.16, f, f * rng.uniform(1.1, 1.35))
+    return out
+
+
 TRACKS = {
     # C major -> A minor -> F -> G, very soft
     "music1": chords([[60, 64, 67], [57, 60, 64], [53, 57, 60], [55, 59, 62]], bright=0.15),
@@ -69,6 +100,11 @@ TRACKS = {
     # Night: sparse bells over a quiet pad
     "music4": pad([50, 57], 0, SECONDS, 0.05) * 0.5
     + sum(bell(n, s) for n, s in [(74, 1), (79, 4.5), (76, 9), (81, 13), (74, 17.5), (78, 21), (83, 25)]) * 0.35,
+    # Paid placeholders
+    "music5": rain() * 0.6 + chords([[57, 60, 64], [53, 57, 60]], bright=0.1) * 0.5,
+    "music6": sum(bell(n, s, decay=6) for n, s in [(50, 0.5), (57, 7.5), (53, 15), (50, 22.5)]) * 0.6
+    + pad([38, 45], 0, SECONDS, 0.05) * 0.4,
+    "music7": birds() * 0.25 + chords([[62, 66, 69], [59, 62, 66]], bright=0.15) * 0.5,
 }
 
 

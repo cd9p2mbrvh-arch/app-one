@@ -3,18 +3,23 @@ import { useEffect, useState } from 'react';
 import { Animated, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 
 import { speakAs, stopSpeaking } from '@/audio/narratorVoice';
-import { isUnlocked, type Narrator } from '@/content/manifest';
+import { lockReason, type Narrator } from '@/content/manifest';
+import { usePurchases } from '@/state/purchases';
 import { radius, spacing, useTheme } from '@/theme';
 import { tap } from '@/feedback';
 
 import { AppText } from '../AppText';
 import { Equalizer } from './Equalizer';
 import { NarratorPortrait } from './NarratorPortrait';
+import { PriceTag } from './PriceTag';
+import { PurchaseSheet } from './PurchaseSheet';
 
 type Props = {
   narrators: Narrator[];
   selectedId: string;
   level: number;
+  /** Owned product ids (paid narrators). */
+  owned: ReadonlySet<string>;
   onSelect: (id: string) => void;
 };
 
@@ -25,22 +30,24 @@ const COLUMNS = 3;
  * narrator above a grid of portrait cards. Tapping a card plays a short sample.
  * Locked narrators can be previewed but not chosen.
  */
-export function NarratorSelect({ narrators, selectedId, level, onSelect }: Props) {
+export function NarratorSelect({ narrators, selectedId, level, owned, onSelect }: Props) {
   const { colors } = useTheme();
   const { width } = useWindowDimensions();
   const [focusedId, setFocusedId] = useState(selectedId);
   const [speakingId, setSpeakingId] = useState<string | null>(null);
+  const [buying, setBuying] = useState<Narrator | null>(null);
+  const buy = usePurchases((st) => st.buy);
   const [pop] = useState(() => new Animated.Value(1));
 
   useEffect(() => stopSpeaking, []);
 
   const focused = narrators.find((n) => n.id === focusedId) ?? narrators[0];
-  const focusedLocked = !isUnlocked(focused, level);
+  const focusedLock = lockReason(focused, level, owned);
 
   const onTap = (narrator: Narrator) => {
     tap();
     setFocusedId(narrator.id);
-    if (isUnlocked(narrator, level)) onSelect(narrator.id);
+    if (!lockReason(narrator, level, owned)) onSelect(narrator.id);
     pop.setValue(0.9);
     Animated.spring(pop, { toValue: 1, friction: 5, tension: 120, useNativeDriver: true }).start();
     setSpeakingId(narrator.id);
@@ -61,7 +68,13 @@ export function NarratorSelect({ narrators, selectedId, level, onSelect }: Props
       <View
         testID="narrator-spotlight"
         accessible
-        accessibilityLabel={`${focused.label}. ${focused.tagline}.${focusedLocked ? ` Locked. Unlocks at level ${focused.unlockLevel}.` : ''}`}
+        accessibilityLabel={`${focused.label}. ${focused.tagline}.${
+          focusedLock?.kind === 'level'
+            ? ` Locked. Unlocks at level ${focusedLock.level}.`
+            : focusedLock?.kind === 'purchase'
+              ? ` Available for ${focusedLock.priceLabel}.`
+              : ''
+        }`}
         style={[
           styles.spotlight,
           { height: spotlightHeight, borderColor: colors.border, backgroundColor: focused.accent },
@@ -89,13 +102,23 @@ export function NarratorSelect({ narrators, selectedId, level, onSelect }: Props
           <AppText variant="label" color="#FFFFFF">
             {focused.tagline}
           </AppText>
-          {focusedLocked ? (
+          {focusedLock?.kind === 'level' ? (
             <View style={styles.inline}>
               <Ionicons name="lock-closed" size={14} color="#FFFFFF" />
               <AppText variant="caption" color="#FFFFFF">
-                Unlocks at level {focused.unlockLevel} · preview only
+                Unlocks at level {focusedLock.level} · preview only
               </AppText>
             </View>
+          ) : null}
+          {focusedLock?.kind === 'purchase' ? (
+            <Pressable
+              onPress={() => setBuying(focused)}
+              accessibilityRole="button"
+              accessibilityLabel={`Unlock ${focused.label} for ${focusedLock.priceLabel}`}
+              style={styles.unlock}
+            >
+              <PriceTag label={`Unlock for ${focusedLock.priceLabel}`} />
+            </Pressable>
           ) : null}
         </View>
         <View style={styles.spotlightBadge}>
@@ -118,7 +141,7 @@ export function NarratorSelect({ narrators, selectedId, level, onSelect }: Props
         {rows.map((row, i) => (
           <View key={i} style={styles.row}>
             {row.map((n) => {
-              const locked = !isUnlocked(n, level);
+              const lock = lockReason(n, level, owned);
               const selected = n.id === selectedId;
               const isFocused = n.id === focusedId;
               return (
@@ -127,7 +150,11 @@ export function NarratorSelect({ narrators, selectedId, level, onSelect }: Props
                   onPress={() => onTap(n)}
                   accessibilityRole="button"
                   accessibilityLabel={
-                    locked ? `${n.label}, locked, level ${n.unlockLevel}` : n.label
+                    lock?.kind === 'level'
+                      ? `${n.label}, locked, level ${lock.level}`
+                      : lock?.kind === 'purchase'
+                        ? `${n.label}, ${lock.priceLabel} to unlock`
+                        : n.label
                   }
                   accessibilityState={{ selected }}
                   style={({ pressed }) => [
@@ -151,12 +178,17 @@ export function NarratorSelect({ narrators, selectedId, level, onSelect }: Props
                     width={cardWidth - 6}
                     height={(cardWidth - 6) * 1.15}
                   />
-                  {locked ? (
+                  {lock?.kind === 'level' ? (
                     <View style={styles.lockOverlay}>
                       <Ionicons name="lock-closed" size={22} color="#FFFFFF" />
                       <AppText variant="caption" color="#FFFFFF">
-                        Lv {n.unlockLevel}
+                        Lv {lock.level}
                       </AppText>
+                    </View>
+                  ) : null}
+                  {lock?.kind === 'purchase' ? (
+                    <View style={styles.priceBadge}>
+                      <PriceTag label={lock.priceLabel} compact />
                     </View>
                   ) : null}
                   <View
@@ -180,6 +212,21 @@ export function NarratorSelect({ narrators, selectedId, level, onSelect }: Props
           </View>
         ))}
       </View>
+
+      <PurchaseSheet
+        visible={buying !== null}
+        itemLabel={buying?.label ?? ''}
+        priceLabel={buying?.purchase?.priceLabel ?? ''}
+        onCancel={() => setBuying(null)}
+        onBuy={() => {
+          if (buying?.purchase) {
+            tap();
+            buy(buying.purchase.productId);
+            onSelect(buying.id);
+          }
+          setBuying(null);
+        }}
+      />
     </View>
   );
 }
@@ -208,6 +255,8 @@ const styles = StyleSheet.create({
   },
   spotlightBadge: { position: 'absolute', left: spacing.md, top: spacing.md },
   inline: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 2 },
+  unlock: { alignSelf: 'flex-start', marginTop: spacing.xs },
+  priceBadge: { position: 'absolute', top: 6, right: 6 },
   grid: { gap: spacing.sm },
   row: { flexDirection: 'row', gap: spacing.sm },
   card: { borderRadius: radius.md, overflow: 'hidden', alignItems: 'center' },

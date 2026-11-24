@@ -3,18 +3,23 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
 import { useMusicPreview } from '@/audio/useMusicPreview';
-import { isUnlocked, type MusicTrack } from '@/content/manifest';
+import { lockReason, type MusicTrack } from '@/content/manifest';
+import { usePurchases } from '@/state/purchases';
 import { edge, radius, spacing, useTheme } from '@/theme';
 import { tap } from '@/feedback';
 
 import { AppText } from '../AppText';
 import { ChunkySurface } from '../ChunkySurface';
 import { Equalizer } from './Equalizer';
+import { PriceTag } from './PriceTag';
+import { PurchaseSheet } from './PurchaseSheet';
 
 type Props = {
   tracks: MusicTrack[];
   selectedId: string;
   level: number;
+  /** Owned product ids (paid tracks). */
+  owned: ReadonlySet<string>;
   onSelect: (id: string) => void;
 };
 
@@ -23,15 +28,17 @@ type Props = {
  * and expands it; tapping the playing row again stops it. Locked tracks can be
  * previewed but not chosen.
  */
-export function MusicList({ tracks, selectedId, level, onSelect }: Props) {
+export function MusicList({ tracks, selectedId, level, owned, onSelect }: Props) {
   const { colors } = useTheme();
   const { playingId, play, stop } = useMusicPreview();
   const [focusedId, setFocusedId] = useState(selectedId);
+  const [buying, setBuying] = useState<MusicTrack | null>(null);
+  const buy = usePurchases((st) => st.buy);
 
   const onTap = (track: MusicTrack) => {
     tap();
     setFocusedId(track.id);
-    if (isUnlocked(track, level)) onSelect(track.id);
+    if (!lockReason(track, level, owned)) onSelect(track.id);
     if (playingId === track.id) stop();
     else play(track.id, track.source);
   };
@@ -39,7 +46,7 @@ export function MusicList({ tracks, selectedId, level, onSelect }: Props) {
   return (
     <View style={styles.list}>
       {tracks.map((track) => {
-        const locked = !isUnlocked(track, level);
+        const lock = lockReason(track, level, owned);
         const selected = track.id === selectedId;
         const playing = track.id === playingId;
         const expanded = track.id === focusedId;
@@ -48,7 +55,13 @@ export function MusicList({ tracks, selectedId, level, onSelect }: Props) {
             key={track.id}
             onPress={() => onTap(track)}
             accessibilityRole="button"
-            accessibilityLabel={`${track.label}, ${track.mood}${locked ? `, locked, level ${track.unlockLevel}` : ''}`}
+            accessibilityLabel={`${track.label}, ${track.mood}${
+              lock?.kind === 'level'
+                ? `, locked, level ${lock.level}`
+                : lock?.kind === 'purchase'
+                  ? `, ${lock.priceLabel} to unlock`
+                  : ''
+            }`}
             accessibilityHint={playing ? 'Stops the preview' : 'Plays a short preview'}
             accessibilityState={{ selected }}
           >
@@ -71,13 +84,15 @@ export function MusicList({ tracks, selectedId, level, onSelect }: Props) {
                       {track.mood}
                     </AppText>
                   </View>
-                  {locked ? (
+                  {lock?.kind === 'level' ? (
                     <View style={styles.status}>
                       <Ionicons name="lock-closed" size={18} color={colors.textMuted} />
                       <AppText variant="caption" color={colors.textMuted}>
-                        Lv {track.unlockLevel}
+                        Lv {lock.level}
                       </AppText>
                     </View>
+                  ) : lock?.kind === 'purchase' ? (
+                    <PriceTag label={lock.priceLabel} compact />
                   ) : selected ? (
                     <Ionicons name="checkmark-circle" size={26} color={colors.primary} />
                   ) : null}
@@ -92,12 +107,24 @@ export function MusicList({ tracks, selectedId, level, onSelect }: Props) {
                 {expanded ? (
                   <View style={[styles.details, { borderTopColor: colors.border }]}>
                     <AppText variant="caption" color={colors.textMuted}>
-                      {locked
-                        ? `Preview only · reach level ${track.unlockLevel} to use this music`
-                        : playing
-                          ? 'Playing a short preview · tap again to stop'
-                          : 'Tap to hear a preview'}
+                      {lock?.kind === 'level'
+                        ? `Preview only · reach level ${lock.level} to use this music`
+                        : lock?.kind === 'purchase'
+                          ? 'Preview only · unlock to use this music'
+                          : playing
+                            ? 'Playing a short preview · tap again to stop'
+                            : 'Tap to hear a preview'}
                     </AppText>
+                    {lock?.kind === 'purchase' ? (
+                      <Pressable
+                        onPress={() => setBuying(track)}
+                        accessibilityRole="button"
+                        accessibilityLabel={`Unlock ${track.label} for ${lock.priceLabel}`}
+                        style={styles.unlock}
+                      >
+                        <PriceTag label={`Unlock for ${lock.priceLabel}`} />
+                      </Pressable>
+                    ) : null}
                   </View>
                 ) : null}
               </ChunkySurface>
@@ -105,6 +132,21 @@ export function MusicList({ tracks, selectedId, level, onSelect }: Props) {
           </Pressable>
         );
       })}
+
+      <PurchaseSheet
+        visible={buying !== null}
+        itemLabel={buying?.label ?? ''}
+        priceLabel={buying?.purchase?.priceLabel ?? ''}
+        onCancel={() => setBuying(null)}
+        onBuy={() => {
+          if (buying?.purchase) {
+            tap();
+            buy(buying.purchase.productId);
+            onSelect(buying.id);
+          }
+          setBuying(null);
+        }}
+      />
     </View>
   );
 }
@@ -123,5 +165,11 @@ const styles = StyleSheet.create({
   text: { flex: 1, gap: 2 },
   status: { alignItems: 'center' },
   play: { width: 28, alignItems: 'center' },
-  details: { marginTop: spacing.sm, paddingTop: spacing.sm, borderTopWidth: 1 },
+  details: {
+    marginTop: spacing.sm,
+    paddingTop: spacing.sm,
+    borderTopWidth: 1,
+    gap: spacing.sm,
+  },
+  unlock: { alignSelf: 'flex-start' },
 });

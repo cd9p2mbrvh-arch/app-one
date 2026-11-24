@@ -9,7 +9,7 @@ import itertools
 import json
 import pathlib
 
-VOICES = [f"voice{i}" for i in range(1, 7)]
+VOICES = [f"voice{i}" for i in range(1, 10)]
 OUT = pathlib.Path(__file__).resolve().parent.parent / "src/content/lines/en"
 
 # Each theme: (shared stems, shared endings, voice stems, voice endings).
@@ -17,10 +17,12 @@ OUT = pathlib.Path(__file__).resolve().parent.parent / "src/content/lines/en"
 GUIDANCE = ["Breathe in slowly.", "Let your shoulders soften.", "Close your eyes for a moment.",
             "Feel your feet on the ground.", "Breathe out gently.", "Rest here for a while.",
             "Notice the rise of your chest.", "Let your jaw relax.", "Take a deep breath.",
-            "Feel the air around you.", "Let your hands rest.", "Stay with this breath."]
+            "Feel the air around you.", "Let your hands rest.", "Stay with this breath.",
+            "Soften your forehead.", "Let your breath slow down.", "Notice this quiet moment.",
+            "Relax your belly.", "Breathe in through your nose.", "Let your eyes rest."]
 
 # Each theme: (shared stems, shared endings, voice affirmations).
-# Shared: 10 x 10 = 100 lines. Voice: 12 guidance x 15 affirmations = 180 = 6 voices x 30.
+# Shared: 10 x 10 = 100 lines. Voice: 18 guidance x 15 affirmations = 270 = 9 voices x 30.
 THEMES = {
     "abundance": (
         ["I am open to", "I welcome", "I gently attract", "Today I receive", "I make room for",
@@ -81,7 +83,7 @@ def main():
     for theme, (s_stems, s_ends, affirmations) in THEMES.items():
         shared = combos(s_stems, s_ends)
         voice_pool = combos(GUIDANCE, affirmations)
-        assert len(shared) == 100 and len(voice_pool) == 180, theme
+        assert len(shared) == 100 and len(voice_pool) == 270, theme
         data = {
             "placeholder": True,
             "theme": theme,

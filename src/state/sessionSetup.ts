@@ -5,6 +5,7 @@ import {
   firstUnlocked,
   isUnlocked,
   MUSIC,
+  NO_PURCHASES,
   THEMES,
   VOICES,
   type CatalogItem,
@@ -55,13 +56,22 @@ export function chosenItem(selection: SetupSelection, step: SetupStep): CatalogI
   return CATALOG[step].find((item) => item.id === selection[step]);
 }
 
-/** True when the choice for this step is locked at the given level. */
-export function isStepLocked(selection: SetupSelection, step: SetupStep, level: number): boolean {
+/** True when the choice for this step is locked at the given level and purchases. */
+export function isStepLocked(
+  selection: SetupSelection,
+  step: SetupStep,
+  level: number,
+  owned: ReadonlySet<string> = NO_PURCHASES,
+): boolean {
   const item = chosenItem(selection, step);
-  return !!item && !isUnlocked(item, level);
+  return !!item && !isUnlocked(item, level, owned);
 }
 
 /** A session can start only when nothing chosen is locked. */
-export function canBegin(selection: SetupSelection, level: number): boolean {
-  return SETUP_STEPS.every((step) => !isStepLocked(selection, step, level));
+export function canBegin(
+  selection: SetupSelection,
+  level: number,
+  owned: ReadonlySet<string> = NO_PURCHASES,
+): boolean {
+  return SETUP_STEPS.every((step) => !isStepLocked(selection, step, level, owned));
 }

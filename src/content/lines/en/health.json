@@ -412,119 +412,119 @@
       },
       {
         "id": "v002",
-        "text": "Breathe in slowly. Strength grows in me every day."
+        "text": "Breathe in slowly. Every breath restores me."
       },
       {
         "id": "v003",
-        "text": "Breathe in slowly. Healing light flows through me."
-      },
-      {
-        "id": "v004",
         "text": "Let your shoulders soften. I listen to what my body needs."
       },
       {
+        "id": "v004",
+        "text": "Let your shoulders soften. Healing light flows through me."
+      },
+      {
         "id": "v005",
-        "text": "Let your shoulders soften. Every breath restores me."
-      },
-      {
-        "id": "v006",
-        "text": "Close your eyes for a moment. My body knows how to heal."
-      },
-      {
-        "id": "v007",
         "text": "Close your eyes for a moment. Strength grows in me every day."
       },
       {
-        "id": "v008",
-        "text": "Close your eyes for a moment. Healing light flows through me."
+        "id": "v006",
+        "text": "Feel your feet on the ground. My body knows how to heal."
       },
       {
-        "id": "v009",
-        "text": "Feel your feet on the ground. I listen to what my body needs."
-      },
-      {
-        "id": "v010",
+        "id": "v007",
         "text": "Feel your feet on the ground. Every breath restores me."
       },
       {
-        "id": "v011",
-        "text": "Breathe out gently. My body knows how to heal."
+        "id": "v008",
+        "text": "Breathe out gently. I listen to what my body needs."
       },
       {
-        "id": "v012",
-        "text": "Breathe out gently. Strength grows in me every day."
-      },
-      {
-        "id": "v013",
+        "id": "v009",
         "text": "Breathe out gently. Healing light flows through me."
       },
       {
-        "id": "v014",
-        "text": "Rest here for a while. I listen to what my body needs."
+        "id": "v010",
+        "text": "Rest here for a while. Strength grows in me every day."
       },
       {
-        "id": "v015",
-        "text": "Rest here for a while. Every breath restores me."
-      },
-      {
-        "id": "v016",
+        "id": "v011",
         "text": "Notice the rise of your chest. My body knows how to heal."
       },
       {
-        "id": "v017",
-        "text": "Notice the rise of your chest. Strength grows in me every day."
+        "id": "v012",
+        "text": "Notice the rise of your chest. Every breath restores me."
       },
       {
-        "id": "v018",
-        "text": "Notice the rise of your chest. Healing light flows through me."
-      },
-      {
-        "id": "v019",
+        "id": "v013",
         "text": "Let your jaw relax. I listen to what my body needs."
       },
       {
-        "id": "v020",
-        "text": "Let your jaw relax. Every breath restores me."
+        "id": "v014",
+        "text": "Let your jaw relax. Healing light flows through me."
       },
       {
-        "id": "v021",
-        "text": "Take a deep breath. My body knows how to heal."
-      },
-      {
-        "id": "v022",
+        "id": "v015",
         "text": "Take a deep breath. Strength grows in me every day."
       },
       {
-        "id": "v023",
-        "text": "Take a deep breath. Healing light flows through me."
+        "id": "v016",
+        "text": "Feel the air around you. My body knows how to heal."
       },
       {
-        "id": "v024",
-        "text": "Feel the air around you. I listen to what my body needs."
-      },
-      {
-        "id": "v025",
+        "id": "v017",
         "text": "Feel the air around you. Every breath restores me."
       },
       {
-        "id": "v026",
-        "text": "Let your hands rest. My body knows how to heal."
+        "id": "v018",
+        "text": "Let your hands rest. I listen to what my body needs."
       },
       {
-        "id": "v027",
-        "text": "Let your hands rest. Strength grows in me every day."
-      },
-      {
-        "id": "v028",
+        "id": "v019",
         "text": "Let your hands rest. Healing light flows through me."
       },
       {
+        "id": "v020",
+        "text": "Stay with this breath. Strength grows in me every day."
+      },
+      {
+        "id": "v021",
+        "text": "Soften your forehead. My body knows how to heal."
+      },
+      {
+        "id": "v022",
+        "text": "Soften your forehead. Every breath restores me."
+      },
+      {
+        "id": "v023",
+        "text": "Let your breath slow down. I listen to what my body needs."
+      },
+      {
+        "id": "v024",
+        "text": "Let your breath slow down. Healing light flows through me."
+      },
+      {
+        "id": "v025",
+        "text": "Notice this quiet moment. Strength grows in me every day."
+      },
+      {
+        "id": "v026",
+        "text": "Relax your belly. My body knows how to heal."
+      },
+      {
+        "id": "v027",
+        "text": "Relax your belly. Every breath restores me."
+      },
+      {
+        "id": "v028",
+        "text": "Breathe in through your nose. I listen to what my body needs."
+      },
+      {
         "id": "v029",
-        "text": "Stay with this breath. I listen to what my body needs."
+        "text": "Breathe in through your nose. Healing light flows through me."
       },
       {
         "id": "v030",
-        "text": "Stay with this breath. Every breath restores me."
+        "text": "Let your eyes rest. Strength grows in me every day."
       }
     ],
     "voice2": [
@@ -534,119 +534,119 @@
       },
       {
         "id": "v002",
-        "text": "Breathe in slowly. I am kind to my body."
+        "text": "Breathe in slowly. I enjoy moving my body."
       },
       {
         "id": "v003",
-        "text": "Breathe in slowly. I choose habits that support me."
-      },
-      {
-        "id": "v004",
         "text": "Let your shoulders soften. I sleep deeply and wake rested."
       },
       {
+        "id": "v004",
+        "text": "Let your shoulders soften. I choose habits that support me."
+      },
+      {
         "id": "v005",
-        "text": "Let your shoulders soften. I enjoy moving my body."
-      },
-      {
-        "id": "v006",
-        "text": "Close your eyes for a moment. I breathe in fresh energy."
-      },
-      {
-        "id": "v007",
         "text": "Close your eyes for a moment. I am kind to my body."
       },
       {
-        "id": "v008",
-        "text": "Close your eyes for a moment. I choose habits that support me."
+        "id": "v006",
+        "text": "Feel your feet on the ground. I breathe in fresh energy."
       },
       {
-        "id": "v009",
-        "text": "Feel your feet on the ground. I sleep deeply and wake rested."
-      },
-      {
-        "id": "v010",
+        "id": "v007",
         "text": "Feel your feet on the ground. I enjoy moving my body."
       },
       {
-        "id": "v011",
-        "text": "Breathe out gently. I breathe in fresh energy."
+        "id": "v008",
+        "text": "Breathe out gently. I sleep deeply and wake rested."
       },
       {
-        "id": "v012",
-        "text": "Breathe out gently. I am kind to my body."
-      },
-      {
-        "id": "v013",
+        "id": "v009",
         "text": "Breathe out gently. I choose habits that support me."
       },
       {
-        "id": "v014",
-        "text": "Rest here for a while. I sleep deeply and wake rested."
+        "id": "v010",
+        "text": "Rest here for a while. I am kind to my body."
       },
       {
-        "id": "v015",
-        "text": "Rest here for a while. I enjoy moving my body."
-      },
-      {
-        "id": "v016",
+        "id": "v011",
         "text": "Notice the rise of your chest. I breathe in fresh energy."
       },
       {
-        "id": "v017",
-        "text": "Notice the rise of your chest. I am kind to my body."
+        "id": "v012",
+        "text": "Notice the rise of your chest. I enjoy moving my body."
       },
       {
-        "id": "v018",
-        "text": "Notice the rise of your chest. I choose habits that support me."
-      },
-      {
-        "id": "v019",
+        "id": "v013",
         "text": "Let your jaw relax. I sleep deeply and wake rested."
       },
       {
-        "id": "v020",
-        "text": "Let your jaw relax. I enjoy moving my body."
+        "id": "v014",
+        "text": "Let your jaw relax. I choose habits that support me."
       },
       {
-        "id": "v021",
-        "text": "Take a deep breath. I breathe in fresh energy."
-      },
-      {
-        "id": "v022",
+        "id": "v015",
         "text": "Take a deep breath. I am kind to my body."
       },
       {
-        "id": "v023",
-        "text": "Take a deep breath. I choose habits that support me."
+        "id": "v016",
+        "text": "Feel the air around you. I breathe in fresh energy."
       },
       {
-        "id": "v024",
-        "text": "Feel the air around you. I sleep deeply and wake rested."
-      },
-      {
-        "id": "v025",
+        "id": "v017",
         "text": "Feel the air around you. I enjoy moving my body."
       },
       {
-        "id": "v026",
-        "text": "Let your hands rest. I breathe in fresh energy."
+        "id": "v018",
+        "text": "Let your hands rest. I sleep deeply and wake rested."
       },
       {
-        "id": "v027",
-        "text": "Let your hands rest. I am kind to my body."
-      },
-      {
-        "id": "v028",
+        "id": "v019",
         "text": "Let your hands rest. I choose habits that support me."
       },
       {
+        "id": "v020",
+        "text": "Stay with this breath. I am kind to my body."
+      },
+      {
+        "id": "v021",
+        "text": "Soften your forehead. I breathe in fresh energy."
+      },
+      {
+        "id": "v022",
+        "text": "Soften your forehead. I enjoy moving my body."
+      },
+      {
+        "id": "v023",
+        "text": "Let your breath slow down. I sleep deeply and wake rested."
+      },
+      {
+        "id": "v024",
+        "text": "Let your breath slow down. I choose habits that support me."
+      },
+      {
+        "id": "v025",
+        "text": "Notice this quiet moment. I am kind to my body."
+      },
+      {
+        "id": "v026",
+        "text": "Relax your belly. I breathe in fresh energy."
+      },
+      {
+        "id": "v027",
+        "text": "Relax your belly. I enjoy moving my body."
+      },
+      {
+        "id": "v028",
+        "text": "Breathe in through your nose. I sleep deeply and wake rested."
+      },
+      {
         "id": "v029",
-        "text": "Stay with this breath. I sleep deeply and wake rested."
+        "text": "Breathe in through your nose. I choose habits that support me."
       },
       {
         "id": "v030",
-        "text": "Stay with this breath. I enjoy moving my body."
+        "text": "Let your eyes rest. I am kind to my body."
       }
     ],
     "voice3": [
@@ -656,119 +656,119 @@
       },
       {
         "id": "v002",
-        "text": "Breathe in slowly. My immune system protects me."
+        "text": "Breathe in slowly. I feel light and energised."
       },
       {
         "id": "v003",
-        "text": "Breathe in slowly. I am thankful for my health."
-      },
-      {
-        "id": "v004",
         "text": "Let your shoulders soften. I nourish myself with care."
       },
       {
+        "id": "v004",
+        "text": "Let your shoulders soften. I am thankful for my health."
+      },
+      {
         "id": "v005",
-        "text": "Let your shoulders soften. I feel light and energised."
-      },
-      {
-        "id": "v006",
-        "text": "Close your eyes for a moment. My heart beats strong and steady."
-      },
-      {
-        "id": "v007",
         "text": "Close your eyes for a moment. My immune system protects me."
       },
       {
-        "id": "v008",
-        "text": "Close your eyes for a moment. I am thankful for my health."
+        "id": "v006",
+        "text": "Feel your feet on the ground. My heart beats strong and steady."
       },
       {
-        "id": "v009",
-        "text": "Feel your feet on the ground. I nourish myself with care."
-      },
-      {
-        "id": "v010",
+        "id": "v007",
         "text": "Feel your feet on the ground. I feel light and energised."
       },
       {
-        "id": "v011",
-        "text": "Breathe out gently. My heart beats strong and steady."
+        "id": "v008",
+        "text": "Breathe out gently. I nourish myself with care."
       },
       {
-        "id": "v012",
-        "text": "Breathe out gently. My immune system protects me."
-      },
-      {
-        "id": "v013",
+        "id": "v009",
         "text": "Breathe out gently. I am thankful for my health."
       },
       {
-        "id": "v014",
-        "text": "Rest here for a while. I nourish myself with care."
+        "id": "v010",
+        "text": "Rest here for a while. My immune system protects me."
       },
       {
-        "id": "v015",
-        "text": "Rest here for a while. I feel light and energised."
-      },
-      {
-        "id": "v016",
+        "id": "v011",
         "text": "Notice the rise of your chest. My heart beats strong and steady."
       },
       {
-        "id": "v017",
-        "text": "Notice the rise of your chest. My immune system protects me."
+        "id": "v012",
+        "text": "Notice the rise of your chest. I feel light and energised."
       },
       {
-        "id": "v018",
-        "text": "Notice the rise of your chest. I am thankful for my health."
-      },
-      {
-        "id": "v019",
+        "id": "v013",
         "text": "Let your jaw relax. I nourish myself with care."
       },
       {
-        "id": "v020",
-        "text": "Let your jaw relax. I feel light and energised."
+        "id": "v014",
+        "text": "Let your jaw relax. I am thankful for my health."
       },
       {
-        "id": "v021",
-        "text": "Take a deep breath. My heart beats strong and steady."
-      },
-      {
-        "id": "v022",
+        "id": "v015",
         "text": "Take a deep breath. My immune system protects me."
       },
       {
-        "id": "v023",
-        "text": "Take a deep breath. I am thankful for my health."
+        "id": "v016",
+        "text": "Feel the air around you. My heart beats strong and steady."
       },
       {
-        "id": "v024",
-        "text": "Feel the air around you. I nourish myself with care."
-      },
-      {
-        "id": "v025",
+        "id": "v017",
         "text": "Feel the air around you. I feel light and energised."
       },
       {
-        "id": "v026",
-        "text": "Let your hands rest. My heart beats strong and steady."
+        "id": "v018",
+        "text": "Let your hands rest. I nourish myself with care."
       },
       {
-        "id": "v027",
-        "text": "Let your hands rest. My immune system protects me."
-      },
-      {
-        "id": "v028",
+        "id": "v019",
         "text": "Let your hands rest. I am thankful for my health."
       },
       {
+        "id": "v020",
+        "text": "Stay with this breath. My immune system protects me."
+      },
+      {
+        "id": "v021",
+        "text": "Soften your forehead. My heart beats strong and steady."
+      },
+      {
+        "id": "v022",
+        "text": "Soften your forehead. I feel light and energised."
+      },
+      {
+        "id": "v023",
+        "text": "Let your breath slow down. I nourish myself with care."
+      },
+      {
+        "id": "v024",
+        "text": "Let your breath slow down. I am thankful for my health."
+      },
+      {
+        "id": "v025",
+        "text": "Notice this quiet moment. My immune system protects me."
+      },
+      {
+        "id": "v026",
+        "text": "Relax your belly. My heart beats strong and steady."
+      },
+      {
+        "id": "v027",
+        "text": "Relax your belly. I feel light and energised."
+      },
+      {
+        "id": "v028",
+        "text": "Breathe in through your nose. I nourish myself with care."
+      },
+      {
         "id": "v029",
-        "text": "Stay with this breath. I nourish myself with care."
+        "text": "Breathe in through your nose. I am thankful for my health."
       },
       {
         "id": "v030",
-        "text": "Stay with this breath. I feel light and energised."
+        "text": "Let your eyes rest. My immune system protects me."
       }
     ],
     "voice4": [
@@ -778,119 +778,119 @@
       },
       {
         "id": "v002",
-        "text": "Breathe in slowly. Every breath restores me."
+        "text": "Breathe in slowly. Healing light flows through me."
       },
       {
         "id": "v003",
-        "text": "Let your shoulders soften. My body knows how to heal."
-      },
-      {
-        "id": "v004",
         "text": "Let your shoulders soften. Strength grows in me every day."
       },
       {
+        "id": "v004",
+        "text": "Close your eyes for a moment. My body knows how to heal."
+      },
+      {
         "id": "v005",
-        "text": "Let your shoulders soften. Healing light flows through me."
-      },
-      {
-        "id": "v006",
-        "text": "Close your eyes for a moment. I listen to what my body needs."
-      },
-      {
-        "id": "v007",
         "text": "Close your eyes for a moment. Every breath restores me."
       },
       {
-        "id": "v008",
-        "text": "Feel your feet on the ground. My body knows how to heal."
+        "id": "v006",
+        "text": "Feel your feet on the ground. I listen to what my body needs."
       },
       {
-        "id": "v009",
-        "text": "Feel your feet on the ground. Strength grows in me every day."
-      },
-      {
-        "id": "v010",
+        "id": "v007",
         "text": "Feel your feet on the ground. Healing light flows through me."
       },
       {
-        "id": "v011",
-        "text": "Breathe out gently. I listen to what my body needs."
+        "id": "v008",
+        "text": "Breathe out gently. Strength grows in me every day."
       },
       {
-        "id": "v012",
-        "text": "Breathe out gently. Every breath restores me."
-      },
-      {
-        "id": "v013",
+        "id": "v009",
         "text": "Rest here for a while. My body knows how to heal."
       },
       {
-        "id": "v014",
-        "text": "Rest here for a while. Strength grows in me every day."
+        "id": "v010",
+        "text": "Rest here for a while. Every breath restores me."
       },
       {
-        "id": "v015",
-        "text": "Rest here for a while. Healing light flows through me."
-      },
-      {
-        "id": "v016",
+        "id": "v011",
         "text": "Notice the rise of your chest. I listen to what my body needs."
       },
       {
-        "id": "v017",
-        "text": "Notice the rise of your chest. Every breath restores me."
+        "id": "v012",
+        "text": "Notice the rise of your chest. Healing light flows through me."
       },
       {
-        "id": "v018",
-        "text": "Let your jaw relax. My body knows how to heal."
-      },
-      {
-        "id": "v019",
+        "id": "v013",
         "text": "Let your jaw relax. Strength grows in me every day."
       },
       {
-        "id": "v020",
-        "text": "Let your jaw relax. Healing light flows through me."
+        "id": "v014",
+        "text": "Take a deep breath. My body knows how to heal."
       },
       {
-        "id": "v021",
-        "text": "Take a deep breath. I listen to what my body needs."
-      },
-      {
-        "id": "v022",
+        "id": "v015",
         "text": "Take a deep breath. Every breath restores me."
       },
       {
-        "id": "v023",
-        "text": "Feel the air around you. My body knows how to heal."
+        "id": "v016",
+        "text": "Feel the air around you. I listen to what my body needs."
       },
       {
-        "id": "v024",
-        "text": "Feel the air around you. Strength grows in me every day."
-      },
-      {
-        "id": "v025",
+        "id": "v017",
         "text": "Feel the air around you. Healing light flows through me."
       },
       {
-        "id": "v026",
-        "text": "Let your hands rest. I listen to what my body needs."
+        "id": "v018",
+        "text": "Let your hands rest. Strength grows in me every day."
       },
       {
-        "id": "v027",
-        "text": "Let your hands rest. Every breath restores me."
-      },
-      {
-        "id": "v028",
+        "id": "v019",
         "text": "Stay with this breath. My body knows how to heal."
       },
       {
+        "id": "v020",
+        "text": "Stay with this breath. Every breath restores me."
+      },
+      {
+        "id": "v021",
+        "text": "Soften your forehead. I listen to what my body needs."
+      },
+      {
+        "id": "v022",
+        "text": "Soften your forehead. Healing light flows through me."
+      },
+      {
+        "id": "v023",
+        "text": "Let your breath slow down. Strength grows in me every day."
+      },
+      {
+        "id": "v024",
+        "text": "Notice this quiet moment. My body knows how to heal."
+      },
+      {
+        "id": "v025",
+        "text": "Notice this quiet moment. Every breath restores me."
+      },
+      {
+        "id": "v026",
+        "text": "Relax your belly. I listen to what my body needs."
+      },
+      {
+        "id": "v027",
+        "text": "Relax your belly. Healing light flows through me."
+      },
+      {
+        "id": "v028",
+        "text": "Breathe in through your nose. Strength grows in me every day."
+      },
+      {
         "id": "v029",
-        "text": "Stay with this breath. Strength grows in me every day."
+        "text": "Let your eyes rest. My body knows how to heal."
       },
       {
         "id": "v030",
-        "text": "Stay with this breath. Healing light flows through me."
+        "text": "Let your eyes rest. Every breath restores me."
       }
     ],
     "voice5": [
@@ -900,119 +900,119 @@
       },
       {
         "id": "v002",
-        "text": "Breathe in slowly. I enjoy moving my body."
+        "text": "Breathe in slowly. I choose habits that support me."
       },
       {
         "id": "v003",
-        "text": "Let your shoulders soften. I breathe in fresh energy."
-      },
-      {
-        "id": "v004",
         "text": "Let your shoulders soften. I am kind to my body."
       },
       {
+        "id": "v004",
+        "text": "Close your eyes for a moment. I breathe in fresh energy."
+      },
+      {
         "id": "v005",
-        "text": "Let your shoulders soften. I choose habits that support me."
-      },
-      {
-        "id": "v006",
-        "text": "Close your eyes for a moment. I sleep deeply and wake rested."
-      },
-      {
-        "id": "v007",
         "text": "Close your eyes for a moment. I enjoy moving my body."
       },
       {
-        "id": "v008",
-        "text": "Feel your feet on the ground. I breathe in fresh energy."
+        "id": "v006",
+        "text": "Feel your feet on the ground. I sleep deeply and wake rested."
       },
       {
-        "id": "v009",
-        "text": "Feel your feet on the ground. I am kind to my body."
-      },
-      {
-        "id": "v010",
+        "id": "v007",
         "text": "Feel your feet on the ground. I choose habits that support me."
       },
       {
-        "id": "v011",
-        "text": "Breathe out gently. I sleep deeply and wake rested."
+        "id": "v008",
+        "text": "Breathe out gently. I am kind to my body."
       },
       {
-        "id": "v012",
-        "text": "Breathe out gently. I enjoy moving my body."
-      },
-      {
-        "id": "v013",
+        "id": "v009",
         "text": "Rest here for a while. I breathe in fresh energy."
       },
       {
-        "id": "v014",
-        "text": "Rest here for a while. I am kind to my body."
+        "id": "v010",
+        "text": "Rest here for a while. I enjoy moving my body."
       },
       {
-        "id": "v015",
-        "text": "Rest here for a while. I choose habits that support me."
-      },
-      {
-        "id": "v016",
+        "id": "v011",
         "text": "Notice the rise of your chest. I sleep deeply and wake rested."
       },
       {
-        "id": "v017",
-        "text": "Notice the rise of your chest. I enjoy moving my body."
+        "id": "v012",
+        "text": "Notice the rise of your chest. I choose habits that support me."
       },
       {
-        "id": "v018",
-        "text": "Let your jaw relax. I breathe in fresh energy."
-      },
-      {
-        "id": "v019",
+        "id": "v013",
         "text": "Let your jaw relax. I am kind to my body."
       },
       {
-        "id": "v020",
-        "text": "Let your jaw relax. I choose habits that support me."
+        "id": "v014",
+        "text": "Take a deep breath. I breathe in fresh energy."
       },
       {
-        "id": "v021",
-        "text": "Take a deep breath. I sleep deeply and wake rested."
-      },
-      {
-        "id": "v022",
+        "id": "v015",
         "text": "Take a deep breath. I enjoy moving my body."
       },
       {
-        "id": "v023",
-        "text": "Feel the air around you. I breathe in fresh energy."
+        "id": "v016",
+        "text": "Feel the air around you. I sleep deeply and wake rested."
       },
       {
-        "id": "v024",
-        "text": "Feel the air around you. I am kind to my body."
-      },
-      {
-        "id": "v025",
+        "id": "v017",
         "text": "Feel the air around you. I choose habits that support me."
       },
       {
-        "id": "v026",
-        "text": "Let your hands rest. I sleep deeply and wake rested."
+        "id": "v018",
+        "text": "Let your hands rest. I am kind to my body."
       },
       {
-        "id": "v027",
-        "text": "Let your hands rest. I enjoy moving my body."
-      },
-      {
-        "id": "v028",
+        "id": "v019",
         "text": "Stay with this breath. I breathe in fresh energy."
       },
       {
+        "id": "v020",
+        "text": "Stay with this breath. I enjoy moving my body."
+      },
+      {
+        "id": "v021",
+        "text": "Soften your forehead. I sleep deeply and wake rested."
+      },
+      {
+        "id": "v022",
+        "text": "Soften your forehead. I choose habits that support me."
+      },
+      {
+        "id": "v023",
+        "text": "Let your breath slow down. I am kind to my body."
+      },
+      {
+        "id": "v024",
+        "text": "Notice this quiet moment. I breathe in fresh energy."
+      },
+      {
+        "id": "v025",
+        "text": "Notice this quiet moment. I enjoy moving my body."
+      },
+      {
+        "id": "v026",
+        "text": "Relax your belly. I sleep deeply and wake rested."
+      },
+      {
+        "id": "v027",
+        "text": "Relax your belly. I choose habits that support me."
+      },
+      {
+        "id": "v028",
+        "text": "Breathe in through your nose. I am kind to my body."
+      },
+      {
         "id": "v029",
-        "text": "Stay with this breath. I am kind to my body."
+        "text": "Let your eyes rest. I breathe in fresh energy."
       },
       {
         "id": "v030",
-        "text": "Stay with this breath. I choose habits that support me."
+        "text": "Let your eyes rest. I enjoy moving my body."
       }
     ],
     "voice6": [
@@ -1022,119 +1022,485 @@
       },
       {
         "id": "v002",
-        "text": "Breathe in slowly. I feel light and energised."
+        "text": "Breathe in slowly. I am thankful for my health."
       },
       {
         "id": "v003",
-        "text": "Let your shoulders soften. My heart beats strong and steady."
-      },
-      {
-        "id": "v004",
         "text": "Let your shoulders soften. My immune system protects me."
       },
       {
+        "id": "v004",
+        "text": "Close your eyes for a moment. My heart beats strong and steady."
+      },
+      {
         "id": "v005",
-        "text": "Let your shoulders soften. I am thankful for my health."
-      },
-      {
-        "id": "v006",
-        "text": "Close your eyes for a moment. I nourish myself with care."
-      },
-      {
-        "id": "v007",
         "text": "Close your eyes for a moment. I feel light and energised."
       },
       {
-        "id": "v008",
-        "text": "Feel your feet on the ground. My heart beats strong and steady."
+        "id": "v006",
+        "text": "Feel your feet on the ground. I nourish myself with care."
       },
       {
-        "id": "v009",
-        "text": "Feel your feet on the ground. My immune system protects me."
-      },
-      {
-        "id": "v010",
+        "id": "v007",
         "text": "Feel your feet on the ground. I am thankful for my health."
       },
       {
-        "id": "v011",
-        "text": "Breathe out gently. I nourish myself with care."
+        "id": "v008",
+        "text": "Breathe out gently. My immune system protects me."
       },
       {
-        "id": "v012",
-        "text": "Breathe out gently. I feel light and energised."
-      },
-      {
-        "id": "v013",
+        "id": "v009",
         "text": "Rest here for a while. My heart beats strong and steady."
       },
       {
-        "id": "v014",
-        "text": "Rest here for a while. My immune system protects me."
+        "id": "v010",
+        "text": "Rest here for a while. I feel light and energised."
       },
       {
-        "id": "v015",
-        "text": "Rest here for a while. I am thankful for my health."
-      },
-      {
-        "id": "v016",
+        "id": "v011",
         "text": "Notice the rise of your chest. I nourish myself with care."
       },
       {
-        "id": "v017",
-        "text": "Notice the rise of your chest. I feel light and energised."
+        "id": "v012",
+        "text": "Notice the rise of your chest. I am thankful for my health."
       },
       {
-        "id": "v018",
-        "text": "Let your jaw relax. My heart beats strong and steady."
-      },
-      {
-        "id": "v019",
+        "id": "v013",
         "text": "Let your jaw relax. My immune system protects me."
       },
       {
-        "id": "v020",
-        "text": "Let your jaw relax. I am thankful for my health."
+        "id": "v014",
+        "text": "Take a deep breath. My heart beats strong and steady."
       },
       {
-        "id": "v021",
-        "text": "Take a deep breath. I nourish myself with care."
-      },
-      {
-        "id": "v022",
+        "id": "v015",
         "text": "Take a deep breath. I feel light and energised."
       },
       {
-        "id": "v023",
-        "text": "Feel the air around you. My heart beats strong and steady."
+        "id": "v016",
+        "text": "Feel the air around you. I nourish myself with care."
       },
       {
-        "id": "v024",
-        "text": "Feel the air around you. My immune system protects me."
-      },
-      {
-        "id": "v025",
+        "id": "v017",
         "text": "Feel the air around you. I am thankful for my health."
       },
       {
-        "id": "v026",
-        "text": "Let your hands rest. I nourish myself with care."
+        "id": "v018",
+        "text": "Let your hands rest. My immune system protects me."
       },
       {
-        "id": "v027",
-        "text": "Let your hands rest. I feel light and energised."
-      },
-      {
-        "id": "v028",
+        "id": "v019",
         "text": "Stay with this breath. My heart beats strong and steady."
       },
       {
+        "id": "v020",
+        "text": "Stay with this breath. I feel light and energised."
+      },
+      {
+        "id": "v021",
+        "text": "Soften your forehead. I nourish myself with care."
+      },
+      {
+        "id": "v022",
+        "text": "Soften your forehead. I am thankful for my health."
+      },
+      {
+        "id": "v023",
+        "text": "Let your breath slow down. My immune system protects me."
+      },
+      {
+        "id": "v024",
+        "text": "Notice this quiet moment. My heart beats strong and steady."
+      },
+      {
+        "id": "v025",
+        "text": "Notice this quiet moment. I feel light and energised."
+      },
+      {
+        "id": "v026",
+        "text": "Relax your belly. I nourish myself with care."
+      },
+      {
+        "id": "v027",
+        "text": "Relax your belly. I am thankful for my health."
+      },
+      {
+        "id": "v028",
+        "text": "Breathe in through your nose. My immune system protects me."
+      },
+      {
         "id": "v029",
-        "text": "Stay with this breath. My immune system protects me."
+        "text": "Let your eyes rest. My heart beats strong and steady."
       },
       {
         "id": "v030",
+        "text": "Let your eyes rest. I feel light and energised."
+      }
+    ],
+    "voice7": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. Strength grows in me every day."
+      },
+      {
+        "id": "v002",
+        "text": "Let your shoulders soften. My body knows how to heal."
+      },
+      {
+        "id": "v003",
+        "text": "Let your shoulders soften. Every breath restores me."
+      },
+      {
+        "id": "v004",
+        "text": "Close your eyes for a moment. I listen to what my body needs."
+      },
+      {
+        "id": "v005",
+        "text": "Close your eyes for a moment. Healing light flows through me."
+      },
+      {
+        "id": "v006",
+        "text": "Feel your feet on the ground. Strength grows in me every day."
+      },
+      {
+        "id": "v007",
+        "text": "Breathe out gently. My body knows how to heal."
+      },
+      {
+        "id": "v008",
+        "text": "Breathe out gently. Every breath restores me."
+      },
+      {
+        "id": "v009",
+        "text": "Rest here for a while. I listen to what my body needs."
+      },
+      {
+        "id": "v010",
+        "text": "Rest here for a while. Healing light flows through me."
+      },
+      {
+        "id": "v011",
+        "text": "Notice the rise of your chest. Strength grows in me every day."
+      },
+      {
+        "id": "v012",
+        "text": "Let your jaw relax. My body knows how to heal."
+      },
+      {
+        "id": "v013",
+        "text": "Let your jaw relax. Every breath restores me."
+      },
+      {
+        "id": "v014",
+        "text": "Take a deep breath. I listen to what my body needs."
+      },
+      {
+        "id": "v015",
+        "text": "Take a deep breath. Healing light flows through me."
+      },
+      {
+        "id": "v016",
+        "text": "Feel the air around you. Strength grows in me every day."
+      },
+      {
+        "id": "v017",
+        "text": "Let your hands rest. My body knows how to heal."
+      },
+      {
+        "id": "v018",
+        "text": "Let your hands rest. Every breath restores me."
+      },
+      {
+        "id": "v019",
+        "text": "Stay with this breath. I listen to what my body needs."
+      },
+      {
+        "id": "v020",
+        "text": "Stay with this breath. Healing light flows through me."
+      },
+      {
+        "id": "v021",
+        "text": "Soften your forehead. Strength grows in me every day."
+      },
+      {
+        "id": "v022",
+        "text": "Let your breath slow down. My body knows how to heal."
+      },
+      {
+        "id": "v023",
+        "text": "Let your breath slow down. Every breath restores me."
+      },
+      {
+        "id": "v024",
+        "text": "Notice this quiet moment. I listen to what my body needs."
+      },
+      {
+        "id": "v025",
+        "text": "Notice this quiet moment. Healing light flows through me."
+      },
+      {
+        "id": "v026",
+        "text": "Relax your belly. Strength grows in me every day."
+      },
+      {
+        "id": "v027",
+        "text": "Breathe in through your nose. My body knows how to heal."
+      },
+      {
+        "id": "v028",
+        "text": "Breathe in through your nose. Every breath restores me."
+      },
+      {
+        "id": "v029",
+        "text": "Let your eyes rest. I listen to what my body needs."
+      },
+      {
+        "id": "v030",
+        "text": "Let your eyes rest. Healing light flows through me."
+      }
+    ],
+    "voice8": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. I am kind to my body."
+      },
+      {
+        "id": "v002",
+        "text": "Let your shoulders soften. I breathe in fresh energy."
+      },
+      {
+        "id": "v003",
+        "text": "Let your shoulders soften. I enjoy moving my body."
+      },
+      {
+        "id": "v004",
+        "text": "Close your eyes for a moment. I sleep deeply and wake rested."
+      },
+      {
+        "id": "v005",
+        "text": "Close your eyes for a moment. I choose habits that support me."
+      },
+      {
+        "id": "v006",
+        "text": "Feel your feet on the ground. I am kind to my body."
+      },
+      {
+        "id": "v007",
+        "text": "Breathe out gently. I breathe in fresh energy."
+      },
+      {
+        "id": "v008",
+        "text": "Breathe out gently. I enjoy moving my body."
+      },
+      {
+        "id": "v009",
+        "text": "Rest here for a while. I sleep deeply and wake rested."
+      },
+      {
+        "id": "v010",
+        "text": "Rest here for a while. I choose habits that support me."
+      },
+      {
+        "id": "v011",
+        "text": "Notice the rise of your chest. I am kind to my body."
+      },
+      {
+        "id": "v012",
+        "text": "Let your jaw relax. I breathe in fresh energy."
+      },
+      {
+        "id": "v013",
+        "text": "Let your jaw relax. I enjoy moving my body."
+      },
+      {
+        "id": "v014",
+        "text": "Take a deep breath. I sleep deeply and wake rested."
+      },
+      {
+        "id": "v015",
+        "text": "Take a deep breath. I choose habits that support me."
+      },
+      {
+        "id": "v016",
+        "text": "Feel the air around you. I am kind to my body."
+      },
+      {
+        "id": "v017",
+        "text": "Let your hands rest. I breathe in fresh energy."
+      },
+      {
+        "id": "v018",
+        "text": "Let your hands rest. I enjoy moving my body."
+      },
+      {
+        "id": "v019",
+        "text": "Stay with this breath. I sleep deeply and wake rested."
+      },
+      {
+        "id": "v020",
+        "text": "Stay with this breath. I choose habits that support me."
+      },
+      {
+        "id": "v021",
+        "text": "Soften your forehead. I am kind to my body."
+      },
+      {
+        "id": "v022",
+        "text": "Let your breath slow down. I breathe in fresh energy."
+      },
+      {
+        "id": "v023",
+        "text": "Let your breath slow down. I enjoy moving my body."
+      },
+      {
+        "id": "v024",
+        "text": "Notice this quiet moment. I sleep deeply and wake rested."
+      },
+      {
+        "id": "v025",
+        "text": "Notice this quiet moment. I choose habits that support me."
+      },
+      {
+        "id": "v026",
+        "text": "Relax your belly. I am kind to my body."
+      },
+      {
+        "id": "v027",
+        "text": "Breathe in through your nose. I breathe in fresh energy."
+      },
+      {
+        "id": "v028",
+        "text": "Breathe in through your nose. I enjoy moving my body."
+      },
+      {
+        "id": "v029",
+        "text": "Let your eyes rest. I sleep deeply and wake rested."
+      },
+      {
+        "id": "v030",
+        "text": "Let your eyes rest. I choose habits that support me."
+      }
+    ],
+    "voice9": [
+      {
+        "id": "v001",
+        "text": "Breathe in slowly. My immune system protects me."
+      },
+      {
+        "id": "v002",
+        "text": "Let your shoulders soften. My heart beats strong and steady."
+      },
+      {
+        "id": "v003",
+        "text": "Let your shoulders soften. I feel light and energised."
+      },
+      {
+        "id": "v004",
+        "text": "Close your eyes for a moment. I nourish myself with care."
+      },
+      {
+        "id": "v005",
+        "text": "Close your eyes for a moment. I am thankful for my health."
+      },
+      {
+        "id": "v006",
+        "text": "Feel your feet on the ground. My immune system protects me."
+      },
+      {
+        "id": "v007",
+        "text": "Breathe out gently. My heart beats strong and steady."
+      },
+      {
+        "id": "v008",
+        "text": "Breathe out gently. I feel light and energised."
+      },
+      {
+        "id": "v009",
+        "text": "Rest here for a while. I nourish myself with care."
+      },
+      {
+        "id": "v010",
+        "text": "Rest here for a while. I am thankful for my health."
+      },
+      {
+        "id": "v011",
+        "text": "Notice the rise of your chest. My immune system protects me."
+      },
+      {
+        "id": "v012",
+        "text": "Let your jaw relax. My heart beats strong and steady."
+      },
+      {
+        "id": "v013",
+        "text": "Let your jaw relax. I feel light and energised."
+      },
+      {
+        "id": "v014",
+        "text": "Take a deep breath. I nourish myself with care."
+      },
+      {
+        "id": "v015",
+        "text": "Take a deep breath. I am thankful for my health."
+      },
+      {
+        "id": "v016",
+        "text": "Feel the air around you. My immune system protects me."
+      },
+      {
+        "id": "v017",
+        "text": "Let your hands rest. My heart beats strong and steady."
+      },
+      {
+        "id": "v018",
+        "text": "Let your hands rest. I feel light and energised."
+      },
+      {
+        "id": "v019",
+        "text": "Stay with this breath. I nourish myself with care."
+      },
+      {
+        "id": "v020",
         "text": "Stay with this breath. I am thankful for my health."
+      },
+      {
+        "id": "v021",
+        "text": "Soften your forehead. My immune system protects me."
+      },
+      {
+        "id": "v022",
+        "text": "Let your breath slow down. My heart beats strong and steady."
+      },
+      {
+        "id": "v023",
+        "text": "Let your breath slow down. I feel light and energised."
+      },
+      {
+        "id": "v024",
+        "text": "Notice this quiet moment. I nourish myself with care."
+      },
+      {
+        "id": "v025",
+        "text": "Notice this quiet moment. I am thankful for my health."
+      },
+      {
+        "id": "v026",
+        "text": "Relax your belly. My immune system protects me."
+      },
+      {
+        "id": "v027",
+        "text": "Breathe in through your nose. My heart beats strong and steady."
+      },
+      {
+        "id": "v028",
+        "text": "Breathe in through your nose. I feel light and energised."
+      },
+      {
+        "id": "v029",
+        "text": "Let your eyes rest. I nourish myself with care."
+      },
+      {
+        "id": "v030",
+        "text": "Let your eyes rest. I am thankful for my health."
       }
     ]
   }

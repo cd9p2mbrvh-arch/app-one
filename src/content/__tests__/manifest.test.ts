@@ -3,6 +3,7 @@ import {
   DURATIONS_MIN,
   firstUnlocked,
   isUnlocked,
+  lockReason,
   MAX_DURATION_MIN,
   MIN_DURATION_MIN,
   MUSIC,
@@ -88,5 +89,32 @@ describe.each(THEMES.map((t) => t.id))('lines for theme "%s"', (themeId) => {
 describe('linesFor', () => {
   it('returns nothing for an unknown theme', () => {
     expect(linesFor('nope', 'voice1')).toEqual([]);
+  });
+});
+
+describe('paid content', () => {
+  const paid = [...VOICES, ...MUSIC].filter((i) => i.purchase);
+
+  it('has three paid narrators and three paid music tracks', () => {
+    expect(VOICES.filter((v) => v.purchase)).toHaveLength(3);
+    expect(MUSIC.filter((m) => m.purchase)).toHaveLength(3);
+  });
+
+  it('uses unique product ids and a price label', () => {
+    const ids = paid.map((i) => i.purchase!.productId);
+    expect(new Set(ids).size).toBe(ids.length);
+    for (const item of paid) expect(item.purchase!.priceLabel).toBe('$1');
+  });
+
+  it('locks paid items until bought, whatever the level', () => {
+    const item = paid[0];
+    expect(lockReason(item, 99)).toEqual({ kind: 'purchase', priceLabel: '$1' });
+    expect(lockReason(item, 1, new Set([item.purchase!.productId]))).toBeNull();
+  });
+
+  it('still locks level items by level only', () => {
+    const voice6 = VOICES.find((v) => v.id === 'voice6')!;
+    expect(lockReason(voice6, 1)).toEqual({ kind: 'level', level: 5 });
+    expect(lockReason(voice6, 5)).toBeNull();
   });
 });

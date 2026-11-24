@@ -20,6 +20,7 @@ import { levelForXp, xpToReachLevel } from '@/domain/progress';
 import { tap } from '@/feedback';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
 import { useActiveProfile } from '@/state/profiles';
+import { useOwned } from '@/state/purchases';
 import {
   canBegin,
   isStepLocked,
@@ -77,6 +78,7 @@ export default function HomeScreen() {
   };
   const { width, height } = useWindowDimensions();
   const profile = useActiveProfile();
+  const owned = useOwned();
   const selection: SetupSelection = useSessionSetup(
     useShallow((s) => ({ theme: s.theme, voice: s.voice, music: s.music, duration: s.duration })),
   );
@@ -120,12 +122,12 @@ export default function HomeScreen() {
 
   const stepIndex = SETUP_STEPS.indexOf(active);
   const isLast = stepIndex === SETUP_STEPS.length - 1;
-  const locked = isStepLocked(selection, active, level);
+  const locked = isStepLocked(selection, active, level, owned);
   const dialSize = Math.min(width - spacing.lg * 2, height * 0.45, 340);
   const isDial = active === 'duration';
 
   const primaryTitle = locked ? 'Locked' : isLast ? 'Begin' : 'Next';
-  const lockedStep = SETUP_STEPS.find((step) => isStepLocked(selection, step, level));
+  const lockedStep = SETUP_STEPS.find((step) => isStepLocked(selection, step, level, owned));
   const blockedHint =
     isLast && lockedStep && !locked
       ? `Your ${STEP_LABELS[lockedStep].toLowerCase()} choice is locked. Pick another to begin.`
@@ -160,7 +162,7 @@ export default function HomeScreen() {
               ) : null}
               <ChunkyButton
                 title={primaryTitle}
-                disabled={locked || (isLast && !canBegin(selection, level))}
+                disabled={locked || (isLast && !canBegin(selection, level, owned))}
                 onPress={onPrimary}
               />
             </>
@@ -238,6 +240,7 @@ export default function HomeScreen() {
                 narrators={VOICES}
                 selectedId={selection.voice}
                 level={level}
+                owned={owned}
                 onSelect={(id) => choose('voice', id)}
               />
             ) : null}
@@ -247,6 +250,7 @@ export default function HomeScreen() {
                 tracks={MUSIC}
                 selectedId={selection.music}
                 level={level}
+                owned={owned}
                 onSelect={(id) => choose('music', id)}
               />
             ) : null}

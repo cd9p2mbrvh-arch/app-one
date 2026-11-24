@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { AppText, Avatar, BackButton, ChunkySurface, Screen } from '@/components';
 import { canAddProfile, MAX_PROFILES, type Profile } from '@/domain/profiles';
 import { useProfiles } from '@/state/profiles';
+import { usePurchases } from '@/state/purchases';
 import { useSessionSetup } from '@/state/sessionSetup';
 import { edge, spacing, useTheme } from '@/theme';
 
@@ -66,6 +67,18 @@ export default function ProfilesScreen() {
       <AppText variant="caption" color={colors.textMuted}>
         Up to {MAX_PROFILES} profiles. Progress is saved only on this device.
       </AppText>
+
+      {/* Temporary: purchases are a mockup; this lets the flow be tried again. */}
+      <Pressable
+        onPress={() => usePurchases.getState().resetDemo()}
+        accessibilityRole="button"
+        accessibilityLabel="Reset demo purchases"
+        hitSlop={8}
+      >
+        <AppText variant="caption" color={colors.textMuted} style={styles.reset}>
+          Reset demo purchases
+        </AppText>
+      </Pressable>
     </Screen>
   );
 }
@@ -120,6 +133,7 @@ function Tile({ label, icon, onPress, onEdit, active }: TileProps) {
 }
 
 const styles = StyleSheet.create({
+  reset: { textDecorationLine: 'underline' },
   header: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   grid: { gap: spacing.md },
   row: { flexDirection: 'row', gap: spacing.md },
