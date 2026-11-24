@@ -5,6 +5,7 @@ import { Animated, Pressable, StyleSheet, useWindowDimensions, View } from 'reac
 import { speakAs, stopSpeaking } from '@/audio/narratorVoice';
 import { isUnlocked, type Narrator } from '@/content/manifest';
 import { radius, spacing, useTheme } from '@/theme';
+import { tap } from '@/feedback';
 
 import { AppText } from '../AppText';
 import { Equalizer } from './Equalizer';
@@ -37,6 +38,7 @@ export function NarratorSelect({ narrators, selectedId, level, onSelect }: Props
   const focusedLocked = !isUnlocked(focused, level);
 
   const onTap = (narrator: Narrator) => {
+    tap();
     setFocusedId(narrator.id);
     if (isUnlocked(narrator, level)) onSelect(narrator.id);
     pop.setValue(0.9);

@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import type { CatalogItem } from '@/content/manifest';
 import { edge, spacing, useTheme } from '@/theme';
+import { tap } from '@/feedback';
 
 import { AppText } from '../AppText';
 import { ChunkySurface } from '../ChunkySurface';
@@ -26,7 +27,10 @@ export function ThemeGrid({ themes, selectedId, onSelect }: Props) {
               key={theme.id}
               theme={theme}
               selected={theme.id === selectedId}
-              onPress={() => onSelect(theme.id)}
+              onPress={() => {
+                tap();
+                onSelect(theme.id);
+              }}
             />
           ))}
           {row.length === 1 ? <View style={styles.cell} /> : null}

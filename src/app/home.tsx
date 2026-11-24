@@ -1,22 +1,22 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Redirect, router } from 'expo-router';
-import { useState } from 'react';
-import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, Easing, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useShallow } from 'zustand/react/shallow';
 
 import {
   AppText,
   Avatar,
   ChunkyButton,
+  DurationDial,
   ProgressBar,
-  RotaryWheel,
   Screen,
   Tabs,
-  type WheelItem,
 } from '@/components';
 import { MusicList, NarratorSelect, ThemeGrid } from '@/components/setup';
-import { DURATIONS_MIN, MUSIC, THEMES, VOICES } from '@/content/manifest';
+import { MUSIC, THEMES, VOICES } from '@/content/manifest';
 import { levelForXp, xpToReachLevel } from '@/domain/progress';
+import { playWhoosh, tap } from '@/feedback';
 import { useActiveProfile } from '@/state/profiles';
 import {
   canBegin,
@@ -42,12 +42,6 @@ const STEP_TITLES: Record<SetupStep, string> = {
   duration: 'How long?',
 };
 
-const DURATION_ITEMS: WheelItem[] = DURATIONS_MIN.map((min) => ({
-  key: String(min),
-  label: `${min} minutes`,
-  text: String(min),
-}));
-
 /** Main screen: pick theme, voice, music and duration on rotating wheels. */
 export default function HomeScreen() {
   const { colors } = useTheme();
@@ -58,6 +52,34 @@ export default function HomeScreen() {
   );
   const choose = useSessionSetup((s) => s.choose);
   const [active, setActive] = useState<SetupStep>('theme');
+  const [slide] = useState(() => new Animated.Value(0));
+  const direction = useRef<1 | -1 | 0>(0);
+
+  /** Switches tab with a slide from the direction of travel, a woosh and a haptic. */
+  const goTo = (step: SetupStep) => {
+    if (step === active) return;
+    direction.current = SETUP_STEPS.indexOf(step) > SETUP_STEPS.indexOf(active) ? 1 : -1;
+    setActive(step);
+    playWhoosh();
+    tap();
+  };
+
+  // Start the slide once the new tab's content is mounted. (Some tabs use a
+  // different layout, so the content view can be re-created; an animation
+  // started before that would stay attached to the old view.)
+  useEffect(() => {
+    if (direction.current === 0) return;
+    slide.setValue(direction.current);
+    direction.current = 0;
+    Animated.timing(slide, {
+      toValue: 0,
+      duration: 260,
+      easing: Easing.out(Easing.cubic),
+      // A single small view: the JS driver is plenty fast and keeps the end
+      // state observable (and testable).
+      useNativeDriver: false,
+    }).start();
+  }, [active, slide]);
 
   if (!profile) return <Redirect href="/" />;
 
@@ -70,8 +92,8 @@ export default function HomeScreen() {
   const stepIndex = SETUP_STEPS.indexOf(active);
   const isLast = stepIndex === SETUP_STEPS.length - 1;
   const locked = isStepLocked(selection, active, level);
-  const wheelSize = Math.min(width - spacing.lg * 2, height * 0.42, 340);
-  const isWheel = active === 'duration';
+  const dialSize = Math.min(width - spacing.lg * 2, height * 0.45, 340);
+  const isDial = active === 'duration';
 
   const primaryTitle = locked ? 'Locked' : isLast ? 'Begin' : 'Next';
   const lockedStep = SETUP_STEPS.find((step) => isStepLocked(selection, step, level));
@@ -81,12 +103,12 @@ export default function HomeScreen() {
       : null;
   const onPrimary = () => {
     if (isLast) router.push('/session');
-    else setActive(SETUP_STEPS[stepIndex + 1]);
+    else goTo(SETUP_STEPS[stepIndex + 1]);
   };
 
   return (
     <Screen
-      scroll={!isWheel}
+      scroll={!isDial}
       footer={
         <>
           {blockedHint ? (
@@ -131,70 +153,72 @@ export default function HomeScreen() {
       <Tabs
         tabs={SETUP_STEPS.map((step) => ({ key: step, label: STEP_LABELS[step] }))}
         active={active}
-        onChange={setActive}
+        onChange={goTo}
       />
 
-      <AppText variant="title" style={styles.title}>
-        {STEP_TITLES[active]}
-      </AppText>
+      <Animated.View
+        testID="tab-content"
+        style={[
+          styles.content,
+          isDial && styles.dialContent,
+          {
+            opacity: slide.interpolate({ inputRange: [-1, 0, 1], outputRange: [0, 1, 0] }),
+            transform: [
+              {
+                translateX: slide.interpolate({
+                  inputRange: [-1, 0, 1],
+                  outputRange: [-70, 0, 70],
+                }),
+              },
+            ],
+          },
+        ]}
+      >
+        <AppText variant="title" style={styles.title}>
+          {STEP_TITLES[active]}
+        </AppText>
 
-      {active === 'theme' ? (
-        <ThemeGrid
-          themes={THEMES}
-          selectedId={selection.theme}
-          onSelect={(id) => choose('theme', id)}
-        />
-      ) : null}
-
-      {active === 'voice' ? (
-        <NarratorSelect
-          narrators={VOICES}
-          selectedId={selection.voice}
-          level={level}
-          onSelect={(id) => choose('voice', id)}
-        />
-      ) : null}
-
-      {active === 'music' ? (
-        <MusicList
-          tracks={MUSIC}
-          selectedId={selection.music}
-          level={level}
-          onSelect={(id) => choose('music', id)}
-        />
-      ) : null}
-
-      {isWheel ? (
-        <View style={styles.wheelArea}>
-          <RotaryWheel
-            items={DURATION_ITEMS}
-            selectedIndex={Math.max(0, DURATIONS_MIN.indexOf(selection.duration))}
-            onChange={(i) => choose('duration', DURATIONS_MIN[i])}
-            accessibilityLabel="Time"
-            size={wheelSize}
-            testID="wheel"
-            renderCenter={(item) => <DurationCenter item={item} />}
+        {active === 'theme' ? (
+          <ThemeGrid
+            themes={THEMES}
+            selectedId={selection.theme}
+            onSelect={(id) => choose('theme', id)}
           />
-          <AppText variant="caption" color={colors.textMuted}>
-            Turn the wheel or tap a number
-          </AppText>
-        </View>
-      ) : null}
-    </Screen>
-  );
-}
+        ) : null}
 
-function DurationCenter({ item }: { item: WheelItem }) {
-  const { colors } = useTheme();
-  return (
-    <>
-      <AppText variant="title" style={styles.bigNumber}>
-        {item.text}
-      </AppText>
-      <AppText variant="label" color={colors.textMuted}>
-        minutes
-      </AppText>
-    </>
+        {active === 'voice' ? (
+          <NarratorSelect
+            narrators={VOICES}
+            selectedId={selection.voice}
+            level={level}
+            onSelect={(id) => choose('voice', id)}
+          />
+        ) : null}
+
+        {active === 'music' ? (
+          <MusicList
+            tracks={MUSIC}
+            selectedId={selection.music}
+            level={level}
+            onSelect={(id) => choose('music', id)}
+          />
+        ) : null}
+
+        {isDial ? (
+          <View style={styles.dialArea}>
+            <DurationDial
+              value={selection.duration}
+              onChange={(minutes) => choose('duration', minutes)}
+              size={dialSize}
+              testID="dial"
+            />
+            <AppText variant="caption" color={colors.textMuted}>
+              Tap the dial or drag the knob · one circle = 60 minutes
+            </AppText>
+          </View>
+        ) : null}
+      </Animated.View>
+    </Screen>
   );
 }
 
@@ -235,8 +259,9 @@ const styles = StyleSheet.create({
   levelBar: { flex: 1, maxWidth: 120 },
   title: { textAlign: 'center' },
   hint: { textAlign: 'center' },
-  wheelArea: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.md },
-  bigNumber: { fontSize: 56, lineHeight: 62 },
+  content: { gap: spacing.lg },
+  dialContent: { flex: 1 },
+  dialArea: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.md },
   previewButton: {
     width: 40,
     height: 40,

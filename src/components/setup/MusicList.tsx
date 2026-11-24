@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { useMusicPreview } from '@/audio/useMusicPreview';
 import { isUnlocked, type MusicTrack } from '@/content/manifest';
 import { edge, radius, spacing, useTheme } from '@/theme';
+import { tap } from '@/feedback';
 
 import { AppText } from '../AppText';
 import { ChunkySurface } from '../ChunkySurface';
@@ -28,6 +29,7 @@ export function MusicList({ tracks, selectedId, level, onSelect }: Props) {
   const [focusedId, setFocusedId] = useState(selectedId);
 
   const onTap = (track: MusicTrack) => {
+    tap();
     setFocusedId(track.id);
     if (isUnlocked(track, level)) onSelect(track.id);
     if (playingId === track.id) stop();

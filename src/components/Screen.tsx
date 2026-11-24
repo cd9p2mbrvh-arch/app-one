@@ -19,11 +19,14 @@ type Props = {
 export function Screen({ children, footer, scroll = true }: Props) {
   return (
     <SafeAreaView style={styles.safe}>
-      {scroll ? (
-        <ScrollView contentContainerStyle={styles.content}>{children}</ScrollView>
-      ) : (
-        <View style={[styles.content, styles.fixed]}>{children}</View>
-      )}
+      {/* Always a ScrollView (only scrolling is toggled) so children are never
+          re-created when a screen switches between scrolling and fixed layouts. */}
+      <ScrollView
+        scrollEnabled={scroll}
+        contentContainerStyle={[styles.content, !scroll && styles.fixed]}
+      >
+        {children}
+      </ScrollView>
       {footer ? <View style={styles.footer}>{footer}</View> : null}
     </SafeAreaView>
   );
@@ -32,6 +35,6 @@ export function Screen({ children, footer, scroll = true }: Props) {
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: 'transparent' },
   content: { padding: spacing.lg, gap: spacing.lg },
-  fixed: { flex: 1 },
+  fixed: { flexGrow: 1 },
   footer: { paddingHorizontal: spacing.lg, paddingBottom: spacing.md, gap: spacing.md },
 });

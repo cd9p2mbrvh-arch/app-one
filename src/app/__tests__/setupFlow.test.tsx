@@ -2,6 +2,7 @@ import { createAudioPlayer } from 'expo-audio';
 import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 import * as Speech from 'expo-speech';
 
+import { resetSounds } from '@/feedback';
 import { useProfiles } from '@/state/profiles';
 import { useSessionSetup } from '@/state/sessionSetup';
 import { themeWrapper } from '@/test/render';
@@ -12,12 +13,18 @@ const press = (name: string | RegExp, role: 'button' | 'tab' = 'button') =>
 
 const wheel = (name: string) => screen.getByRole('adjustable', { name });
 
-/** Turns a wheel one step. renderRouter uses fake timers, so finish the settle animation. */
-async function turn(name: string, direction: 'increment' | 'decrement', expected: string) {
-  await fireEvent(wheel(name), 'accessibilityAction', { nativeEvent: { actionName: direction } });
-  await act(() => jest.advanceTimersByTime(500));
-  expect(wheel(name)).toHaveAccessibilityValue({ text: expected });
+/** Steps the time dial the way VoiceOver does. */
+async function step(direction: 'increment' | 'decrement', expected: string) {
+  await fireEvent(wheel('Time'), 'accessibilityAction', { nativeEvent: { actionName: direction } });
+  expect(wheel('Time')).toHaveAccessibilityValue({ text: expected });
 }
+
+/**
+ * The most recently created audio player. In tests every sound file is the same
+ * stub value, so players are told apart by creation order (the woosh is created
+ * on the first tab change, before any music preview).
+ */
+const lastPlayer = () => (createAudioPlayer as jest.Mock).mock.results.at(-1)?.value;
 
 async function open() {
   await renderRouter(appRoutes, { wrapper: themeWrapper() });
@@ -29,6 +36,7 @@ const flush = () => act(() => jest.advanceTimersByTime(0));
 
 beforeEach(async () => {
   jest.clearAllMocks();
+  resetSounds();
   await act(() =>
     useProfiles.setState({
       profiles: [{ id: 'p1', name: 'Anna', avatar: 'moon', createdAt: '2026-01-01T00:00:00Z' }],
@@ -101,8 +109,7 @@ describe('Main screen', () => {
     await press('Music', 'tab');
 
     await press(/^Music 2, Ocean waves/);
-    expect(createAudioPlayer).toHaveBeenCalledTimes(1);
-    const player = (createAudioPlayer as jest.Mock).mock.results[0].value;
+    const player = lastPlayer();
     expect(player.play).toHaveBeenCalled();
     expect(useSessionSetup.getState().music).toBe('music2');
     expect(screen.getByText(/Playing a short preview/)).toBeTruthy();
@@ -116,7 +123,7 @@ describe('Main screen', () => {
     await open();
     await press('Music', 'tab');
     await press(/^Music 1/);
-    const player = (createAudioPlayer as jest.Mock).mock.results[0].value;
+    const player = lastPlayer();
 
     await act(() => jest.advanceTimersByTime(8000));
     expect(player.remove).toHaveBeenCalled();
@@ -127,7 +134,7 @@ describe('Main screen', () => {
     await press('Music', 'tab');
 
     await press(/^Music 4, .*locked, level 4/);
-    expect(createAudioPlayer).toHaveBeenCalled();
+    expect(lastPlayer()?.play).toHaveBeenCalled();
     expect(useSessionSetup.getState().music).toBe('music1');
     expect(screen.getByText('Preview only · reach level 4 to use this music')).toBeTruthy();
   });
@@ -148,13 +155,13 @@ describe('Main screen', () => {
     expect(screen.getByRole('tab', { name: 'Time' })).toBeSelected();
     expect(wheel('Time')).toHaveAccessibilityValue({ text: '10 minutes' });
 
-    await turn('Time', 'increment', '11 minutes');
+    await step('increment', '15 minutes');
     await press('Begin');
 
     expect(screen).toHavePathname('/session');
     expect(screen.getByText('Theme: Gratitude')).toBeTruthy();
     expect(screen.getByText('Narrator: Narrator 3')).toBeTruthy();
-    expect(screen.getByText('Time: 11 min')).toBeTruthy();
+    expect(screen.getByText('Time: 15 min')).toBeTruthy();
   });
 
   it('stops narrator speech when leaving the Narrator tab', async () => {
@@ -166,6 +173,38 @@ describe('Main screen', () => {
 
     await press('Music', 'tab');
     expect(Speech.stop).toHaveBeenCalled();
+  });
+
+  it('plays a woosh and a haptic when changing tabs', async () => {
+    await open();
+    const Haptics = jest.requireMock('expo-haptics');
+    Haptics.impactAsync.mockClear();
+
+    await press('Music', 'tab');
+
+    const whoosh = (createAudioPlayer as jest.Mock).mock.results.at(-1)?.value;
+    expect(whoosh.play).toHaveBeenCalled();
+    expect(whoosh.seekTo).toHaveBeenCalledWith(0);
+    expect(Haptics.impactAsync).toHaveBeenCalledWith('medium');
+    expect(screen.getByRole('tab', { name: 'Music' })).toBeSelected();
+  });
+
+  it.each(['Narrator', 'Time', 'Music'])(
+    'ends the slide fully visible after moving to %s',
+    async (tab) => {
+      await open();
+      await press(tab, 'tab');
+      await act(() => jest.advanceTimersByTime(600));
+      expect(screen.getByTestId('tab-content')).toHaveStyle({ opacity: 1 });
+      expect(screen.getByTestId('tab-content')).toHaveStyle({ transform: [{ translateX: 0 }] });
+    },
+  );
+
+  it('does nothing when the current tab is tapped again', async () => {
+    await open();
+    (createAudioPlayer as jest.Mock).mockClear();
+    await press('Theme', 'tab');
+    expect(createAudioPlayer).not.toHaveBeenCalled();
   });
 
   it('opens the profile picker from the header', async () => {
