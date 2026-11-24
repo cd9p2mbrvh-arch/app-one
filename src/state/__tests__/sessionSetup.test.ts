@@ -38,7 +38,7 @@ describe('locks', () => {
   });
 
   it('finds the chosen catalogue item', () => {
-    expect(chosenItem(sel, 'voice')?.label).toBe('Voice 5');
+    expect(chosenItem(sel, 'voice')?.label).toBe('Narrator 5');
     expect(chosenItem(sel, 'duration')).toBeUndefined();
   });
 });

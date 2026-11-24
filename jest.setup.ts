@@ -10,3 +10,25 @@ jest.mock('expo-haptics', () => ({
   ImpactFeedbackStyle: { Light: 'light', Medium: 'medium', Heavy: 'heavy' },
   NotificationFeedbackType: { Success: 'success', Warning: 'warning', Error: 'error' },
 }));
+
+jest.mock('expo-speech', () => ({
+  speak: jest.fn(),
+  stop: jest.fn(() => Promise.resolve()),
+  getAvailableVoicesAsync: jest.fn(() => Promise.resolve([])),
+  VoiceQuality: { Default: 'Default', Enhanced: 'Enhanced' },
+}));
+
+jest.mock('expo-audio', () => {
+  const createAudioPlayer = jest.fn(() => ({
+    play: jest.fn(),
+    pause: jest.fn(),
+    remove: jest.fn(),
+    seekTo: jest.fn(() => Promise.resolve()),
+    volume: 1,
+    loop: false,
+  }));
+  return {
+    createAudioPlayer,
+    setAudioModeAsync: jest.fn(() => Promise.resolve()),
+  };
+});

@@ -24,7 +24,19 @@
       "favicon": "./assets/favicon.png"
     },
     "scheme": "appone",
-    "plugins": ["expo-router", "expo-font", "expo-asset"],
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-asset",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false,
+          "recordAudioAndroid": false,
+          "enableBackgroundPlayback": true
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     },

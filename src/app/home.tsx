@@ -14,14 +14,8 @@ import {
   Tabs,
   type WheelItem,
 } from '@/components';
-import {
-  DURATIONS_MIN,
-  isUnlocked,
-  MUSIC,
-  THEMES,
-  VOICES,
-  type CatalogItem,
-} from '@/content/manifest';
+import { MusicList, NarratorSelect, ThemeGrid } from '@/components/setup';
+import { DURATIONS_MIN, MUSIC, THEMES, VOICES } from '@/content/manifest';
 import { levelForXp, xpToReachLevel } from '@/domain/progress';
 import { useActiveProfile } from '@/state/profiles';
 import {
@@ -36,47 +30,23 @@ import { spacing, useTheme, type TimeOfDay } from '@/theme';
 
 const STEP_LABELS: Record<SetupStep, string> = {
   theme: 'Theme',
-  voice: 'Voice',
+  voice: 'Narrator',
   music: 'Music',
   duration: 'Time',
 };
 
 const STEP_TITLES: Record<SetupStep, string> = {
   theme: 'Choose a theme',
-  voice: 'Choose a voice',
+  voice: 'Choose your narrator',
   music: 'Choose music',
   duration: 'How long?',
 };
-
-function catalogWheel(items: CatalogItem[], level: number): WheelItem[] {
-  return items.map((item) => ({
-    key: item.id,
-    label: item.label,
-    icon: item.icon,
-    locked: !isUnlocked(item, level),
-    lockHint: `Unlocks at level ${item.unlockLevel}`,
-  }));
-}
 
 const DURATION_ITEMS: WheelItem[] = DURATIONS_MIN.map((min) => ({
   key: String(min),
   label: `${min} minutes`,
   text: String(min),
 }));
-
-/** Values the wheel shows for a step, and how to map them to the selection. */
-function wheelFor(step: SetupStep, level: number) {
-  switch (step) {
-    case 'theme':
-      return { items: catalogWheel(THEMES, level), values: THEMES.map((t) => t.id) };
-    case 'voice':
-      return { items: catalogWheel(VOICES, level), values: VOICES.map((v) => v.id) };
-    case 'music':
-      return { items: catalogWheel(MUSIC, level), values: MUSIC.map((m) => m.id) };
-    case 'duration':
-      return { items: DURATION_ITEMS, values: DURATIONS_MIN };
-  }
-}
 
 /** Main screen: pick theme, voice, music and duration on rotating wheels. */
 export default function HomeScreen() {
@@ -97,12 +67,11 @@ export default function HomeScreen() {
   const levelStart = xpToReachLevel(level);
   const levelProgress = (xp - levelStart) / (xpToReachLevel(level + 1) - levelStart);
 
-  const { items, values } = wheelFor(active, level);
-  const selectedIndex = Math.max(0, (values as (string | number)[]).indexOf(selection[active]));
   const stepIndex = SETUP_STEPS.indexOf(active);
   const isLast = stepIndex === SETUP_STEPS.length - 1;
   const locked = isStepLocked(selection, active, level);
   const wheelSize = Math.min(width - spacing.lg * 2, height * 0.42, 340);
+  const isWheel = active === 'duration';
 
   const primaryTitle = locked ? 'Locked' : isLast ? 'Begin' : 'Next';
   const lockedStep = SETUP_STEPS.find((step) => isStepLocked(selection, step, level));
@@ -117,7 +86,7 @@ export default function HomeScreen() {
 
   return (
     <Screen
-      scroll={false}
+      scroll={!isWheel}
       footer={
         <>
           {blockedHint ? (
@@ -169,52 +138,62 @@ export default function HomeScreen() {
         {STEP_TITLES[active]}
       </AppText>
 
-      <View style={styles.wheelArea}>
-        <RotaryWheel
-          key={active}
-          items={items}
-          selectedIndex={selectedIndex}
-          onChange={(i) => choose(active, values[i] as never)}
-          accessibilityLabel={STEP_LABELS[active]}
-          size={wheelSize}
-          testID="wheel"
-          renderCenter={(item) => <WheelCenter item={item} step={active} />}
+      {active === 'theme' ? (
+        <ThemeGrid
+          themes={THEMES}
+          selectedId={selection.theme}
+          onSelect={(id) => choose('theme', id)}
         />
-        <AppText variant="caption" color={colors.textMuted}>
-          Turn the wheel or tap a circle
-        </AppText>
-      </View>
+      ) : null}
+
+      {active === 'voice' ? (
+        <NarratorSelect
+          narrators={VOICES}
+          selectedId={selection.voice}
+          level={level}
+          onSelect={(id) => choose('voice', id)}
+        />
+      ) : null}
+
+      {active === 'music' ? (
+        <MusicList
+          tracks={MUSIC}
+          selectedId={selection.music}
+          level={level}
+          onSelect={(id) => choose('music', id)}
+        />
+      ) : null}
+
+      {isWheel ? (
+        <View style={styles.wheelArea}>
+          <RotaryWheel
+            items={DURATION_ITEMS}
+            selectedIndex={Math.max(0, DURATIONS_MIN.indexOf(selection.duration))}
+            onChange={(i) => choose('duration', DURATIONS_MIN[i])}
+            accessibilityLabel="Time"
+            size={wheelSize}
+            testID="wheel"
+            renderCenter={(item) => <DurationCenter item={item} />}
+          />
+          <AppText variant="caption" color={colors.textMuted}>
+            Turn the wheel or tap a number
+          </AppText>
+        </View>
+      ) : null}
     </Screen>
   );
 }
 
-function WheelCenter({ item, step }: { item: WheelItem; step: SetupStep }) {
+function DurationCenter({ item }: { item: WheelItem }) {
   const { colors } = useTheme();
-  if (step === 'duration') {
-    return (
-      <>
-        <AppText variant="title" style={styles.bigNumber}>
-          {item.text}
-        </AppText>
-        <AppText variant="label" color={colors.textMuted}>
-          minutes
-        </AppText>
-      </>
-    );
-  }
   return (
     <>
-      <AppText variant="heading" style={styles.centerLabel}>
-        {item.label}
+      <AppText variant="title" style={styles.bigNumber}>
+        {item.text}
       </AppText>
-      {item.locked ? (
-        <View style={styles.lockRow}>
-          <Ionicons name="lock-closed" size={14} color={colors.textMuted} />
-          <AppText variant="caption" color={colors.textMuted}>
-            {item.lockHint}
-          </AppText>
-        </View>
-      ) : null}
+      <AppText variant="label" color={colors.textMuted}>
+        minutes
+      </AppText>
     </>
   );
 }
@@ -257,9 +236,7 @@ const styles = StyleSheet.create({
   title: { textAlign: 'center' },
   hint: { textAlign: 'center' },
   wheelArea: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.md },
-  centerLabel: { textAlign: 'center' },
   bigNumber: { fontSize: 56, lineHeight: 62 },
-  lockRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: spacing.xs },
   previewButton: {
     width: 40,
     height: 40,

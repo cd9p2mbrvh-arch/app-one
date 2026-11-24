@@ -15,7 +15,7 @@ export default function SessionScreen() {
       <AppText variant="title">Ready</AppText>
       <View style={styles.summary}>
         <AppText>Theme: {chosenItem(selection, 'theme')?.label}</AppText>
-        <AppText>Voice: {chosenItem(selection, 'voice')?.label}</AppText>
+        <AppText>Narrator: {chosenItem(selection, 'voice')?.label}</AppText>
         <AppText>Music: {chosenItem(selection, 'music')?.label}</AppText>
         <AppText>Time: {selection.duration} min</AppText>
       </View>
