@@ -14,6 +14,25 @@ import Svg, {
 import { useReduceMotion } from '@/hooks/useReduceMotion';
 import { useTheme, type Blob, type Wave } from '@/theme';
 
+/** All background motion settings in one place, for easy tuning. */
+export const MOTION = {
+  /** How far colour spots travel, as a fraction of the screen width. */
+  blobDrift: 0.2,
+  /** Spot breathing: smallest and largest scale. */
+  blobScale: [0.85, 1.2] as const,
+  /** Base duration of one spot movement (ms); each spot adds its own offset. */
+  blobPeriodMs: 12000,
+  /** Sideways wave roll: time to move one wavelength (ms). */
+  waveRollMs: 16000,
+  /** Wave rise and fall (px) and its period (ms). */
+  waveBob: 24,
+  waveBobMs: 7000,
+  /** Wave height (px). */
+  waveAmplitude: 34,
+  /** Frosted glass strength (1–100). Lower shows more of the motion. */
+  glass: { light: 28, dark: 20 },
+};
+
 /**
  * Full-screen background for the current time of day: a base gradient, soft
  * colour spots that drift slowly, and waves rolling sideways — all behind a
@@ -58,7 +77,7 @@ export function Background() {
       ))}
 
       <BlurView
-        intensity={backdrop.glass === 'dark' ? 30 : 40}
+        intensity={MOTION.glass[backdrop.glass]}
         tint={backdrop.glass}
         style={StyleSheet.absoluteFill}
       />
@@ -111,9 +130,9 @@ function DriftingBlob({
 }) {
   const size = Math.max(screen.width, screen.height) * blob.r * 2;
   // Different, slow periods per blob so the movement never visibly repeats.
-  const a = useOscillator(19000 + index * 7000, still);
-  const b = useOscillator(23000 + index * 5000, still);
-  const drift = screen.width * 0.12;
+  const a = useOscillator(MOTION.blobPeriodMs + index * 4500, still);
+  const b = useOscillator(MOTION.blobPeriodMs * 1.3 + index * 3500, still);
+  const drift = screen.width * MOTION.blobDrift;
   const id = `blob-${index}`;
   return (
     <Animated.View
@@ -126,7 +145,9 @@ function DriftingBlob({
         transform: [
           { translateX: a.interpolate({ inputRange: [0, 1], outputRange: [-drift, drift] }) },
           { translateY: b.interpolate({ inputRange: [0, 1], outputRange: [drift, -drift] }) },
-          { scale: a.interpolate({ inputRange: [0, 1], outputRange: [0.92, 1.1] }) },
+          {
+            scale: a.interpolate({ inputRange: [0, 1], outputRange: [...MOTION.blobScale] }),
+          },
         ],
       }}
     >
@@ -171,10 +192,10 @@ function RollingWave({
   const periods = 3;
   const width = wavelength * periods;
   const height = screen.height * (1 - wave.y) + 80;
-  const amplitude = 26 + index * 10;
+  const amplitude = MOTION.waveAmplitude + index * 10;
   // Sideways roll: moving exactly one wavelength makes the loop seamless.
   const [roll] = useState(() => new Animated.Value(0));
-  const bob = useOscillator(9000 + index * 3000, still);
+  const bob = useOscillator(MOTION.waveBobMs + index * 2500, still);
 
   useEffect(() => {
     if (still) return;
@@ -182,7 +203,7 @@ function RollingWave({
     const loop = Animated.loop(
       Animated.timing(roll, {
         toValue: 1,
-        duration: 26000 + index * 9000,
+        duration: MOTION.waveRollMs + index * 6000,
         easing: Easing.linear,
         useNativeDriver: true,
       }),
@@ -209,7 +230,12 @@ function RollingWave({
               outputRange: [0, direction * wavelength],
             }),
           },
-          { translateY: bob.interpolate({ inputRange: [0, 1], outputRange: [-12, 12] }) },
+          {
+            translateY: bob.interpolate({
+              inputRange: [0, 1],
+              outputRange: [-MOTION.waveBob, MOTION.waveBob],
+            }),
+          },
         ],
       }}
     >
