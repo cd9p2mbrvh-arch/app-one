@@ -4,7 +4,8 @@ import { AppState } from 'react-native';
 
 import { configureAudioSession, configureAudioSessionReporting } from '@/audio/session';
 import type { Narrator } from '@/content/manifest';
-import { narrationSource } from '@/content/narration';
+import { CLIP_UPDATE_INTERVAL_MS, SpritePlayer } from '@/audio/spritePlayer';
+import { narrationClip, narrationSprites } from '@/content/narration';
 
 import { SessionEngine, type EngineLine, type EngineState } from './engine';
 
@@ -55,10 +56,7 @@ export function useSession({
     let e: SessionEngine | null = null;
 
     let player: ReturnType<typeof createAudioPlayer> | null = null;
-    let narration: {
-      player: ReturnType<typeof createAudioPlayer>;
-      sub: { remove: () => void };
-    } | null = null;
+    let narration: SpritePlayer | null = null;
     let backgroundedAt: { wallMs: number; musicSec: number; playing: boolean } | null = null;
 
     // Wait for the audio session (background playback) before starting audio.
@@ -81,20 +79,15 @@ export function useSession({
       } catch {
         // Not available on every platform; playback works without it.
       }
-      // Narration plays from audio clips on its own player (like the music), which
-      // keeps working with the screen locked — unlike the device's speech engine.
-      const voice = createAudioPlayer(null);
-      // Placeholder narrators differ by playback speed with the pitch following it.
-      voice.shouldCorrectPitch = false;
-      let lineDone: (() => void) | null = null;
-      const voiceSub = voice.addListener('playbackStatusUpdate', (status) => {
-        if (status.didJustFinish && lineDone) {
-          const done = lineDone;
-          lineDone = null;
-          done();
-        }
-      });
-      narration = { player: voice, sub: voiceSub };
+      // Narration plays from audio sprites on its own players (like the music),
+      // which keeps working with the screen locked — unlike the device's speech
+      // engine. Placeholder narrators differ by speed, with the pitch following it.
+      const voice = new SpritePlayer(
+        (source) => createAudioPlayer(source, { updateInterval: CLIP_UPDATE_INTERVAL_MS }),
+        narrator.speech.pitch,
+      );
+      for (const source of narrationSprites(themeId, narrator.id)) voice.preload(source);
+      narration = voice;
 
       let released = false;
       e = new SessionEngine(
@@ -104,21 +97,11 @@ export function useSession({
           now: Date.now,
           random: Math.random,
           speak: (line, onDone) => {
-            const source = narrationSource(themeId, narrator.id, line.id);
-            if (!source) {
-              onDone();
-              return;
-            }
-            lineDone = onDone;
-            voice.replace(source);
-            voice.setPlaybackRate(narrator.speech.pitch);
-            voice.volume = 1;
-            voice.play();
+            const clip = narrationClip(themeId, narrator.id, line.id);
+            if (clip) voice.play(clip, onDone);
+            else onDone();
           },
-          stopSpeech: () => {
-            lineDone = null;
-            voice.pause();
-          },
+          stopSpeech: () => voice.stop(),
           music: {
             play: () => !released && p.play(),
             pause: () => !released && p.pause(),
@@ -171,10 +154,7 @@ export function useSession({
       cancelled = true;
       sub.remove();
       e?.dispose();
-      if (narration) {
-        narration.sub.remove();
-        narration.player.remove();
-      }
+      narration?.release();
     };
   }, [themeId, lines, durationMs, narrator, musicSource, title, artist]);
 

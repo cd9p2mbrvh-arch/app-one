@@ -1,11 +1,14 @@
-"""Generates PLACEHOLDER narration clips with the offline Pico TTS engine.
+"""Generates PLACEHOLDER narration with the offline Pico TTS engine, as audio sprites.
 
-For every theme: one clip per shared line (s001-s100), and one clip per
-narrator-specific line (v001-v030 for each narrator), as .m4a files in
-assets/narration/<theme>/... Also writes src/content/narration.generated.ts,
-which maps every clip for the app.
+An audio sprite is one file holding many lines, separated by silence; the app
+plays a line by seeking to its start and stopping at its end. Per theme:
+  assets/narration/<theme>/shared.m4a    - the 100 shared lines
+  assets/narration/<theme>/<voice>.m4a   - each narrator's 30 own lines
+That is 40 files instead of 1,480 (Expo previews allow at most 1,000 files per
+update). Also writes src/content/narration.generated.ts with every line's
+position in its sprite.
 
-Real recordings will replace these clips (see docs/HANDBOOK.md 4.5).
+Real recordings will replace these (see docs/HANDBOOK.md 4.5).
 Needs: pico2wave (package libttspico-utils) and ffmpeg.
 Usage: python3 scripts/generate_placeholder_narration.py && npx prettier --write src/content/narration.generated.ts
 """
@@ -14,84 +17,118 @@ import json
 import pathlib
 import subprocess
 import tempfile
+import wave
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 LINES = ROOT / "src/content/lines/en"
 OUT = ROOT / "assets/narration"
 TS_OUT = ROOT / "src/content/narration.generated.ts"
 VOICE = "en-GB"
+RATE = 16000  # pico2wave output rate
+GAP_S = 0.8  # silence around every line
+# Playback window around each line: start a little early, stop a little late,
+# so encoder offsets and player timing never clip a word.
+LEAD_S = 0.15
+TAIL_S = 0.3
 
 
-def render(job):
-    text, target = job
-    if target.exists():
-        return
+def render_line(text, wav_path):
+    subprocess.run(["pico2wave", "-l", VOICE, "-w", str(wav_path), text], check=True)
+    trimmed = wav_path.with_suffix(".trim.wav")
+    subprocess.run(
+        ["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav_path),
+         "-af", "silenceremove=start_periods=1:start_threshold=-50dB,"
+                "areverse,silenceremove=start_periods=1:start_threshold=-50dB,areverse",
+         "-ac", "1", "-ar", str(RATE), str(trimmed)],
+        check=True,
+    )
+    with wave.open(str(trimmed), "rb") as w:
+        return w.readframes(w.getnframes())
+
+
+def build_sprite(lines, target, tmp):
+    """lines: [(id, text)] -> {id: (start, end)} and writes the sprite to target."""
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
+        frames = list(pool.map(lambda it: render_line(it[1][1], tmp / f"{target.stem}-{it[0]}.wav"),
+                               enumerate(lines)))
+    gap = b"\x00\x00" * int(GAP_S * RATE)
+    data = bytearray(gap)
+    positions = {}
+    for (lid, _), pcm in zip(lines, frames):
+        start = len(data) / 2 / RATE
+        data += pcm
+        end = len(data) / 2 / RATE
+        data += gap
+        positions[lid] = (round(max(0.0, start - LEAD_S), 3), round(end + TAIL_S, 3))
+    sprite_wav = tmp / f"{target.stem}.sprite.wav"
+    with wave.open(str(sprite_wav), "wb") as w:
+        w.setnchannels(1)
+        w.setsampwidth(2)
+        w.setframerate(RATE)
+        w.writeframes(bytes(data))
     target.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory() as tmp:
-        wav = pathlib.Path(tmp) / "line.wav"
-        subprocess.run(["pico2wave", "-l", VOICE, "-w", str(wav), text], check=True)
-        # Mono, 22 kHz, 32 kbps AAC: small files, clear speech. Trim leading silence.
-        subprocess.run(
-            ["ffmpeg", "-y", "-loglevel", "error", "-i", str(wav),
-             "-af", "silenceremove=start_periods=1:start_threshold=-50dB",
-             "-ac", "1", "-ar", "22050", "-c:a", "aac", "-b:a", "32k", str(target)],
-            check=True,
-        )
+    subprocess.run(
+        ["ffmpeg", "-y", "-loglevel", "error", "-i", str(sprite_wav),
+         "-ac", "1", "-c:a", "aac", "-b:a", "32k", str(target)],
+        check=True,
+    )
+    return positions
 
 
 def main():
-    jobs = []
+    sprites = {}
     manifest = {}
-    for path in sorted(LINES.glob("*.json")):
-        data = json.loads(path.read_text(encoding="utf-8"))
-        theme = data["theme"]
-        shared = {}
-        for line in data["shared"]:
-            rel = f"{theme}/shared/{line['id']}.m4a"
-            jobs.append((line["text"], OUT / rel))
-            shared[line["id"]] = rel
-        voices = {}
-        for voice, lines in data["voices"].items():
-            voices[voice] = {}
-            for line in lines:
-                rel = f"{theme}/{voice}/{line['id']}.m4a"
-                jobs.append((line["text"], OUT / rel))
-                voices[voice][line["id"]] = rel
-        manifest[theme] = {"shared": shared, "voices": voices}
+    with tempfile.TemporaryDirectory() as tmpdir:
+        tmp = pathlib.Path(tmpdir)
+        for path in sorted(LINES.glob("*.json")):
+            data = json.loads(path.read_text(encoding="utf-8"))
+            theme = data["theme"]
+            key = f"{theme}/shared"
+            shared = build_sprite([(l["id"], l["text"]) for l in data["shared"]], OUT / f"{key}.m4a", tmp)
+            sprites[key] = f"{key}.m4a"
+            voices = {}
+            for voice, lines in data["voices"].items():
+                key = f"{theme}/{voice}"
+                voices[voice] = (key, build_sprite([(l["id"], l["text"]) for l in lines], OUT / f"{key}.m4a", tmp))
+                sprites[key] = f"{key}.m4a"
+            manifest[theme] = {"shared": (f"{theme}/shared", shared), "voices": voices}
+            print(f"{theme}: 1 shared + {len(voices)} narrator sprites")
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
-        list(pool.map(render, jobs))
+    def clips(sprite, positions):
+        return "{ " + ", ".join(
+            f"{lid}: {{ sprite: '{sprite}', start: {s}, end: {e} }}" for lid, (s, e) in positions.items()
+        ) + " }"
 
     out = [
         "// GENERATED by scripts/generate_placeholder_narration.py — do not edit by hand.",
-        "// Maps every narration clip to its bundled audio file.",
+        "// Narration audio sprites and where each line sits in them (seconds).",
+        "",
+        "export type Clip = { sprite: string; start: number; end: number };",
         "",
         "export type ThemeNarration = {",
         "  /** Placeholder clips of the shared lines (used for any narrator without its own). */",
-        "  shared: Record<string, number>;",
+        "  shared: Record<string, Clip>;",
         "  /** Per-narrator clips: their own lines (v001…) and, once recorded, shared lines (s001…). */",
-        "  voices: Record<string, Record<string, number>>;",
+        "  voices: Record<string, Record<string, Clip>>;",
         "};",
         "",
-        "export const NARRATION: Record<string, ThemeNarration> = {",
+        "export const NARRATION_SPRITES: Record<string, number> = {",
     ]
+    for key, rel in sprites.items():
+        out.append(f"  '{key}': require('../../assets/narration/{rel}'),")
+    out += ["};", "", "export const NARRATION: Record<string, ThemeNarration> = {"]
     for theme, m in manifest.items():
+        sprite, positions = m["shared"]
         out.append(f"  {theme}: {{")
-        out.append("    shared: {")
-        for lid, rel in m["shared"].items():
-            out.append(f"      {lid}: require('../../assets/narration/{rel}'),")
-        out.append("    },")
+        out.append(f"    shared: {clips(sprite, positions)},")
         out.append("    voices: {")
-        for voice, lines in m["voices"].items():
-            out.append(f"      {voice}: {{")
-            for lid, rel in lines.items():
-                out.append(f"        {lid}: require('../../assets/narration/{rel}'),")
-            out.append("      },")
+        for voice, (vsprite, vpositions) in m["voices"].items():
+            out.append(f"      {voice}: {clips(vsprite, vpositions)},")
         out.append("    },")
         out.append("  },")
     out.append("};")
     TS_OUT.write_text("\n".join(out) + "\n", encoding="utf-8")
-    print(f"{len(jobs)} clips, map written to {TS_OUT.relative_to(ROOT)}")
+    print(f"{len(sprites)} sprites; map written to {TS_OUT.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

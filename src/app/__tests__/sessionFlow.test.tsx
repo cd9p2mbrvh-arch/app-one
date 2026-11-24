@@ -11,15 +11,27 @@ import { appRoutes } from '@/test/routes';
 
 const MIN = 60000;
 
-/** The session's players: music is created with a file, the narration player empty. */
+/**
+ * The session's players: the music player, and the narration sprite players
+ * (created with a fast position-update interval).
+ */
 const sessionPlayers = () => {
   const mock = createAudioPlayer as jest.Mock;
-  const pick = (empty: boolean) => {
-    const i = mock.mock.calls.findLastIndex(([src]) => (src === null) === empty);
-    return mock.mock.results[i]?.value;
-  };
-  return { music: pick(false), voice: pick(true) };
+  const isVoice = (args: unknown[]) =>
+    !!(args[1] as { updateInterval?: number } | undefined)?.updateInterval;
+  const musicIndex = mock.mock.calls.findLastIndex((args) => !isVoice(args));
+  const voices = mock.mock.calls
+    .map((args, i) => (isVoice(args) ? mock.mock.results[i].value : null))
+    .filter(Boolean);
+  return { music: mock.mock.results[musicIndex]?.value, voices };
 };
+
+/** Total clips started across the narration players. */
+const clipsStarted = () =>
+  sessionPlayers().voices.reduce(
+    (n: number, p: { seekTo: jest.Mock }) => n + p.seekTo.mock.calls.length,
+    0,
+  );
 
 const press = (name: string | RegExp, index = 0) =>
   fireEvent.press(screen.getAllByRole('button', { name })[index]);
@@ -58,10 +70,14 @@ describe('A meditation session', () => {
     expect(screen.getByText('Abundance · Narrator 1')).toBeTruthy();
 
     await wait(5000);
-    const { voice } = sessionPlayers();
     // The first line plays from its audio clip, and its words show as a subtitle.
-    expect(voice.replace).toHaveBeenCalledTimes(1);
-    expect(voice.play).toHaveBeenCalledTimes(1);
+    // (In tests every audio file is the same stub, so the shared and own sprites share
+    // one player here; the two-sprite rule is covered by the narration tests.)
+    expect(sessionPlayers().voices.length).toBeGreaterThanOrEqual(1);
+    expect(clipsStarted()).toBe(1);
+    expect(
+      sessionPlayers().voices.some((p: { play: jest.Mock }) => p.play.mock.calls.length > 0),
+    ).toBe(true);
     expect(screen.getByTestId('subtitle')).toBeTruthy();
     expect(screen.getByTestId('time-left')).toHaveTextContent('02:55');
     // The device's speech engine is no longer used during sessions.
@@ -75,7 +91,7 @@ describe('A meditation session', () => {
       shouldPlayInBackground: true,
       interruptionMode: 'doNotMix',
     });
-    const { music, voice } = sessionPlayers();
+    const { music, voices } = sessionPlayers();
     expect(music.loop).toBe(true);
     expect(music.setActiveForLockScreen).toHaveBeenCalledWith(true, {
       title: 'Abundance',
@@ -83,11 +99,11 @@ describe('A meditation session', () => {
       albumTitle: 'App One',
     });
     expect(music.play).toHaveBeenCalled();
-    // Narration: its own player, pitch following speed for the placeholder voices.
-    expect(voice.shouldCorrectPitch).toBe(false);
-    await wait(5000);
-    expect(voice.setPlaybackRate).toHaveBeenCalledWith(1);
-    expect(voice.play).toHaveBeenCalled();
+    // Narration: its own players, pitch following speed for the placeholder voices.
+    for (const v of voices) {
+      expect(v.shouldCorrectPitch).toBe(false);
+      expect(v.setPlaybackRate).toHaveBeenCalledWith(1);
+    }
   });
 
   describe('temporary audio check (background playback)', () => {
@@ -145,17 +161,19 @@ describe('A meditation session', () => {
   it('plays the next clip 10–20 s after the previous one finishes', async () => {
     await startSession(10);
     await wait(5000);
-    const { voice } = sessionPlayers();
-    expect(voice.replace).toHaveBeenCalledTimes(1);
-    const onStatus = voice.addListener.mock.calls[0][1];
+    expect(clipsStarted()).toBe(1);
+    // Report "past the end of the clip" from the player that is playing it.
+    const playing = sessionPlayers().voices.find(
+      (p: { seekTo: jest.Mock }) => p.seekTo.mock.calls.length > 0,
+    );
+    const onStatus = playing.addListener.mock.calls[0][1];
+    await act(() => onStatus({ currentTime: 9999, didJustFinish: false }));
+    expect(playing.pause).toHaveBeenCalled();
 
-    await act(() => onStatus({ didJustFinish: true }));
     await wait(9900);
-    expect(voice.replace).toHaveBeenCalledTimes(1);
+    expect(clipsStarted()).toBe(1);
     await wait(10200);
-    expect(voice.replace).toHaveBeenCalledTimes(2);
-    // Never the same clip twice in a row.
-    expect(voice.replace.mock.calls[1][0]).toBeDefined();
+    expect(clipsStarted()).toBe(2);
   });
 
   it('pauses and resumes the clock', async () => {

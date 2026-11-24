@@ -130,8 +130,9 @@ $2". Current setup:
 ### 4.5 Recording narration — specifications for the voice artist
 
 - **One file per line**, named by theme, narrator and line id, e.g.
-  `peace/voice2/s014.wav` (Claude can give you a full list to record). They go
-  into `assets/narration/<theme>/<narrator>/` and replace the placeholder clips.
+  `peace/voice2/s014.wav` (Claude can give you a full list to record). Claude
+  packs them into the app's narration files (one "audio sprite" per narrator and
+  theme — previews allow at most 1,000 files, so lines are packed together).
 - **Format:** WAV, 48 kHz, 24-bit, mono.
 - **Room:** quiet, no echo; same microphone and distance for every session.
 - **Delivery:** calm and slow; each line typically 2–8 seconds.
