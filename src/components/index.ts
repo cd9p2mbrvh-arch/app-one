@@ -13,3 +13,4 @@ export { TextField } from './TextField';
 export { DurationDial } from './dial/DurationDial';
 export { Sheet } from './Sheet';
 export { BreathingCircle } from './session/BreathingCircle';
+export { DayTracker } from './DayTracker';

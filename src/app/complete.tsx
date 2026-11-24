@@ -4,7 +4,7 @@ import { Redirect, router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
 
-import { AppText, ChunkyButton, Screen } from '@/components';
+import { AppText, ChunkyButton, DayTracker, Screen } from '@/components';
 import { MUSIC, THEMES, VOICES } from '@/content/manifest';
 import { xpToReachLevel } from '@/domain/progress';
 import { useActiveProfile } from '@/state/profiles';
@@ -74,6 +74,7 @@ export default function CompleteScreen() {
     ],
     ['Completion bonus', result.xp.completionBonus],
     ['First session today', result.xp.dailyBonus],
+    ['Morning, noon and night', result.xp.allPeriodsBonus ?? 0],
   ];
 
   return (
@@ -136,6 +137,8 @@ export default function CompleteScreen() {
           />
         </View>
       </View>
+
+      <DayTracker done={result.periodsToday ?? []} />
 
       {leveledUp ? (
         <Animated.View

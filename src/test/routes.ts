@@ -1,5 +1,6 @@
 import CompleteScreen from '@/app/complete';
 import Entry from '@/app/index';
+import HistoryScreen from '@/app/history';
 import HomeScreen from '@/app/home';
 import EditProfileScreen from '@/app/profiles/[id]';
 import ProfilesScreen from '@/app/profiles/index';
@@ -12,6 +13,7 @@ export const appRoutes = {
   home: HomeScreen,
   session: SessionScreen,
   complete: CompleteScreen,
+  history: HistoryScreen,
   'profiles/index': ProfilesScreen,
   'profiles/new': NewProfileScreen,
   'profiles/[id]': EditProfileScreen,

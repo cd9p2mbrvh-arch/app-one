@@ -176,9 +176,9 @@ export default function HomeScreen() {
             {/* Left side: the top-right corner is covered by Expo Go's floating gear. */}
             <BackgroundPreviewButton />
             <Pressable
-              onPress={() => router.push('/profiles')}
+              onPress={() => router.push('/history')}
               accessibilityRole="button"
-              accessibilityLabel={`Switch profile, currently ${profile.name}`}
+              accessibilityLabel={`${profile.name}, level ${level}. Your progress and history`}
               style={styles.profile}
             >
               <Avatar avatar={profile.avatar} size={44} />
@@ -199,7 +199,15 @@ export default function HomeScreen() {
                   </View>
                 </View>
               </View>
-              <Ionicons name="swap-horizontal" size={20} color={colors.textMuted} />
+            </Pressable>
+            <Pressable
+              onPress={() => router.push('/profiles')}
+              accessibilityRole="button"
+              accessibilityLabel={`Switch profile, currently ${profile.name}`}
+              hitSlop={10}
+              style={styles.switchButton}
+            >
+              <Ionicons name="swap-horizontal" size={22} color={colors.textMuted} />
             </Pressable>
           </View>
 
@@ -345,6 +353,7 @@ const styles = StyleSheet.create({
   content: { gap: spacing.lg },
   dialContent: { flex: 1 },
   dialArea: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.md },
+  switchButton: { padding: spacing.xs },
   previewButton: {
     width: 40,
     height: 40,

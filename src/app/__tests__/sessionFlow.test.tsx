@@ -146,3 +146,35 @@ describe('A meditation session', () => {
     expect(screen.getByText('Sessions shorter than a minute do not earn XP.')).toBeTruthy();
   });
 });
+
+describe('Progress and history', () => {
+  it('shows an empty history at first', async () => {
+    await renderRouter(appRoutes, { wrapper: themeWrapper(), initialUrl: '/home' });
+    await screen.findByRole('tab', { name: 'Theme' });
+    await press(/Your progress and history/);
+    expect(screen).toHavePathname('/history');
+    expect(screen.getByText('No meditations yet. Your sessions will appear here.')).toBeTruthy();
+  });
+
+  it('lists finished sessions with date, length and XP, newest first', async () => {
+    jest.setSystemTime(new Date(2026, 10, 24, 9, 0));
+    await startSession(3);
+    await wait(3 * MIN + 1000);
+    expect(screen.getByLabelText(/Today: Morning done, Noon not yet, Night not yet/)).toBeTruthy();
+    await press('Done');
+    await wait(500);
+
+    await press(/Your progress and history/);
+    expect(screen).toHavePathname('/history');
+    expect(screen.getByLabelText('Tue 24 Nov · 09:03. Abundance, 3 min. 70 XP.')).toBeTruthy();
+    expect(screen.getByText('70')).toBeTruthy(); // total XP tile
+    expect(screen.getByLabelText(/Today: Morning done/)).toBeTruthy();
+  });
+
+  it('still opens the profile picker from the switch button', async () => {
+    await renderRouter(appRoutes, { wrapper: themeWrapper(), initialUrl: '/home' });
+    await screen.findByRole('tab', { name: 'Theme' });
+    await press('Switch profile, currently Anna');
+    expect(screen).toHavePathname('/profiles');
+  });
+});

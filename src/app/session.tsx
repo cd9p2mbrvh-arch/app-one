@@ -8,7 +8,7 @@ import { AppText, BreathingCircle, ChunkyButton, Screen, Sheet } from '@/compone
 import { linesFor } from '@/content/lines';
 import { MUSIC, THEMES, VOICES } from '@/content/manifest';
 import { formatClock } from '@/domain/format';
-import { dayKey, sessionXp } from '@/domain/xp';
+import { meditationDay, sessionXp } from '@/domain/xp';
 import { tap } from '@/feedback';
 import { useSession } from '@/session/useSession';
 import { useActiveProfile } from '@/state/profiles';
@@ -58,6 +58,8 @@ export default function SessionScreen() {
           plannedMinutes: selection.duration,
           listenedMs: s.elapsedMs,
           themeId: selection.theme,
+          voiceId: selection.voice,
+          musicId: selection.music,
         });
       }
       router.replace('/complete');
@@ -72,7 +74,7 @@ export default function SessionScreen() {
     plannedMinutes: selection.duration,
     listenedMs: state.elapsedMs,
     completed: false,
-    firstToday: progress.lastXpDay !== dayKey(new Date()),
+    firstToday: progress.lastXpDay !== meditationDay(new Date()),
   }).total;
 
   const openEnd = () => {

@@ -174,6 +174,19 @@ prepare the list.
 | Each full minute of a session ended early | 5 (no completion bonus) |
 | Sessions shorter than one minute          | 0                       |
 
+A meditation day runs from **05:00 to 05:00**, so a session at 1 am still counts
+as that night. Times of day follow the real clock (morning 05–11, noon 11–18,
+night 18–05).
+
+**Progress and history:** tap your **name or symbol** at the top of the main
+screen to see your level, total XP, sessions and minutes, today's morning / noon /
+night progress, and every past session with its date, length and XP. The ⇄ icon
+next to it switches profile.
+
+**Locked screen:** sessions are set up to keep playing with the screen locked and
+show on the lock screen as "Now playing". If it ever stops when locked, tell
+Claude whether the music, the voice or both stopped.
+
 Levels: level 2 at 100 XP, level 3 at 300, level 4 at 600, level 5 at 1000
 (each level needs 100 more than the previous step). Progress is saved per profile.
 
@@ -270,13 +283,14 @@ testing before review.
 
 ## 11. Change log
 
-| Date       | What changed                                                                                                                                                              |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-11-24 | Project set up; design system; time-of-day looks; profiles (up to 4).                                                                                                     |
-| 2026-11-24 | Session setup: theme squares, narrator character select, music list, clock dial for time.                                                                                 |
-| 2026-11-24 | Haptics tuned; tab slide animation; Begin zoom-into-blur animation.                                                                                                       |
-| 2026-11-24 | Animated scenes: sunrise, beach sunset, moon and stars.                                                                                                                   |
-| 2026-11-24 | Paid narrators 7–9 and music 5–7 with a demo purchase sheet. This handbook created.                                                                                       |
-| 2026-11-24 | Random scene events about every 10 s (airplane, birds, fish, seagull, UFO, shooting star); shimmering stars; 3-second music previews.                                     |
-| 2026-11-24 | Burgundy noon accents; smoother birds; UFO appears, hovers and flies away; themes can now come with their own narrator and music (not used yet).                          |
-| 2026-11-24 | The session: narration in random order with 10–20 s gaps, looping music, breathing circle, pause/end, completion screen with XP and level-up; header shows real progress. |
+| Date       | What changed                                                                                                                                                                                         |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-11-24 | Project set up; design system; time-of-day looks; profiles (up to 4).                                                                                                                                |
+| 2026-11-24 | Session setup: theme squares, narrator character select, music list, clock dial for time.                                                                                                            |
+| 2026-11-24 | Haptics tuned; tab slide animation; Begin zoom-into-blur animation.                                                                                                                                  |
+| 2026-11-24 | Animated scenes: sunrise, beach sunset, moon and stars.                                                                                                                                              |
+| 2026-11-24 | Paid narrators 7–9 and music 5–7 with a demo purchase sheet. This handbook created.                                                                                                                  |
+| 2026-11-24 | Random scene events about every 10 s (airplane, birds, fish, seagull, UFO, shooting star); shimmering stars; 3-second music previews.                                                                |
+| 2026-11-24 | Burgundy noon accents; smoother birds; UFO appears, hovers and flies away; themes can now come with their own narrator and music (not used yet).                                                     |
+| 2026-11-24 | The session: narration in random order with 10–20 s gaps, looping music, breathing circle, pause/end, completion screen with XP and level-up; header shows real progress.                            |
+| 2026-11-24 | Sessions keep playing with the screen locked (lock-screen "Now playing"); +50 XP for morning, noon and night on one day; profile page with history; rarer UFO, calmer stars, clouds around the moon. |
