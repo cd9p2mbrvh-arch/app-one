@@ -28,13 +28,9 @@ describe('colour utilities', () => {
 });
 
 describe.each(Object.entries(looks))('%s look', (_period, { colors: c, backdrop }) => {
-  // Every colour the background can show: gradient stops, blob centres and waves
-  // (taken at full strength, the worst case).
-  const backgrounds = [
-    ...backdrop.gradient,
-    ...backdrop.blobs.map((b) => b.color),
-    ...backdrop.waves.map((w) => w.color),
-  ];
+  // Every colour the background can show behind text: the sky gradient and the
+  // scene's colours (taken at full strength, the worst case).
+  const backgrounds = [...backdrop.gradient, ...backdrop.sceneColors];
 
   it.each(backgrounds)('text is readable directly on background %s', (bg) => {
     expect(contrastRatio(c.text, bg)).toBeGreaterThanOrEqual(AA_TEXT);

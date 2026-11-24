@@ -7,6 +7,7 @@ import {
 import { DefaultTheme, ThemeProvider as NavigationThemeProvider, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Background } from '@/components';
 import { ThemeProvider, useTheme } from '@/theme';
@@ -40,9 +41,10 @@ const navigationTheme = {
 
 function ThemedStack() {
   const { colors } = useTheme();
+  const insets = useSafeAreaInsets();
   return (
     <View style={styles.root}>
-      <Background />
+      <Background topInset={insets.top} />
       <StatusBar style={colors.statusBar} />
       <NavigationThemeProvider value={navigationTheme}>
         <Stack

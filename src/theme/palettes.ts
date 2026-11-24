@@ -28,20 +28,16 @@ export type Palette = {
   accent: string;
 };
 
-/** A soft, blurred colour spot. Position and radius are fractions of the screen size. */
-export type Blob = { color: string; cx: number; cy: number; r: number };
-
-/** A soft wave band drifting sideways. `y` is a fraction of the screen height. */
-export type Wave = { color: string; y: number; opacity: number };
-
 export type Backdrop = {
-  /** Top-to-bottom base gradient */
+  /** Top-to-bottom sky gradient */
   gradient: [string, string, string];
-  /** Soft colour spots layered over the gradient; they drift slowly */
-  blobs: Blob[];
-  /** Gentle waves rolling behind the frosted-glass layer */
-  waves: Wave[];
-  /** Frosted-glass tint over the moving background */
+  /**
+   * Every other colour the animated scene can show behind text (sun, sea, sand,
+   * clouds…). Used by the contrast tests. Small bright details placed away from
+   * text (the moon, stars) are deliberately not listed.
+   */
+  sceneColors: string[];
+  /** Frosted-glass tint over the animated scene */
   glass: 'light' | 'dark';
 };
 
@@ -63,16 +59,9 @@ export const looks: Record<TimeOfDay, Look> = {
       accent: '#1F527D',
     },
     backdrop: {
-      gradient: ['#C7E2F8', '#EAF4FC', '#FFF1E8'],
-      blobs: [
-        { color: '#A6CFF2', cx: 0.15, cy: 0.12, r: 0.55 },
-        { color: '#F7D5E3', cx: 0.95, cy: 0.5, r: 0.45 },
-        { color: '#FFD7C2', cx: 0.3, cy: 0.92, r: 0.6 },
-      ],
-      waves: [
-        { color: '#FFFFFF', y: 0.6, opacity: 0.45 },
-        { color: '#B9DAF6', y: 0.8, opacity: 0.35 },
-      ],
+      // Sunrise: clear sky above, warm light near the horizon, the sun rising.
+      gradient: ['#BFE0F7', '#E6F2FC', '#FFE6D3'],
+      sceneColors: ['#FFF6DA', '#FFD9A0', '#FFFFFF', '#F7D5E3'],
       glass: 'light',
     },
   },
@@ -91,16 +80,9 @@ export const looks: Record<TimeOfDay, Look> = {
       accent: '#4F2A0B',
     },
     backdrop: {
-      gradient: ['#FFD45C', '#FFB463', '#FF915E'],
-      blobs: [
-        { color: '#FFE88E', cx: 0.85, cy: 0.1, r: 0.55 },
-        { color: '#FF7E57', cx: 0.1, cy: 0.55, r: 0.5 },
-        { color: '#FFC23F', cx: 0.8, cy: 0.92, r: 0.6 },
-      ],
-      waves: [
-        { color: '#FFF0B8', y: 0.58, opacity: 0.4 },
-        { color: '#FF8C5A', y: 0.8, opacity: 0.35 },
-      ],
+      // Sunset at the beach: golden sky, sun sinking into a warm sea, sand below.
+      gradient: ['#FFC861', '#FFA15C', '#FA8A6C'],
+      sceneColors: ['#FFE7A0', '#F7A184', '#E58C98', '#F6CFA6', '#FFFFFF'],
       glass: 'light',
     },
   },
@@ -118,17 +100,9 @@ export const looks: Record<TimeOfDay, Look> = {
       accent: '#D2DEF5',
     },
     backdrop: {
-      // Deep navy above, lighter blue below, with a hint of violet.
+      // Moon and stars: deep navy above, lighter blue below, drifting clouds.
       gradient: ['#060B19', '#13213F', '#2A3F6E'],
-      blobs: [
-        { color: '#34558F', cx: 0.85, cy: 0.15, r: 0.55 },
-        { color: '#0B1430', cx: 0.1, cy: 0.5, r: 0.55 },
-        { color: '#3D4A86', cx: 0.6, cy: 0.95, r: 0.6 },
-      ],
-      waves: [
-        { color: '#2E4C85', y: 0.62, opacity: 0.45 },
-        { color: '#36518C', y: 0.82, opacity: 0.35 },
-      ],
+      sceneColors: ['#22355E', '#2E4C85'],
       glass: 'dark',
     },
   },

@@ -1,4 +1,4 @@
-export { looks, type Backdrop, type Blob, type Look, type Palette, type Wave } from './palettes';
+export { looks, type Backdrop, type Look, type Palette } from './palettes';
 export { ThemeProvider, useTheme } from './ThemeProvider';
 export { getTimeOfDay, PERIOD_START_HOUR, type TimeOfDay } from './timeOfDay';
 
