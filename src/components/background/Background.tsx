@@ -35,7 +35,13 @@ export function Background({ topInset = 0 }: { topInset?: number }) {
   const Scene = SCENES[period];
 
   return (
-    <View style={StyleSheet.absoluteFill} pointerEvents="none" testID={`background-${period}`}>
+    // overflow: hidden — scene details (sun rays, clouds) extend past the edges and
+    // must never make the screen wider (on the web that zooms the whole page out).
+    <View
+      style={[StyleSheet.absoluteFill, { overflow: 'hidden' }]}
+      pointerEvents="none"
+      testID={`background-${period}`}
+    >
       <Svg width={width} height={height} style={StyleSheet.absoluteFill}>
         <Defs>
           <LinearGradient id="sky" x1="0" y1="0" x2="0" y2="1">

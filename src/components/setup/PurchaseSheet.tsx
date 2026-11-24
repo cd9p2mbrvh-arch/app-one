@@ -22,40 +22,44 @@ export function PurchaseSheet({ visible, itemLabel, priceLabel, onBuy, onCancel 
   const { colors, backdrop } = useTheme();
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onCancel}>
-      <Pressable
-        style={styles.backdrop}
-        onPress={onCancel}
-        accessibilityRole="button"
-        accessibilityLabel="Close"
-      />
-      <View
-        style={[
-          styles.sheet,
-          { backgroundColor: backdrop.gradient[1], borderColor: colors.border },
-        ]}
-        accessibilityViewIsModal
-      >
-        <View style={[styles.demo, { backgroundColor: PRICE_GOLD }]}>
-          <AppText variant="caption" color={PRICE_INK} style={styles.demoText}>
-            DEMO · no payment is made
+      <View style={styles.root}>
+        {/* Dimmed area behind the sheet; drawn first so the sheet is always on top. */}
+        <Pressable
+          style={[StyleSheet.absoluteFill, styles.backdrop]}
+          onPress={onCancel}
+          accessibilityRole="button"
+          accessibilityLabel="Close"
+        />
+        <View
+          style={[
+            styles.sheet,
+            { backgroundColor: backdrop.gradient[1], borderColor: colors.border },
+          ]}
+          accessibilityViewIsModal
+        >
+          <View style={[styles.demo, { backgroundColor: PRICE_GOLD }]}>
+            <AppText variant="caption" color={PRICE_INK} style={styles.demoText}>
+              DEMO · no payment is made
+            </AppText>
+          </View>
+          <AppText variant="title">Unlock {itemLabel}</AppText>
+          <AppText color={colors.textMuted}>
+            One-time purchase. Available to every profile on this device.
+          </AppText>
+          <ChunkyButton title={`Buy for ${priceLabel}`} onPress={onBuy} />
+          <ChunkyButton title="Not now" variant="secondary" onPress={onCancel} />
+          <AppText variant="caption" color={colors.textMuted} style={styles.note}>
+            In the released app this will use the App Store or Google Play.
           </AppText>
         </View>
-        <AppText variant="title">Unlock {itemLabel}</AppText>
-        <AppText color={colors.textMuted}>
-          One-time purchase. Available to every profile on this device.
-        </AppText>
-        <ChunkyButton title={`Buy for ${priceLabel}`} onPress={onBuy} />
-        <ChunkyButton title="Not now" variant="secondary" onPress={onCancel} />
-        <AppText variant="caption" color={colors.textMuted} style={styles.note}>
-          In the released app this will use the App Store or Google Play.
-        </AppText>
       </View>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
-  backdrop: { flex: 1, backgroundColor: '#00000066' },
+  root: { flex: 1, justifyContent: 'flex-end' },
+  backdrop: { backgroundColor: '#00000066' },
   sheet: {
     padding: spacing.lg,
     paddingBottom: spacing.xl + spacing.md,
