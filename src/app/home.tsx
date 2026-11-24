@@ -167,6 +167,8 @@ export default function HomeScreen() {
           }
         >
           <View style={styles.header}>
+            {/* Left side: the top-right corner is covered by Expo Go's floating gear. */}
+            <BackgroundPreviewButton />
             <Pressable
               onPress={() => router.push('/profiles')}
               accessibilityRole="button"
@@ -193,7 +195,6 @@ export default function HomeScreen() {
               </View>
               <Ionicons name="swap-horizontal" size={20} color={colors.textMuted} />
             </Pressable>
-            <BackgroundPreviewButton />
           </View>
 
           <Tabs
