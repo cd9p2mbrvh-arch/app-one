@@ -27,6 +27,18 @@
     "plugins": ["expo-router", "expo-font", "expo-asset"],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c088cf91-f260-4f1e-a676-461cc2f88240"
+      }
+    },
+    "owner": "pavulon",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/c088cf91-f260-4f1e-a676-461cc2f88240"
     }
   }
 }
