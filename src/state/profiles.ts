@@ -15,6 +15,8 @@ import {
   type Profile,
 } from '@/domain/profiles';
 
+import { useProgress } from './progress';
+
 export const PROFILES_STORAGE_KEY = 'app-one/profiles';
 export const PROFILES_SCHEMA_VERSION = 1;
 
@@ -98,6 +100,8 @@ export const useProfiles = create<ProfilesStore>()(
       },
 
       deleteProfile: (id) => {
+        // A deleted profile's progress goes with it.
+        useProgress.getState().removeProfile(id);
         const { profiles, activeId } = get();
         const remaining = profiles.filter((p) => p.id !== id);
         set({
