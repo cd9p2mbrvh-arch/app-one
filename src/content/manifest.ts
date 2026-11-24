@@ -30,7 +30,17 @@ export const NO_PURCHASES: ReadonlySet<string> = new Set();
 /** Placeholder price for paid content (real prices will come from the stores). */
 export const PAID_PRICE_LABEL = '$1';
 
-export const THEMES: CatalogItem[] = [
+/**
+ * A meditation theme. A theme may come with its own narrator and/or music
+ * (`fixed`): while it is selected those are chosen automatically and cannot be
+ * changed — even if they would normally be locked, since they come with the theme.
+ * (No theme uses this yet.)
+ */
+export type Theme = CatalogItem & {
+  fixed?: { voice?: string; music?: string };
+};
+
+export const THEMES: Theme[] = [
   { id: 'abundance', label: 'Abundance', icon: 'sparkles-outline', unlockLevel: 1 },
   { id: 'peace', label: 'Peace of Mind', icon: 'cloud-outline', unlockLevel: 1 },
   { id: 'health', label: 'Health', icon: 'leaf-outline', unlockLevel: 1 },

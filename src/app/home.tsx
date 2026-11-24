@@ -14,7 +14,7 @@ import {
   Screen,
   Tabs,
 } from '@/components';
-import { MusicList, NarratorSelect, ThemeGrid } from '@/components/setup';
+import { MusicList, NarratorSelect, ThemeFixedChoice, ThemeGrid } from '@/components/setup';
 import { MUSIC, THEMES, VOICES } from '@/content/manifest';
 import { levelForXp, xpToReachLevel } from '@/domain/progress';
 import { tap } from '@/feedback';
@@ -23,7 +23,10 @@ import { useActiveProfile } from '@/state/profiles';
 import { useOwned } from '@/state/purchases';
 import {
   canBegin,
+  chosenItem,
+  isStepFixed,
   isStepLocked,
+  resolveSelection,
   SETUP_STEPS,
   useSessionSetup,
   type SetupSelection,
@@ -235,7 +238,16 @@ export default function HomeScreen() {
               />
             ) : null}
 
-            {active === 'voice' ? (
+            {active === 'voice' && isStepFixed(selection, 'voice') ? (
+              <ThemeFixedChoice
+                kind="narrator"
+                itemLabel={chosenItem(selection, 'voice')?.label ?? ''}
+                themeLabel={chosenItem(selection, 'theme')?.label ?? ''}
+                accent={VOICES.find((v) => v.id === resolveSelection(selection).voice)?.accent}
+              />
+            ) : null}
+
+            {active === 'voice' && !isStepFixed(selection, 'voice') ? (
               <NarratorSelect
                 narrators={VOICES}
                 selectedId={selection.voice}
@@ -245,7 +257,16 @@ export default function HomeScreen() {
               />
             ) : null}
 
-            {active === 'music' ? (
+            {active === 'music' && isStepFixed(selection, 'music') ? (
+              <ThemeFixedChoice
+                kind="music"
+                itemLabel={chosenItem(selection, 'music')?.label ?? ''}
+                themeLabel={chosenItem(selection, 'theme')?.label ?? ''}
+                accent={MUSIC.find((m) => m.id === resolveSelection(selection).music)?.accent}
+              />
+            ) : null}
+
+            {active === 'music' && !isStepFixed(selection, 'music') ? (
               <MusicList
                 tracks={MUSIC}
                 selectedId={selection.music}

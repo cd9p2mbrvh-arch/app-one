@@ -9,6 +9,7 @@ import {
   THEMES,
   VOICES,
   type CatalogItem,
+  type Theme,
 } from '@/content/manifest';
 
 export type SetupStep = 'theme' | 'voice' | 'music' | 'duration';
@@ -50,20 +51,68 @@ const CATALOG: Record<Exclude<SetupStep, 'duration'>, CatalogItem[]> = {
   music: MUSIC,
 };
 
-/** The catalogue item chosen for a step, if any (durations have none). */
-export function chosenItem(selection: SetupSelection, step: SetupStep): CatalogItem | undefined {
-  if (step === 'duration') return undefined;
-  return CATALOG[step].find((item) => item.id === selection[step]);
+/** Steps a theme can fix (choose automatically). */
+export type FixableStep = 'voice' | 'music';
+
+/** The narrator/music the selected theme fixes, if any. */
+export function fixedByTheme(
+  selection: Pick<SetupSelection, 'theme'>,
+  themes: Theme[] = THEMES,
+): Partial<Record<FixableStep, string>> {
+  return themes.find((t) => t.id === selection.theme)?.fixed ?? {};
 }
 
-/** True when the choice for this step is locked at the given level and purchases. */
+export function isStepFixed(
+  selection: SetupSelection,
+  step: SetupStep,
+  themes: Theme[] = THEMES,
+): boolean {
+  return (step === 'voice' || step === 'music') && !!fixedByTheme(selection, themes)[step];
+}
+
+/**
+ * The choices that will actually be used: the user's own, with anything the
+ * selected theme fixes put in their place. The user's own choices are kept in the
+ * store, so they come back when a theme without fixed choices is selected.
+ */
+export function resolveSelection(
+  selection: SetupSelection,
+  themes: Theme[] = THEMES,
+): SetupSelection {
+  const fixed = fixedByTheme(selection, themes);
+  return {
+    theme: selection.theme,
+    duration: selection.duration,
+    voice: fixed.voice ?? selection.voice,
+    music: fixed.music ?? selection.music,
+  };
+}
+
+/** The catalogue item used for a step, if any (durations have none). */
+export function chosenItem(
+  selection: SetupSelection,
+  step: SetupStep,
+  themes: Theme[] = THEMES,
+): CatalogItem | undefined {
+  if (step === 'duration') return undefined;
+  const resolved = resolveSelection(selection, themes);
+  const list = step === 'theme' ? themes : CATALOG[step];
+  return list.find((item) => item.id === resolved[step]);
+}
+
+/**
+ * True when the choice for this step is locked at the given level and purchases.
+ * Choices fixed by the theme are never locked: they come with the theme.
+ */
 export function isStepLocked(
   selection: SetupSelection,
   step: SetupStep,
   level: number,
   owned: ReadonlySet<string> = NO_PURCHASES,
+  themes: Theme[] = THEMES,
 ): boolean {
-  const item = chosenItem(selection, step);
+  if (isStepFixed(selection, step, themes)) return false;
+  const item = chosenItem(selection, step, themes);
   return !!item && !isUnlocked(item, level, owned);
 }
 
@@ -72,6 +121,7 @@ export function canBegin(
   selection: SetupSelection,
   level: number,
   owned: ReadonlySet<string> = NO_PURCHASES,
+  themes: Theme[] = THEMES,
 ): boolean {
-  return SETUP_STEPS.every((step) => !isStepLocked(selection, step, level, owned));
+  return SETUP_STEPS.every((step) => !isStepLocked(selection, step, level, owned, themes));
 }

@@ -2,6 +2,7 @@ import { createAudioPlayer } from 'expo-audio';
 import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 import * as Speech from 'expo-speech';
 
+import { THEMES } from '@/content/manifest';
 import { useProfiles } from '@/state/profiles';
 import { usePurchases } from '@/state/purchases';
 import { useSessionSetup } from '@/state/sessionSetup';
@@ -307,6 +308,55 @@ describe('Main screen', () => {
     await press('Narrator', 'tab');
     await press('Narrator 8');
     expect(useSessionSetup.getState().voice).toBe('voice8');
+  });
+
+  describe('a theme with its own narrator and music', () => {
+    // No real theme does this yet, so add a sample one for the test.
+    beforeEach(() => {
+      THEMES.push({
+        id: 'sleep-story',
+        label: 'Sleep Story',
+        icon: 'moon-outline',
+        unlockLevel: 1,
+        fixed: { voice: 'voice8', music: 'music6' },
+      });
+    });
+    afterEach(() => {
+      THEMES.splice(
+        THEMES.findIndex((t) => t.id === 'sleep-story'),
+        1,
+      );
+    });
+
+    it('fixes narrator and music while selected, and restores mine afterwards', async () => {
+      await open();
+      await press('Narrator', 'tab');
+      await press('Narrator 2');
+      await flush();
+      await press('Theme', 'tab');
+
+      await press('Sleep Story');
+      await press('Narrator', 'tab');
+      expect(screen.getByLabelText('Narrator 8 is set by the Sleep Story theme')).toBeTruthy();
+      expect(screen.queryByTestId('narrator-spotlight')).toBeNull();
+      await press('Music', 'tab');
+      expect(screen.getByLabelText('Music 6 is set by the Sleep Story theme')).toBeTruthy();
+
+      // Narrator 8 and Music 6 are normally paid, but they come with this theme.
+      await press('Time', 'tab');
+      expect(screen.getByRole('button', { name: 'Begin' })).toBeEnabled();
+      await press('Begin');
+      await act(() => jest.advanceTimersByTime(800));
+      expect(screen.getByText('Narrator: Narrator 8')).toBeTruthy();
+      expect(screen.getByText('Music: Music 6')).toBeTruthy();
+      await press('Back');
+      await act(() => jest.advanceTimersByTime(500));
+
+      await press('Theme', 'tab');
+      await press('Peace of Mind');
+      await press('Narrator', 'tab');
+      expect(screen.getByRole('button', { name: 'Narrator 2' })).toBeSelected();
+    });
   });
 
   it('opens the profile picker from the header', async () => {

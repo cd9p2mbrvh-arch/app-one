@@ -82,6 +82,14 @@ A spreadsheet is the easiest format:
 
 Shared lines use ids `s001`–`s100`; a narrator's own lines use `v001`–`v030`.
 
+**A theme with its own narrator and/or music.** A theme can come with a specific
+narrator, a specific music track, or both (for example a "Sleep Story" always
+read by one narrator over one soundtrack). While that theme is selected, the
+Narrator and Music tabs show **"Set by this theme"** instead of the choices —
+even if that narrator or music is normally locked or paid, because it comes with
+the theme. When the user picks another theme, their own choices come back.
+To set this up, just tell Claude which narrator and/or music the theme uses.
+
 ### 4.2 A new narrator
 
 Give Claude:
@@ -231,11 +239,12 @@ testing before review.
 
 ## 10. Change log
 
-| Date       | What changed                                                                                                                          |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-11-24 | Project set up; design system; time-of-day looks; profiles (up to 4).                                                                 |
-| 2026-11-24 | Session setup: theme squares, narrator character select, music list, clock dial for time.                                             |
-| 2026-11-24 | Haptics tuned; tab slide animation; Begin zoom-into-blur animation.                                                                   |
-| 2026-11-24 | Animated scenes: sunrise, beach sunset, moon and stars.                                                                               |
-| 2026-11-24 | Paid narrators 7–9 and music 5–7 with a demo purchase sheet. This handbook created.                                                   |
-| 2026-11-24 | Random scene events about every 10 s (airplane, birds, fish, seagull, UFO, shooting star); shimmering stars; 3-second music previews. |
+| Date       | What changed                                                                                                                                     |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2026-11-24 | Project set up; design system; time-of-day looks; profiles (up to 4).                                                                            |
+| 2026-11-24 | Session setup: theme squares, narrator character select, music list, clock dial for time.                                                        |
+| 2026-11-24 | Haptics tuned; tab slide animation; Begin zoom-into-blur animation.                                                                              |
+| 2026-11-24 | Animated scenes: sunrise, beach sunset, moon and stars.                                                                                          |
+| 2026-11-24 | Paid narrators 7–9 and music 5–7 with a demo purchase sheet. This handbook created.                                                              |
+| 2026-11-24 | Random scene events about every 10 s (airplane, birds, fish, seagull, UFO, shooting star); shimmering stars; 3-second music previews.            |
+| 2026-11-24 | Burgundy noon accents; smoother birds; UFO appears, hovers and flies away; themes can now come with their own narrator and music (not used yet). |

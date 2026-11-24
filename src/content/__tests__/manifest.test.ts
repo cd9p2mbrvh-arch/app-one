@@ -118,3 +118,12 @@ describe('paid content', () => {
     expect(lockReason(voice6, 5)).toBeNull();
   });
 });
+
+describe('theme-fixed narrator and music', () => {
+  it('only refers to narrators and music that exist', () => {
+    for (const theme of THEMES) {
+      if (theme.fixed?.voice) expect(VOICES.map((v) => v.id)).toContain(theme.fixed.voice);
+      if (theme.fixed?.music) expect(MUSIC.map((m) => m.id)).toContain(theme.fixed.music);
+    }
+  });
+});
