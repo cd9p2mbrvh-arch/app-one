@@ -1,5 +1,7 @@
 # App One
 
+> **Owner's guide:** [docs/HANDBOOK.md](docs/HANDBOOK.md) · **Product plan:** [docs/PLAN.md](docs/PLAN.md)
+
 A wellness app for guided affirmation meditations, for iOS and Android. Built with Expo (React Native) and TypeScript.
 
 ## Getting started
