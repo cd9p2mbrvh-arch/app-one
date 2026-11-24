@@ -3,3 +3,4 @@ node_modules
 dist
 coverage
 package-lock.json
+docs/PRIVACY_POLICY.md

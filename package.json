@@ -50,7 +50,8 @@
     "lint": "expo lint",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm test -- --ci",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "legal:export": "EXPORT_PRIVACY_POLICY=1 jest --ci src/content/legal"
   },
   "private": true,
   "jest": {

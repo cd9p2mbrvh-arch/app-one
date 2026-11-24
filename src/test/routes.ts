@@ -5,6 +5,8 @@ import HomeScreen from '@/app/home';
 import EditProfileScreen from '@/app/profiles/[id]';
 import ProfilesScreen from '@/app/profiles/index';
 import NewProfileScreen from '@/app/profiles/new';
+import PrivacyScreen from '@/app/privacy';
+import SettingsScreen from '@/app/settings';
 import SessionScreen from '@/app/session';
 
 /** All app routes, for renderRouter in integration tests. */
@@ -14,6 +16,8 @@ export const appRoutes = {
   session: SessionScreen,
   complete: CompleteScreen,
   history: HistoryScreen,
+  settings: SettingsScreen,
+  privacy: PrivacyScreen,
   'profiles/index': ProfilesScreen,
   'profiles/new': NewProfileScreen,
   'profiles/[id]': EditProfileScreen,

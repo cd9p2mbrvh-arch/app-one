@@ -248,10 +248,37 @@ testing before review.
 
 ---
 
+### Store approval checklist (researched November 2026)
+
+**You (accounts, forms, listings):**
+
+- [ ] Apple Developer Program ($99/year). Individual: your name is shown as seller; organisation: needs a D-U-N-S number.
+- [ ] Google Play developer account ($25 once). Personal accounts must run a **closed test with 12 testers for 14 days** before production; organisation accounts need a D-U-N-S number but skip that test.
+- [ ] Publish the privacy policy (`docs/PRIVACY_POLICY.md`) on a public web page; put its address in `src/config/appInfo.ts` (`privacyPolicyUrl`) and in both store listings.
+- [ ] Support e-mail: put it in `src/config/appInfo.ts` (`supportEmail`) and the store listings. Also fill in `developer`.
+- [ ] Final app name (unique on both stores), icon (1024 × 1024), screenshots of the app in use (mark paid items as paid), Google feature graphic (1024 × 500), descriptions without medical claims.
+- [ ] Apple: paid-apps agreement, tax and bank details; in-app products; App Privacy ("Data Not Collected"); age rating questionnaire; export compliance ("no encryption").
+- [ ] Google: payments profile; in-app products; Data safety (no data collected or shared); content rating; target audience (not children); ads (none); **Health apps declaration** (meditation apps are in scope); **foreground service declaration** for background audio (short video of starting a session).
+- [ ] Review notes for Apple: what makes the app different (animated time-of-day scenes, XP and levels, narrator characters, local profiles) — meditation is a crowded category (guideline 4.3).
+
+**Claude (app changes):**
+
+- [x] Settings & info screen: restore purchases, health notice, privacy policy, support, version.
+- [x] Privacy policy text (in the app and in `docs/PRIVACY_POLICY.md`; `npm run legal:export` refreshes the web copy).
+- [x] Health theme note ("not medical advice").
+- [ ] Real in-app purchases (Apple / Google) with local prices, instead of the demo.
+- [ ] Final name, bundle IDs, icon, splash, "no encryption" flag, build mode for store builds.
+- [ ] iPhone only or iPhone + iPad (decide before the first release — iPad support cannot be removed later).
+- [ ] Check the privacy manifest in the first real build; accessibility pass.
+- [ ] Verify background audio with the screen locked in a TestFlight build.
+
+**Already met:** builds with Xcode 26 / iOS 26 SDK (required since April 2026) and target Android 16 / API 36 (required from 31 August 2026) through Expo SDK 58 and EAS Build; background audio is an allowed use; no accounts, so account-deletion rules do not apply (profiles can be deleted in the app).
+
 ## 8. Before release — checklist of temporary things
 
 - [ ] Remove the background preview button (top-left).
 - [ ] Remove "Reset demo purchases".
+- [ ] Fill in `src/config/appInfo.ts` (developer, support e-mail, privacy policy address).
 - [ ] Remove the "Audio check" line under the session controls.
 - [ ] Replace the demo purchase sheet with real store purchases.
 - [ ] Replace placeholder **lines**, **narrator voices** (currently the phone's
@@ -303,3 +330,4 @@ testing before review.
 | 2026-11-24 | The session: narration in random order with 10–20 s gaps, looping music, breathing circle, pause/end, completion screen with XP and level-up; header shows real progress.                            |
 | 2026-11-24 | Sessions keep playing with the screen locked (lock-screen "Now playing"); +50 XP for morning, noon and night on one day; profile page with history; rarer UFO, calmer stars, clouds around the moon. |
 | 2026-11-24 | Session narration now plays from audio clips (placeholder recordings) instead of the phone's speech engine, to keep working with the screen locked; temporary "Audio check" line added.              |
+| 2026-11-24 | Settings & info screen (restore purchases, health notice, privacy policy, version); privacy policy written; Health theme note; store approval checklist added to this handbook.                      |

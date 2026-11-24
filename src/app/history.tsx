@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Redirect } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { Redirect, router } from 'expo-router';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import { AppText, Avatar, BackButton, DayTracker, ProgressBar, Screen } from '@/components';
 import type { IconName } from '@/components';
@@ -40,6 +40,14 @@ export default function HistoryScreen() {
             Level {level} · {progress.totalXp - start} / {next - start} XP to level {level + 1}
           </AppText>
         </View>
+        <Pressable
+          onPress={() => router.push('/settings')}
+          accessibilityRole="button"
+          accessibilityLabel="Settings and info"
+          hitSlop={10}
+        >
+          <Ionicons name="settings-outline" size={24} color={colors.text} />
+        </Pressable>
       </View>
       <ProgressBar
         value={(progress.totalXp - start) / (next - start)}

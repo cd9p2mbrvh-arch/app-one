@@ -15,6 +15,12 @@ export const PURCHASES_STORAGE_KEY = 'app-one/purchases';
 type PurchasesStore = {
   owned: string[];
   buy: (productId: string) => void;
+  /**
+   * Restores earlier purchases. MOCKUP: purchases are only kept on this device,
+   * so this reports what is unlocked. With real store purchases it will ask
+   * Apple / Google for everything bought with the user's store account.
+   */
+  restore: () => Promise<{ restored: number }>;
   /** Demo helper to try the purchase flow again. */
   resetDemo: () => void;
 };
@@ -32,6 +38,7 @@ export const usePurchases = create<PurchasesStore>()(
       buy: (productId) => {
         if (!get().owned.includes(productId)) set({ owned: [...get().owned, productId] });
       },
+      restore: async () => ({ restored: get().owned.length }),
       resetDemo: () => set({ owned: [] }),
     }),
     {

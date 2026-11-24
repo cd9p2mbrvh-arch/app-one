@@ -239,6 +239,17 @@ export default function HomeScreen() {
               {STEP_TITLES[active]}
             </AppText>
 
+            {active === 'theme' && selection.theme === 'health' ? (
+              <AppText
+                variant="caption"
+                color={colors.textMuted}
+                style={styles.hint}
+                testID="health-theme-note"
+              >
+                For relaxation and wellbeing, not medical advice. Talk to a doctor about health
+                concerns.
+              </AppText>
+            ) : null}
             {active === 'theme' ? (
               <ThemeGrid
                 themes={THEMES}
