@@ -151,7 +151,36 @@ prepare the list.
 
 ---
 
-## 5. Paid content and purchases
+## 5. How a session works
+
+- **Begin** zooms into the blur and the session starts: music fades in, and after
+  a few seconds the narrator reads the first affirmation.
+- Affirmations come in **random order without repeats**, with **10–20 seconds of
+  quiet** after each one. In very long sessions, recently heard lines are kept to
+  the end of the next round, so nothing repeats soon.
+- The screen shows the scene, a **breathing circle** (4 s in, 4 s out), the
+  **time left** and the **words being spoken**. The screen stays on.
+- **Pause / Resume**, or **End session** (asks first and shows the XP you would get).
+- At the end the music fades out and the **completion screen** shows the XP, the
+  level bar filling up and any **level-up** with what it unlocked.
+
+**XP (first version, easy to change):**
+
+| What                                      | XP                      |
+| ----------------------------------------- | ----------------------- |
+| Each minute of a completed session        | 10                      |
+| Completing the session                    | +25                     |
+| First session of the day (that earns XP)  | +15                     |
+| Each full minute of a session ended early | 5 (no completion bonus) |
+| Sessions shorter than one minute          | 0                       |
+
+Levels: level 2 at 100 XP, level 3 at 300, level 4 at 600, level 5 at 1000
+(each level needs 100 more than the previous step). Progress is saved per profile.
+
+> The narration currently uses the phone's built-in voices. When real recordings
+> arrive they replace it without other changes.
+
+## 6. Paid content and purchases
 
 **Today:** paid narrators and music show a gold **$1** tag. Tapping
 **Unlock for $1** opens a sheet marked **DEMO — no payment is made**; "Buy"
@@ -175,7 +204,7 @@ Prices are set in the stores (Apple uses price tiers, e.g. $0.99).
 
 ---
 
-## 6. Releasing to the App Store and Google Play (later)
+## 7. Releasing to the App Store and Google Play (later)
 
 You will need:
 
@@ -199,7 +228,7 @@ testing before review.
 
 ---
 
-## 7. Before release — checklist of temporary things
+## 8. Before release — checklist of temporary things
 
 - [ ] Remove the background preview button (top-left).
 - [ ] Remove "Reset demo purchases".
@@ -208,10 +237,12 @@ testing before review.
       built-in speech), **portraits** and **music**.
 - [ ] Final app name, icon and splash screen.
 - [ ] Switch preview settings from Expo Go mode to store-build mode (Claude).
+- [ ] Test sessions on a real phone with the screen locked and with headphones
+      (background playback), and during a phone call (interruptions).
 
 ---
 
-## 8. Troubleshooting
+## 9. Troubleshooting
 
 | Problem                                     | Try this                                                                                  |
 | ------------------------------------------- | ----------------------------------------------------------------------------------------- |
@@ -225,7 +256,7 @@ testing before review.
 
 ---
 
-## 9. Glossary
+## 10. Glossary
 
 - **Expo Go** — an app that runs App One previews without installing it from a store.
 - **QR preview / EAS Update** — a published version of the app's code that Expo Go downloads.
@@ -237,14 +268,15 @@ testing before review.
 
 ---
 
-## 10. Change log
+## 11. Change log
 
-| Date       | What changed                                                                                                                                     |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 2026-11-24 | Project set up; design system; time-of-day looks; profiles (up to 4).                                                                            |
-| 2026-11-24 | Session setup: theme squares, narrator character select, music list, clock dial for time.                                                        |
-| 2026-11-24 | Haptics tuned; tab slide animation; Begin zoom-into-blur animation.                                                                              |
-| 2026-11-24 | Animated scenes: sunrise, beach sunset, moon and stars.                                                                                          |
-| 2026-11-24 | Paid narrators 7–9 and music 5–7 with a demo purchase sheet. This handbook created.                                                              |
-| 2026-11-24 | Random scene events about every 10 s (airplane, birds, fish, seagull, UFO, shooting star); shimmering stars; 3-second music previews.            |
-| 2026-11-24 | Burgundy noon accents; smoother birds; UFO appears, hovers and flies away; themes can now come with their own narrator and music (not used yet). |
+| Date       | What changed                                                                                                                                                              |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-11-24 | Project set up; design system; time-of-day looks; profiles (up to 4).                                                                                                     |
+| 2026-11-24 | Session setup: theme squares, narrator character select, music list, clock dial for time.                                                                                 |
+| 2026-11-24 | Haptics tuned; tab slide animation; Begin zoom-into-blur animation.                                                                                                       |
+| 2026-11-24 | Animated scenes: sunrise, beach sunset, moon and stars.                                                                                                                   |
+| 2026-11-24 | Paid narrators 7–9 and music 5–7 with a demo purchase sheet. This handbook created.                                                                                       |
+| 2026-11-24 | Random scene events about every 10 s (airplane, birds, fish, seagull, UFO, shooting star); shimmering stars; 3-second music previews.                                     |
+| 2026-11-24 | Burgundy noon accents; smoother birds; UFO appears, hovers and flies away; themes can now come with their own narrator and music (not used yet).                          |
+| 2026-11-24 | The session: narration in random order with 10–20 s gaps, looping music, breathing circle, pause/end, completion screen with XP and level-up; header shows real progress. |

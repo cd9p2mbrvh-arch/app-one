@@ -63,20 +63,20 @@ Duration wheel · Session Player (breathing visual, timer, pause, end) · Sessio
 
 ## Milestones
 
-| #     | Milestone                                                                          |
-| ----- | ---------------------------------------------------------------------------------- |
-| M0    | Scaffold: Expo + TS, Jest, ESLint, Prettier, CI, git                               |
-| M1    | Design system: palette tokens, typography, chunky button, cards; Expo Router shell |
-| M2    | Profiles: create / select / edit / delete, last-used profile, persistence          |
-| M3    | Content manifest + placeholder TTS audio generator + manifest validation           |
-| M4    | Theme, voice, music selection screens with previews                                |
-| M5    | Duration wheel with haptics                                                        |
-| M6    | Line scheduler (pure logic, unit-tested)                                           |
-| M7    | Audio engine + session player                                                      |
-| M8    | Background audio, interruptions, lock screen                                       |
-| M9    | XP / levels, completion screen, home progress bar                                  |
-| M10   | Polish, accessibility, icon, splash, store builds                                  |
-| Later | DLC store + downloads, language packs, streaks, reminders                          |
+| #     | Milestone                                                           | Status                                           |
+| ----- | ------------------------------------------------------------------- | ------------------------------------------------ |
+| M0    | Scaffold: Expo + TS, Jest, ESLint, Prettier, CI, git                | Done                                             |
+| M1    | Design system, time-of-day looks, Expo Router shell                 | Done                                             |
+| M2    | Profiles: create / select / edit / delete, last-used profile        | Done                                             |
+| M3    | Content manifest, placeholder lines and music, unlocks, paid mockup | Done (placeholders)                              |
+| M4    | Theme squares, narrator select, music list, previews                | Done                                             |
+| M5    | Time dial with haptics                                              | Done                                             |
+| M6    | Line scheduler (pure logic, unit-tested)                            | Done                                             |
+| M7    | Audio engine + session player                                       | Done (on-device speech as placeholder narration) |
+| M8    | Background audio, interruptions, lock screen                        | Configured; needs testing on a real phone        |
+| M9    | XP / levels, completion screen, header progress                     | Done                                             |
+| M10   | Polish, accessibility, icon, splash, store builds                   | Next                                             |
+| Later | Real purchases, recordings, language packs, streaks, reminders      |                                                  |
 
 ## Testing
 

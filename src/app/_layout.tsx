@@ -53,7 +53,11 @@ function ThemedStack() {
             contentStyle: { backgroundColor: 'transparent' },
             animation: 'fade',
           }}
-        />
+        >
+          {/* No swipe-back during or right after a session. */}
+          <Stack.Screen name="session" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="complete" options={{ gestureEnabled: false }} />
+        </Stack>
       </NavigationThemeProvider>
     </View>
   );

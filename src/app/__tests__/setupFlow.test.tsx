@@ -9,8 +9,9 @@ import { useSessionSetup } from '@/state/sessionSetup';
 import { themeWrapper } from '@/test/render';
 import { appRoutes } from '@/test/routes';
 
-const press = (name: string | RegExp, role: 'button' | 'tab' = 'button') =>
-  fireEvent.press(screen.getByRole(role, { name }));
+/** Presses the element with this role and name (`index` picks among several). */
+const press = (name: string | RegExp, role: 'button' | 'tab' = 'button', index = 0) =>
+  fireEvent.press(screen.getAllByRole(role, { name })[index]);
 
 const wheel = (name: string) => screen.getByRole('adjustable', { name });
 
@@ -180,9 +181,8 @@ describe('Main screen', () => {
     // result is checked here.)
     await act(() => jest.advanceTimersByTime(800));
     expect(screen).toHavePathname('/session');
-    expect(screen.getByText('Theme: Gratitude')).toBeTruthy();
-    expect(screen.getByText('Narrator: Narrator 3')).toBeTruthy();
-    expect(screen.getByText('Time: 15 min')).toBeTruthy();
+    expect(screen.getByText('Gratitude · Narrator 3')).toBeTruthy();
+    expect(screen.getByTestId('time-left')).toHaveTextContent('15:00');
   });
 
   it('stops narrator speech when leaving the Narrator tab', async () => {
@@ -239,14 +239,18 @@ describe('Main screen', () => {
     ).toHaveLength(1);
   });
 
-  it('shows the setup again, fully visible, after coming back from the session', async () => {
+  it('shows the setup again, fully visible, after a session', async () => {
     await open();
     await press('Time', 'tab');
     await press('Begin');
     await act(() => jest.advanceTimersByTime(800));
     expect(screen).toHavePathname('/session');
 
-    await press('Back');
+    await press('End session');
+    await press('End now');
+    await act(() => jest.advanceTimersByTime(500));
+    expect(screen).toHavePathname('/complete');
+    await press('Done');
     await act(() => jest.advanceTimersByTime(500));
     expect(screen).toHavePathname('/home');
     expect(screen.getByTestId('setup-screen')).toHaveStyle({ opacity: 1 });
@@ -347,9 +351,11 @@ describe('Main screen', () => {
       expect(screen.getByRole('button', { name: 'Begin' })).toBeEnabled();
       await press('Begin');
       await act(() => jest.advanceTimersByTime(800));
-      expect(screen.getByText('Narrator: Narrator 8')).toBeTruthy();
-      expect(screen.getByText('Music: Music 6')).toBeTruthy();
-      await press('Back');
+      expect(screen.getByText('Sleep Story · Narrator 8')).toBeTruthy();
+      await press('End session');
+      await press('End now');
+      await act(() => jest.advanceTimersByTime(500));
+      await press('Done');
       await act(() => jest.advanceTimersByTime(500));
 
       await press('Theme', 'tab');

@@ -11,3 +11,5 @@ export { Screen } from './Screen';
 export { Tabs, type TabItem } from './Tabs';
 export { TextField } from './TextField';
 export { DurationDial } from './dial/DurationDial';
+export { Sheet } from './Sheet';
+export { BreathingCircle } from './session/BreathingCircle';

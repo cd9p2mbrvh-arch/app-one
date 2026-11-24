@@ -20,6 +20,7 @@ import { levelForXp, xpToReachLevel } from '@/domain/progress';
 import { tap } from '@/feedback';
 import { useReduceMotion } from '@/hooks/useReduceMotion';
 import { useActiveProfile } from '@/state/profiles';
+import { useProfileProgress } from '@/state/progress';
 import { useOwned } from '@/state/purchases';
 import {
   canBegin,
@@ -82,6 +83,7 @@ export default function HomeScreen() {
   const { width, height } = useWindowDimensions();
   const profile = useActiveProfile();
   const owned = useOwned();
+  const progress = useProfileProgress(profile?.id);
   const selection: SetupSelection = useSessionSetup(
     useShallow((s) => ({ theme: s.theme, voice: s.voice, music: s.music, duration: s.duration })),
   );
@@ -117,8 +119,7 @@ export default function HomeScreen() {
 
   if (!profile) return <Redirect href="/" />;
 
-  // XP tracking arrives with the XP milestone; every profile is level 1 until then.
-  const xp = 0;
+  const xp = progress.totalXp;
   const level = levelForXp(xp);
   const levelStart = xpToReachLevel(level);
   const levelProgress = (xp - levelStart) / (xpToReachLevel(level + 1) - levelStart);
