@@ -1,21 +1,15 @@
 import { Animated, StyleSheet, View } from 'react-native';
-import Svg, {
-  Circle,
-  Defs,
-  Ellipse,
-  G,
-  LinearGradient,
-  RadialGradient,
-  Rect,
-  Stop,
-} from 'react-native-svg';
+import Svg, { Circle, Defs, Ellipse, G, Path, RadialGradient, Stop } from 'react-native-svg';
 
 import { Glow } from './Glow';
-import { seededRandom, useLoop, useOccasional, useOscillator, type SceneProps } from './motion';
+import { SceneEvents, ShootingStar, Ufo } from './events';
+import { seededRandom, useLoop, useOscillator, type SceneProps } from './motion';
+
+const NIGHT_EVENTS = { ufo: Ufo, shootingStar: ShootingStar };
 
 /**
- * Night: the moon with a soft halo, stars twinkling in three rhythms, thin
- * clouds drifting past and an occasional shooting star.
+ * Night: the moon with a soft halo, shimmering stars with a few sparkles, thin
+ * clouds drifting past, and now and then a shooting star or a UFO.
  */
 export function NightSkyScene({ width, height, still, topInset = 0 }: SceneProps) {
   // In the empty part of the header (between the level bar and the switch icon),
@@ -61,28 +55,82 @@ export function NightSkyScene({ width, height, still, topInset = 0 }: SceneProps
       </Svg>
 
       <NightClouds width={width} height={height} still={still} topInset={topInset} />
-      <ShootingStar width={width} height={height} still={still} topInset={topInset} />
+      <SceneEvents
+        events={NIGHT_EVENTS}
+        width={width}
+        height={height}
+        topInset={topInset}
+        still={still}
+      />
     </View>
   );
 }
 
-/** Stars in three groups that twinkle at different rhythms. */
+/** Stars in four groups that shimmer at different rhythms, plus a few sparkles. */
 function StarField({ width, height, still }: SceneProps) {
   const random = seededRandom(42);
-  const groups = [0, 1, 2].map(() =>
-    Array.from({ length: 16 }, () => ({
+  const groups = [0, 1, 2, 3].map(() =>
+    Array.from({ length: 13 }, () => ({
       x: random() * width,
       // Denser towards the top of the sky.
       y: Math.pow(random(), 1.6) * height * 0.85,
       r: 0.8 + random() * 1.6,
     })),
   );
+  const sparkles = Array.from({ length: 6 }, () => ({
+    x: random() * width,
+    y: Math.pow(random(), 1.4) * height * 0.75,
+    size: 14 + random() * 10,
+  }));
   return (
     <>
       {groups.map((stars, i) => (
         <StarGroup key={i} index={i} stars={stars} width={width} height={height} still={still} />
       ))}
+      {sparkles.map((s, i) => (
+        <Sparkle key={i} index={i} {...s} still={still} />
+      ))}
     </>
+  );
+}
+
+/** A brighter star with a four-point glint that pulses and turns slightly. */
+function Sparkle({
+  index,
+  x,
+  y,
+  size,
+  still,
+}: {
+  index: number;
+  x: number;
+  y: number;
+  size: number;
+  still: boolean;
+}) {
+  const pulse = useOscillator(1100 + index * 370, still, index * 450);
+  const c = size / 2;
+  const arm = size / 2;
+  const waist = size * 0.09;
+  const d = `M ${c} ${c - arm} L ${c + waist} ${c - waist} L ${c + arm} ${c} L ${c + waist} ${c + waist} L ${c} ${c + arm} L ${c - waist} ${c + waist} L ${c - arm} ${c} L ${c - waist} ${c - waist} Z`;
+  return (
+    <Animated.View
+      style={{
+        position: 'absolute',
+        left: x - c,
+        top: y - c,
+        opacity: pulse.interpolate({ inputRange: [0, 1], outputRange: [0.15, 1] }),
+        transform: [
+          { scale: pulse.interpolate({ inputRange: [0, 1], outputRange: [0.4, 1] }) },
+          { rotate: pulse.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '20deg'] }) },
+        ],
+      }}
+    >
+      <Svg width={size} height={size}>
+        <Path d={d} fill="#FFFFFF" />
+        <Circle cx={c} cy={c} r={size * 0.12} fill="#FFFFFF" />
+      </Svg>
+    </Animated.View>
   );
 }
 
@@ -93,7 +141,7 @@ function StarGroup({
   height,
   still,
 }: SceneProps & { index: number; stars: { x: number; y: number; r: number }[] }) {
-  const twinkle = useOscillator(1800 + index * 900, still, index * 600);
+  const twinkle = useOscillator(900 + index * 550, still, index * 400);
   return (
     <Animated.View
       style={{
@@ -102,7 +150,7 @@ function StarGroup({
         left: 0,
         width,
         height,
-        opacity: twinkle.interpolate({ inputRange: [0, 1], outputRange: [0.35, 1] }),
+        opacity: twinkle.interpolate({ inputRange: [0, 1], outputRange: [0.2, 1] }),
       }}
     >
       <Svg width={width} height={height}>
@@ -167,40 +215,6 @@ function NightCloud({
           <Ellipse cx={w * 0.4} cy={h * 0.55} rx={w * 0.38} ry={h * 0.42} />
           <Ellipse cx={w * 0.65} cy={h * 0.5} rx={w * 0.32} ry={h * 0.4} />
         </G>
-      </Svg>
-    </Animated.View>
-  );
-}
-
-/** Every so often a star streaks across the upper sky. */
-function ShootingStar({ width, height, still }: SceneProps) {
-  const t = useOccasional(1100, 9000, still);
-  const length = width * 0.28;
-  if (still) return null;
-  return (
-    <Animated.View
-      style={{
-        position: 'absolute',
-        left: width * 0.05,
-        top: height * 0.12,
-        width: length,
-        height: 3,
-        opacity: t.interpolate({ inputRange: [0, 0.15, 0.7, 1], outputRange: [0, 1, 0.8, 0] }),
-        transform: [
-          { translateX: t.interpolate({ inputRange: [0, 1], outputRange: [0, width * 0.55] }) },
-          { translateY: t.interpolate({ inputRange: [0, 1], outputRange: [0, height * 0.16] }) },
-          { rotate: '16deg' },
-        ],
-      }}
-    >
-      <Svg width={length} height={3}>
-        <Defs>
-          <LinearGradient id="trail" x1="0" y1="0" x2="1" y2="0">
-            <Stop offset="0" stopColor="#FFFFFF" stopOpacity={0} />
-            <Stop offset="1" stopColor="#FFFFFF" stopOpacity={1} />
-          </LinearGradient>
-        </Defs>
-        <Rect x={0} y={0} width={length} height={3} rx={1.5} fill="url(#trail)" />
       </Svg>
     </Animated.View>
   );

@@ -126,14 +126,23 @@ describe('Main screen', () => {
     expect(screen.getByText('Tap to hear a preview')).toBeTruthy();
   });
 
-  it('stops a music preview by itself after a few seconds', async () => {
+  it('plays a 3-second preview that fades out', async () => {
     await open();
     await press('Music', 'tab');
     await press(/^Music 1/);
     const player = lastPlayer();
 
-    await act(() => jest.advanceTimersByTime(8000));
+    await act(() => jest.advanceTimersByTime(2400));
+    expect(player.remove).not.toHaveBeenCalled();
+    expect(player.volume).toBe(0.8);
+
+    await act(() => jest.advanceTimersByTime(350)); // fading
+    expect(player.volume).toBeLessThan(0.8);
+    expect(player.volume).toBeGreaterThan(0);
+
+    await act(() => jest.advanceTimersByTime(300)); // past 3 s
     expect(player.remove).toHaveBeenCalled();
+    expect(screen.getByText('Tap to hear a preview')).toBeTruthy();
   });
 
   it('lets locked music be previewed but not chosen', async () => {

@@ -59,32 +59,6 @@ export function useLoop(durationMs: number, still: boolean, delayMs = 0) {
   return value;
 }
 
-/**
- * A short event that repeats with a pause in between (e.g. a shooting star):
- * runs 0 → 1 in `durationMs`, then waits `pauseMs`, forever.
- */
-export function useOccasional(durationMs: number, pauseMs: number, still: boolean) {
-  const [value] = useState(() => new Animated.Value(0));
-  useEffect(() => {
-    if (still) return;
-    const anim = Animated.loop(
-      Animated.sequence([
-        Animated.delay(pauseMs),
-        Animated.timing(value, {
-          toValue: 1,
-          duration: durationMs,
-          easing: Easing.out(Easing.quad),
-          useNativeDriver: true,
-        }),
-        Animated.timing(value, { toValue: 0, duration: 0, useNativeDriver: true }),
-      ]),
-    );
-    anim.start();
-    return () => anim.stop();
-  }, [value, durationMs, pauseMs, still]);
-  return value;
-}
-
 /** Small deterministic pseudo-random generator, so scenes look the same every launch. */
 export function seededRandom(seed: number) {
   let a = seed >>> 0;

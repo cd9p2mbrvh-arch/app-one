@@ -1,12 +1,16 @@
 import { Animated, StyleSheet, View } from 'react-native';
 import Svg, { Circle, Defs, Ellipse, G, Polygon, RadialGradient, Stop } from 'react-native-svg';
 
+import { Airplane, Birds, SceneEvents } from './events';
 import { Glow } from './Glow';
 import { seededRandom, useLoop, useOscillator, type SceneProps } from './motion';
+
+const MORNING_EVENTS = { airplane: Airplane, birds: Birds };
 
 /**
  * Morning: the sun rising in the upper right with a breathing glow and slowly
  * turning light rays; soft clouds drift by and specks of light float upwards.
+ * Now and then an airplane or a flock of birds passes.
  */
 export function SunriseScene({ width, height, still, topInset = 0 }: SceneProps) {
   // Upper right, so the glow and turning rays frame the top of the screen.
@@ -99,6 +103,13 @@ export function SunriseScene({ width, height, still, topInset = 0 }: SceneProps)
 
       <Clouds width={width} height={height} still={still} topInset={topInset} />
       <Motes width={width} height={height} still={still} topInset={topInset} />
+      <SceneEvents
+        events={MORNING_EVENTS}
+        width={width}
+        height={height}
+        topInset={topInset}
+        still={still}
+      />
     </View>
   );
 }

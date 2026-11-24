@@ -1,14 +1,18 @@
 import { Animated, StyleSheet, View } from 'react-native';
 import Svg, { Defs, Ellipse, LinearGradient, Path, Rect, Stop } from 'react-native-svg';
 
+import { FishJump, SceneEvents, Seagull } from './events';
 import { Glow } from './Glow';
 import { useLoop, useOscillator, type SceneProps } from './motion';
+
+const NOON_EVENTS = { fish: FishJump, seagull: Seagull };
 
 /**
  * Noon: a sunset at the beach. The sun sinks into a warm sea, its reflection
  * shimmers on the water, waves roll in and the foam washes up the sand.
+ * Now and then a fish jumps out of the water or a seagull glides past.
  */
-export function BeachSunsetScene({ width, height, still }: SceneProps) {
+export function BeachSunsetScene({ width, height, still, topInset = 0 }: SceneProps) {
   const horizon = height * 0.56;
   const shore = height * 0.84;
   const sunR = width * 0.2;
@@ -76,6 +80,13 @@ export function BeachSunsetScene({ width, height, still }: SceneProps) {
       <Reflection x={sunX} top={horizon} width={width} still={still} />
       <RollingSwell top={horizon + (shore - horizon) * 0.45} width={width} still={still} />
       <Foam top={shore} width={width} still={still} />
+      <SceneEvents
+        events={NOON_EVENTS}
+        width={width}
+        height={height}
+        topInset={topInset}
+        still={still}
+      />
     </View>
   );
 }
