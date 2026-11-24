@@ -73,11 +73,11 @@ export const looks: Record<TimeOfDay, Look> = {
       textMuted: '#4A2E16',
       surface: '#FFFFFFAD',
       border: '#E79A55',
-      primary: '#8C3E0E',
-      primaryEdge: '#6A2E09',
+      primary: '#9A2F2B',
+      primaryEdge: '#701F1C',
       onPrimary: '#FFFFFF',
       track: '#FFFFFF8C',
-      accent: '#4F2A0B',
+      accent: '#6E1E22',
     },
     backdrop: {
       // Sunset at the beach: golden sky, sun sinking into a warm sea, sand below.
