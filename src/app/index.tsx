@@ -1,66 +1,59 @@
-import { useState } from 'react';
+import { router } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
-import {
-  AppText,
-  ChunkyButton,
-  OptionCard,
-  ProgressBar,
-  Screen,
-  type IconName,
-} from '@/components';
-import { colors, spacing } from '@/theme';
+import { AppText, ChunkyButton, ProgressBar, Screen, Tabs } from '@/components';
+import { spacing, useTheme, type TimeOfDay } from '@/theme';
 
-// Temporary home screen showcasing the design system.
-// Replaced by the real Home once profiles (M2) and XP (M9) exist.
-const THEMES: { id: string; label: string; icon: IconName }[] = [
-  { id: 'abundance', label: 'Abundance', icon: 'sparkles-outline' },
-  { id: 'peace', label: 'Peace of Mind', icon: 'cloud-outline' },
-  { id: 'health', label: 'Health', icon: 'leaf-outline' },
-  { id: 'gratitude', label: 'Gratitude', icon: 'heart-outline' },
+// Temporary home screen. The real Home arrives with profiles (M2) and XP (M9).
+
+type PreviewKey = 'auto' | TimeOfDay;
+
+const PREVIEW_TABS: { key: PreviewKey; label: string }[] = [
+  { key: 'auto', label: 'Auto' },
+  { key: 'morning', label: 'Morning' },
+  { key: 'noon', label: 'Noon' },
+  { key: 'night', label: 'Night' },
 ];
 
 export default function HomeScreen() {
-  const [selected, setSelected] = useState<string | null>(null);
+  const { colors, override, setOverride } = useTheme();
 
   return (
-    <Screen>
+    <Screen
+      footer={
+        <>
+          <ChunkyButton title="Start session" onPress={() => router.push('/setup')} />
+          <ChunkyButton title="Switch profile" variant="secondary" onPress={() => {}} />
+        </>
+      }
+    >
       <AppText variant="title">App One</AppText>
 
-      <View style={styles.levelRow}>
-        <AppText variant="label">Level 3</AppText>
-        <AppText variant="label" color={colors.accent}>
-          124 / 200 XP
+      <View style={styles.block}>
+        <View style={styles.levelRow}>
+          <AppText variant="label">Level 3</AppText>
+          <AppText variant="label" color={colors.accent}>
+            124 / 200 XP
+          </AppText>
+        </View>
+        <ProgressBar value={124 / 200} accessibilityLabel="Level progress" />
+      </View>
+
+      <View style={styles.block}>
+        <AppText variant="caption" color={colors.textMuted}>
+          Background preview (temporary, for testing)
         </AppText>
+        <Tabs
+          tabs={PREVIEW_TABS}
+          active={override ?? 'auto'}
+          onChange={(key) => setOverride(key === 'auto' ? null : key)}
+        />
       </View>
-      <ProgressBar value={124 / 200} accessibilityLabel="Level progress" />
-
-      <AppText variant="heading">Choose a theme</AppText>
-      <View style={styles.grid}>
-        {[THEMES.slice(0, 2), THEMES.slice(2)].map((row, i) => (
-          <View key={i} style={styles.row}>
-            {row.map((t) => (
-              <OptionCard
-                key={t.id}
-                label={t.label}
-                icon={t.icon}
-                selected={selected === t.id}
-                onPress={() => setSelected(t.id)}
-                testID={`theme-${t.id}`}
-              />
-            ))}
-          </View>
-        ))}
-      </View>
-
-      <ChunkyButton title="Start session" onPress={() => {}} disabled={!selected} />
-      <ChunkyButton title="Switch profile" variant="secondary" onPress={() => {}} />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  levelRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: -spacing.sm },
-  grid: { gap: spacing.md },
-  row: { flexDirection: 'row', gap: spacing.md },
+  block: { gap: spacing.sm },
+  levelRow: { flexDirection: 'row', justifyContent: 'space-between' },
 });

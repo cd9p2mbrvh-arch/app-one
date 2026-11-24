@@ -1,6 +1,6 @@
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
-import { colors, radius } from '@/theme';
+import { radius, useTheme } from '@/theme';
 
 type Props = {
   /** Progress from 0 to 1; values outside that range are clamped. */
@@ -16,8 +16,8 @@ export function clampProgress(value: number): number {
 }
 
 export function ProgressBar({ value, height = 16, accessibilityLabel, testID }: Props) {
-  const progress = clampProgress(value);
-  const percent = Math.round(progress * 100);
+  const { colors } = useTheme();
+  const percent = Math.round(clampProgress(value) * 100);
   return (
     <View
       testID={testID}
@@ -25,17 +25,22 @@ export function ProgressBar({ value, height = 16, accessibilityLabel, testID }: 
       accessibilityRole="progressbar"
       accessibilityLabel={accessibilityLabel}
       accessibilityValue={{ min: 0, max: 100, now: percent }}
-      style={[styles.track, { height, borderRadius: radius.pill }]}
+      style={{
+        height,
+        borderRadius: radius.pill,
+        backgroundColor: colors.track,
+        overflow: 'hidden',
+      }}
     >
       <View
         testID={testID ? `${testID}-fill` : undefined}
-        style={[styles.fill, { width: `${percent}%`, borderRadius: radius.pill }]}
+        style={{
+          width: `${percent}%`,
+          height: '100%',
+          borderRadius: radius.pill,
+          backgroundColor: colors.primary,
+        }}
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  track: { backgroundColor: colors.track, overflow: 'hidden' },
-  fill: { height: '100%', backgroundColor: colors.primary },
-});

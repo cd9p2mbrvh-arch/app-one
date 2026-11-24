@@ -1,6 +1,6 @@
-import { activePaletteName, palettes } from './palettes';
-
-export const colors = palettes[activePaletteName];
+export { looks, type Backdrop, type Blob, type Look, type Palette } from './palettes';
+export { ThemeProvider, useTheme } from './ThemeProvider';
+export { getTimeOfDay, PERIOD_START_HOUR, type TimeOfDay } from './timeOfDay';
 
 export const spacing = { xs: 4, sm: 8, md: 16, lg: 24, xl: 32 } as const;
 

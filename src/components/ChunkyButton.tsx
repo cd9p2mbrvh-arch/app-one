@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { colors, edge, radius, spacing } from '@/theme';
+import { edge, radius, spacing, useTheme } from '@/theme';
 
 import { AppText } from './AppText';
 
@@ -17,6 +17,7 @@ type Props = {
  * Pressing it moves the face down onto the edge.
  */
 export function ChunkyButton({ title, onPress, variant = 'primary', disabled, testID }: Props) {
+  const { colors } = useTheme();
   const isPrimary = variant === 'primary';
   const face = isPrimary ? colors.primary : colors.surface;
   const edgeColor = isPrimary ? colors.primaryEdge : colors.border;

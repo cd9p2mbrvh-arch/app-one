@@ -1,4 +1,6 @@
-import { render, screen } from '@testing-library/react-native';
+import { screen } from '@testing-library/react-native';
+
+import { renderWithTheme as render } from '@/test/render';
 
 import { clampProgress, ProgressBar } from '../ProgressBar';
 
