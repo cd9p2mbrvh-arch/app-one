@@ -31,58 +31,77 @@ export type Palette = {
 /** A soft, blurred colour spot. Position and radius are fractions of the screen size. */
 export type Blob = { color: string; cx: number; cy: number; r: number };
 
+/** A soft wave band drifting sideways. `y` is a fraction of the screen height. */
+export type Wave = { color: string; y: number; opacity: number };
+
 export type Backdrop = {
   /** Top-to-bottom base gradient */
   gradient: [string, string, string];
-  /** Soft colour spots layered over the gradient */
+  /** Soft colour spots layered over the gradient; they drift slowly */
   blobs: Blob[];
+  /** Gentle waves rolling behind the frosted-glass layer */
+  waves: Wave[];
+  /** Frosted-glass tint over the moving background */
+  glass: 'light' | 'dark';
 };
 
 export type Look = { colors: Palette; backdrop: Backdrop };
 
 export const looks: Record<TimeOfDay, Look> = {
   morning: {
+    // Sunrise sky: clear light blue above, warm white and a faint peach glow below.
     colors: {
       statusBar: 'dark',
-      text: '#26323C',
-      textMuted: '#425160',
-      surface: '#FFFFFFB3',
-      border: '#B9C9D6',
-      primary: '#5B7083',
-      primaryEdge: '#465969',
+      text: '#1D3144',
+      textMuted: '#3A5266',
+      surface: '#FFFFFFB8',
+      border: '#B3D1EA',
+      primary: '#2C6FA8',
+      primaryEdge: '#205584',
       onPrimary: '#FFFFFF',
       track: '#FFFFFF99',
-      accent: '#41566A',
+      accent: '#1F527D',
     },
     backdrop: {
-      gradient: ['#E3EEF8', '#F3F7FB', '#FFFFFF'],
+      gradient: ['#C7E2F8', '#EAF4FC', '#FFF1E8'],
       blobs: [
-        { color: '#C9DDF2', cx: 0.15, cy: 0.12, r: 0.55 },
-        { color: '#E4E6FA', cx: 0.95, cy: 0.4, r: 0.5 },
-        { color: '#D6EAF5', cx: 0.3, cy: 0.9, r: 0.6 },
+        { color: '#A6CFF2', cx: 0.15, cy: 0.12, r: 0.55 },
+        { color: '#F7D5E3', cx: 0.95, cy: 0.5, r: 0.45 },
+        { color: '#FFD7C2', cx: 0.3, cy: 0.92, r: 0.6 },
       ],
+      waves: [
+        { color: '#FFFFFF', y: 0.6, opacity: 0.45 },
+        { color: '#B9DAF6', y: 0.8, opacity: 0.35 },
+      ],
+      glass: 'light',
     },
   },
   noon: {
+    // Bright midday: golden yellow above, deeper orange and coral below.
     colors: {
       statusBar: 'dark',
-      text: '#3A2E22',
-      textMuted: '#523F2D',
-      surface: '#FFFFFFA6',
-      border: '#E2BE8C',
-      primary: '#94643A',
-      primaryEdge: '#764E2B',
+      text: '#33200F',
+      textMuted: '#4A2E16',
+      surface: '#FFFFFFAD',
+      border: '#E79A55',
+      primary: '#8C3E0E',
+      primaryEdge: '#6A2E09',
       onPrimary: '#FFFFFF',
       track: '#FFFFFF8C',
-      accent: '#6B4523',
+      accent: '#4F2A0B',
     },
     backdrop: {
-      gradient: ['#FFE2B8', '#FFEFD6', '#FFF8EC'],
+      gradient: ['#FFD45C', '#FFB463', '#FF915E'],
       blobs: [
-        { color: '#FFC98C', cx: 0.85, cy: 0.1, r: 0.6 },
-        { color: '#FFE59E', cx: 0.1, cy: 0.45, r: 0.55 },
-        { color: '#FFD3A8', cx: 0.8, cy: 0.92, r: 0.6 },
+        { color: '#FFE88E', cx: 0.85, cy: 0.1, r: 0.55 },
+        { color: '#FF7E57', cx: 0.1, cy: 0.55, r: 0.5 },
+        { color: '#FFC23F', cx: 0.8, cy: 0.92, r: 0.6 },
       ],
+      waves: [
+        { color: '#FFF0B8', y: 0.58, opacity: 0.4 },
+        { color: '#FF8C5A', y: 0.8, opacity: 0.35 },
+      ],
+      glass: 'light',
     },
   },
   night: {
@@ -105,6 +124,11 @@ export const looks: Record<TimeOfDay, Look> = {
         { color: '#1B2B4E', cx: 0.1, cy: 0.5, r: 0.55 },
         { color: '#30487A', cx: 0.6, cy: 0.95, r: 0.6 },
       ],
+      waves: [
+        { color: '#2B4577', y: 0.62, opacity: 0.4 },
+        { color: '#30487A', y: 0.82, opacity: 0.3 },
+      ],
+      glass: 'dark',
     },
   },
 };

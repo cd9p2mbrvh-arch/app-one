@@ -28,8 +28,13 @@ describe('colour utilities', () => {
 });
 
 describe.each(Object.entries(looks))('%s look', (_period, { colors: c, backdrop }) => {
-  // Every colour the background can show: gradient stops and blob centres.
-  const backgrounds = [...backdrop.gradient, ...backdrop.blobs.map((b) => b.color)];
+  // Every colour the background can show: gradient stops, blob centres and waves
+  // (taken at full strength, the worst case).
+  const backgrounds = [
+    ...backdrop.gradient,
+    ...backdrop.blobs.map((b) => b.color),
+    ...backdrop.waves.map((w) => w.color),
+  ];
 
   it.each(backgrounds)('text is readable directly on background %s', (bg) => {
     expect(contrastRatio(c.text, bg)).toBeGreaterThanOrEqual(AA_TEXT);
