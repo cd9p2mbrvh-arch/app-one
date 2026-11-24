@@ -16,14 +16,7 @@ import {
 import { MusicList, NarratorSelect, ThemeGrid } from '@/components/setup';
 import { MUSIC, THEMES, VOICES } from '@/content/manifest';
 import { levelForXp, xpToReachLevel } from '@/domain/progress';
-import {
-  getTabSound,
-  playTabSound,
-  setTabSound,
-  TAB_SOUND_NAMES,
-  tap,
-  type TabSound,
-} from '@/feedback';
+import { tap } from '@/feedback';
 import { useActiveProfile } from '@/state/profiles';
 import {
   canBegin,
@@ -62,12 +55,11 @@ export default function HomeScreen() {
   const [slide] = useState(() => new Animated.Value(0));
   const direction = useRef<1 | -1 | 0>(0);
 
-  /** Switches tab with a slide from the direction of travel, a woosh and a haptic. */
+  /** Switches tab with a slide from the direction of travel and a haptic. */
   const goTo = (step: SetupStep) => {
     if (step === active) return;
     direction.current = SETUP_STEPS.indexOf(step) > SETUP_STEPS.indexOf(active) ? 1 : -1;
     setActive(step);
-    playTabSound();
     tap();
   };
 
@@ -154,7 +146,6 @@ export default function HomeScreen() {
           </View>
           <Ionicons name="swap-horizontal" size={20} color={colors.textMuted} />
         </Pressable>
-        <TabSoundButton />
         <BackgroundPreviewButton />
       </View>
 
@@ -230,34 +221,6 @@ export default function HomeScreen() {
   );
 }
 
-// Temporary: cycles through the candidate tab sounds so they can be compared.
-function TabSoundButton() {
-  const { colors } = useTheme();
-  const [sound, setSound] = useState<TabSound>(getTabSound);
-  const next = TAB_SOUND_NAMES[(TAB_SOUND_NAMES.indexOf(sound) + 1) % TAB_SOUND_NAMES.length];
-  return (
-    <Pressable
-      onPress={() => {
-        setTabSound(next);
-        setSound(next);
-        playTabSound(next);
-      }}
-      accessibilityRole="button"
-      accessibilityLabel={`Tab sound: ${sound}`}
-      hitSlop={8}
-      style={[
-        styles.previewButton,
-        { borderColor: colors.border, backgroundColor: colors.surface },
-      ]}
-    >
-      <Ionicons name="musical-note-outline" size={18} color={colors.text} />
-      <AppText variant="caption" style={styles.soundLabel} numberOfLines={1}>
-        {sound}
-      </AppText>
-    </Pressable>
-  );
-}
-
 // Temporary: cycles the time-of-day background so all looks can be previewed.
 const PREVIEW_ORDER: (TimeOfDay | null)[] = [null, 'morning', 'noon', 'night'];
 const PREVIEW_ICONS = {
@@ -298,7 +261,6 @@ const styles = StyleSheet.create({
   content: { gap: spacing.lg },
   dialContent: { flex: 1 },
   dialArea: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.md },
-  soundLabel: { fontSize: 8, lineHeight: 10, marginTop: -2 },
   previewButton: {
     width: 40,
     height: 40,

@@ -2,7 +2,6 @@ import { createAudioPlayer } from 'expo-audio';
 import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 import * as Speech from 'expo-speech';
 
-import { resetSounds } from '@/feedback';
 import { useProfiles } from '@/state/profiles';
 import { useSessionSetup } from '@/state/sessionSetup';
 import { themeWrapper } from '@/test/render';
@@ -20,9 +19,8 @@ async function step(direction: 'increment' | 'decrement', expected: string) {
 }
 
 /**
- * The most recently created audio player. In tests every sound file is the same
- * stub value, so players are told apart by creation order (the woosh is created
- * on the first tab change, before any music preview).
+ * The most recently created audio player (in tests every sound file is the same
+ * stub value, so players are told apart by creation order).
  */
 const lastPlayer = () => (createAudioPlayer as jest.Mock).mock.results.at(-1)?.value;
 
@@ -36,7 +34,6 @@ const flush = () => act(() => jest.advanceTimersByTime(0));
 
 beforeEach(async () => {
   jest.clearAllMocks();
-  resetSounds();
   await act(() =>
     useProfiles.setState({
       profiles: [{ id: 'p1', name: 'Anna', avatar: 'moon', createdAt: '2026-01-01T00:00:00Z' }],
@@ -175,16 +172,14 @@ describe('Main screen', () => {
     expect(Speech.stop).toHaveBeenCalled();
   });
 
-  it('plays a sound and a haptic when changing tabs', async () => {
+  it('gives a haptic but no sound when changing tabs', async () => {
     await open();
     const Haptics = jest.requireMock('expo-haptics');
     Haptics.impactAsync.mockClear();
 
     await press('Music', 'tab');
 
-    const sound = (createAudioPlayer as jest.Mock).mock.results.at(-1)?.value;
-    expect(sound.play).toHaveBeenCalled();
-    expect(sound.seekTo).toHaveBeenCalledWith(0);
+    expect(createAudioPlayer).not.toHaveBeenCalled();
     expect(Haptics.impactAsync).toHaveBeenCalledWith('medium');
     expect(screen.getByRole('tab', { name: 'Music' })).toBeSelected();
   });
@@ -200,18 +195,12 @@ describe('Main screen', () => {
     },
   );
 
-  it('cycles and plays the candidate tab sounds from the header', async () => {
-    await open();
-    await press('Tab sound: swish');
-    expect(screen.getByRole('button', { name: 'Tab sound: pop' })).toBeTruthy();
-    expect(lastPlayer()?.play).toHaveBeenCalled();
-  });
-
   it('does nothing when the current tab is tapped again', async () => {
     await open();
-    (createAudioPlayer as jest.Mock).mockClear();
+    const Haptics = jest.requireMock('expo-haptics');
+    Haptics.impactAsync.mockClear();
     await press('Theme', 'tab');
-    expect(createAudioPlayer).not.toHaveBeenCalled();
+    expect(Haptics.impactAsync).not.toHaveBeenCalled();
   });
 
   it('opens the profile picker from the header', async () => {
