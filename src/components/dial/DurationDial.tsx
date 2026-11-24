@@ -6,6 +6,7 @@ import { majorTick, tick } from '@/feedback';
 import { useTheme } from '@/theme';
 
 import { AppText } from '../AppText';
+import { hapticForStep, speedBetween } from './dialHaptics';
 import {
   angleForValue,
   angleOf,
@@ -38,6 +39,8 @@ export function DurationDial({ value, onChange, size, testID }: Props) {
   const [current, setCurrent] = useState(value);
   const [prevValue, setPrevValue] = useState(value);
   const live = useRef(value);
+  // For haptic pacing: when the last haptic fired and the last value sample.
+  const pacing = useRef({ lastHapticAt: -Infinity, sampleValue: value, sampleTime: 0 });
 
   // Follow changes from outside (e.g. a reset).
   if (value !== prevValue) {
@@ -51,12 +54,18 @@ export function DurationDial({ value, onChange, size, testID }: Props) {
   const circumference = 2 * Math.PI * ringRadius;
   const progress = current / DIAL_MAX;
 
-  const update = (next: number) => {
+  const update = (next: number, now: number) => {
     if (next === live.current) return;
+    const p = pacing.current;
+    const speed = speedBetween(p.sampleValue, p.sampleTime, next, now);
+    p.sampleValue = next;
+    p.sampleTime = now;
     live.current = next;
     setCurrent(next);
-    if (next % 5 === 0) majorTick();
-    else tick();
+    const haptic = hapticForStep({ value: next, now, lastHapticAt: p.lastHapticAt, speed });
+    if (haptic) p.lastHapticAt = now;
+    if (haptic === 'major') majorTick();
+    else if (haptic === 'minor') tick();
   };
 
   const angleFromEvent = (e: GestureResponderEvent) =>
@@ -64,16 +73,23 @@ export function DurationDial({ value, onChange, size, testID }: Props) {
 
   const onGrant = (e: GestureResponderEvent) => {
     live.current = current;
-    update(valueForTap(angleFromEvent(e)));
+    // A tap jump is a single deliberate change: start speed tracking fresh.
+    pacing.current.sampleValue = current;
+    pacing.current.sampleTime = -Infinity;
+    update(valueForTap(angleFromEvent(e)), e.nativeEvent.timestamp);
+    // Measure the speed of the drag that may follow from this touch.
+    pacing.current.sampleValue = live.current;
+    pacing.current.sampleTime = e.nativeEvent.timestamp;
   };
   const onMove = (e: GestureResponderEvent) =>
-    update(valueForDrag(live.current, angleFromEvent(e)));
+    update(valueForDrag(live.current, angleFromEvent(e)), e.nativeEvent.timestamp);
   const onRelease = () => onChange(live.current);
 
   const step = (direction: 1 | -1) => {
     live.current = current;
+    pacing.current.sampleTime = -Infinity;
     const next = stepValue(current, direction);
-    update(next);
+    update(next, Number.MAX_SAFE_INTEGER);
     onChange(next);
   };
 

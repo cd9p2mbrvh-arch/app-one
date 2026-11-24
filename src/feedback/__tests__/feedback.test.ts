@@ -9,16 +9,17 @@ beforeEach(() => {
 });
 
 describe('haptics', () => {
-  it('uses a medium impact for ticks and taps', () => {
+  it('uses the gentle selection haptic for dial ticks', () => {
     tick();
-    tap();
-    expect(Haptics.impactAsync).toHaveBeenCalledTimes(2);
-    expect(Haptics.impactAsync).toHaveBeenCalledWith('medium');
+    expect(Haptics.selectionAsync).toHaveBeenCalledTimes(1);
+    expect(Haptics.impactAsync).not.toHaveBeenCalled();
   });
 
-  it('uses a heavy impact for major ticks', () => {
+  it('uses a light impact for major ticks and a medium one for taps', () => {
     majorTick();
-    expect(Haptics.impactAsync).toHaveBeenCalledWith('heavy');
+    expect(Haptics.impactAsync).toHaveBeenLastCalledWith('light');
+    tap();
+    expect(Haptics.impactAsync).toHaveBeenLastCalledWith('medium');
   });
 
   it('never throws when haptics fail', async () => {

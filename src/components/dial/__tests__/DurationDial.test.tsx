@@ -9,10 +9,10 @@ import { pointAt } from '../dialMath';
 const SIZE = 300;
 const C = SIZE / 2;
 
-/** A touch event at a clock position, given in minutes (0–60). */
-const at = (minutes: number, radius = 120) => {
+/** A touch event at a clock position (minutes 0–60), at time `t` ms. */
+const at = (minutes: number, t = 0, radius = 120) => {
   const p = pointAt(minutes * 6, radius);
-  return { nativeEvent: { locationX: C + p.x, locationY: C + p.y } };
+  return { nativeEvent: { locationX: C + p.x, locationY: C + p.y, timestamp: t } };
 };
 
 async function setup(value = 10) {
@@ -60,13 +60,26 @@ describe('DurationDial', () => {
     expect(onChange).toHaveBeenLastCalledWith(60);
   });
 
-  it('ticks every minute and ticks harder on 5-minute marks', async () => {
+  it('ticks gently each minute when moving slowly, firmer on 5-minute marks', async () => {
     const { dial } = await setup(10);
-    await fireEvent(dial, 'responderGrant', at(10));
-    await fireEvent(dial, 'responderMove', at(11));
-    expect(Haptics.impactAsync).toHaveBeenLastCalledWith('medium');
-    await fireEvent(dial, 'responderMove', at(15));
-    expect(Haptics.impactAsync).toHaveBeenLastCalledWith('heavy');
+    await fireEvent(dial, 'responderGrant', at(10, 0));
+    await fireEvent(dial, 'responderMove', at(11, 500));
+    expect(Haptics.selectionAsync).toHaveBeenCalledTimes(1);
+    await fireEvent(dial, 'responderMove', at(12, 1000));
+    expect(Haptics.selectionAsync).toHaveBeenCalledTimes(2);
+    await fireEvent(dial, 'responderMove', at(15, 1500));
+    expect(Haptics.impactAsync).toHaveBeenCalledWith('light');
+  });
+
+  it('only clicks on 5-minute marks during a fast spin', async () => {
+    const { dial } = await setup(10);
+    await fireEvent(dial, 'responderGrant', at(10, 0));
+    for (let m = 11; m <= 30; m++) {
+      await fireEvent(dial, 'responderMove', at(m, (m - 10) * 15)); // ~67 min/s
+    }
+    expect(dial).toHaveAccessibilityValue({ text: '30 minutes' });
+    expect(Haptics.selectionAsync).not.toHaveBeenCalled();
+    expect(Haptics.impactAsync).toHaveBeenCalledTimes(4); // 15, 20, 25, 30
   });
 
   it('supports VoiceOver steps', async () => {

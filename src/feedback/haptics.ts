@@ -8,14 +8,14 @@ const safe = (p: Promise<void>) => {
   p.catch(() => {});
 };
 
-/** A step on a dial or wheel (one minute). */
+/** A small step on a dial (one minute): the system "picker" haptic, the gentlest. */
 export function tick() {
-  safe(Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium));
+  safe(Haptics.selectionAsync());
 }
 
 /** A notable step, e.g. every 5 minutes on the time dial. */
 export function majorTick() {
-  safe(Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy));
+  safe(Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light));
 }
 
 /** Choosing something: a card, a row, a tab. */
