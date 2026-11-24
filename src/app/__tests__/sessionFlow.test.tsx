@@ -1,6 +1,7 @@
 import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 import { createAudioPlayer, setAudioModeAsync } from 'expo-audio';
 import * as Speech from 'expo-speech';
+import { AppState } from 'react-native';
 
 import { useProfiles } from '@/state/profiles';
 import { progressOf, useProgress } from '@/state/progress';
@@ -72,6 +73,58 @@ describe('A meditation session', () => {
     await wait(5000);
     expect((Speech.speak as jest.Mock).mock.calls[0][1]).toMatchObject({
       useApplicationAudioSession: true,
+    });
+  });
+
+  describe('temporary audio check (background playback)', () => {
+    it('reports when background playback was set up', async () => {
+      await startSession(3);
+      expect(screen.getByTestId('audio-check')).toHaveTextContent(
+        'Audio check: background playback on',
+      );
+    });
+
+    it('reports when iOS refused the background setup, with the reason', async () => {
+      (setAudioModeAsync as jest.Mock)
+        .mockRejectedValueOnce(new Error('Session busy'))
+        .mockRejectedValueOnce(new Error('Session busy'));
+      await startSession(3);
+      await wait(500);
+      expect(screen.getByTestId('audio-check')).toHaveTextContent(
+        'Audio check: background setup FAILED (Session busy)',
+      );
+    });
+
+    it('retries once if the first setup attempt fails', async () => {
+      (setAudioModeAsync as jest.Mock).mockRejectedValueOnce(new Error('Session busy'));
+      await startSession(3);
+      await wait(500);
+      expect(screen.getByTestId('audio-check')).toHaveTextContent(
+        'Audio check: background playback on',
+      );
+    });
+
+    it('tells whether the music kept playing while the phone was locked', async () => {
+      // Capture AppState listeners while keeping the original behaviour.
+      const listeners: ((state: string) => void)[] = [];
+      const original = AppState.addEventListener;
+      AppState.addEventListener = ((type: string, listener: (state: string) => void) => {
+        listeners.push(listener);
+        return original.call(AppState, type as 'change', listener as never);
+      }) as typeof AppState.addEventListener;
+      await startSession(3);
+      const music = (createAudioPlayer as jest.Mock).mock.results.at(-1)?.value;
+
+      await act(() => listeners.forEach((l) => l('background')));
+      music.playing = false; // the system paused it
+      await wait(30000);
+      await act(() => listeners.forEach((l) => l('active')));
+
+      expect(screen.getByTestId('audio-check')).toHaveTextContent(
+        'Audio check: away 30 s · music was playing when locked · was paused by the system',
+      );
+      expect(music.play).toHaveBeenCalledTimes(2); // re-sync restarted it
+      AppState.addEventListener = original;
     });
   });
 

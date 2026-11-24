@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 
 import { speakAs, stopSpeaking } from '@/audio/narratorVoice';
-import { configureAudioSession } from '@/audio/session';
+import { configureAudioSession, configureAudioSessionReporting } from '@/audio/session';
 import type { Narrator } from '@/content/manifest';
 
 import { SessionEngine, type EngineLine, type EngineState } from './engine';
@@ -42,6 +42,8 @@ export function useSession({
     completed: null,
   });
   const engine = useRef<SessionEngine | null>(null);
+  // TEMPORARY diagnostics for background playback (shown on the session screen).
+  const [audioCheck, setAudioCheck] = useState('Audio check: starting…');
   const finish = useRef(onFinish);
   useEffect(() => {
     finish.current = onFinish;
@@ -53,58 +55,86 @@ export function useSession({
     let cancelled = false;
     let e: SessionEngine | null = null;
 
+    let player: ReturnType<typeof createAudioPlayer> | null = null;
+    let backgroundedAt: { wallMs: number; musicSec: number; playing: boolean } | null = null;
+
     // Wait for the audio session (background playback) before starting audio.
-    configureAudioSession()
-      .catch(() => {})
-      .then(() => {
-        if (cancelled) return;
-        const player = createAudioPlayer(musicSource);
-        player.loop = true;
-        try {
-          // Lock-screen "Now playing": keeps the session alive with the screen locked.
-          player.setActiveForLockScreen(true, { title, artist, albumTitle: 'App One' });
-        } catch {
-          // Not available on every platform; playback works without it.
-        }
-        let released = false;
-        e = new SessionEngine(
-          lines,
-          durationMs,
-          {
-            now: Date.now,
-            random: Math.random,
-            speak: (text, onDone) => {
-              speakAs(narrator, narratorIndex, text, onDone).catch(onDone);
+    configureAudioSessionReporting().then(async (setup) => {
+      if (cancelled) return;
+      setAudioCheck(
+        setup.ok
+          ? 'Audio check: background playback on'
+          : `Audio check: background setup FAILED (${setup.error})`,
+      );
+      // Apply once more right before playing, in case anything changed it meanwhile.
+      await configureAudioSession().catch(() => {});
+      if (cancelled) return;
+      const p = createAudioPlayer(musicSource);
+      player = p;
+      p.loop = true;
+      try {
+        // Lock-screen "Now playing": keeps the session alive with the screen locked.
+        p.setActiveForLockScreen(true, { title, artist, albumTitle: 'App One' });
+      } catch {
+        // Not available on every platform; playback works without it.
+      }
+      let released = false;
+      e = new SessionEngine(
+        lines,
+        durationMs,
+        {
+          now: Date.now,
+          random: Math.random,
+          speak: (text, onDone) => {
+            speakAs(narrator, narratorIndex, text, onDone).catch(onDone);
+          },
+          stopSpeech: stopSpeaking,
+          music: {
+            play: () => !released && p.play(),
+            pause: () => !released && p.pause(),
+            setVolume: (v) => {
+              if (!released) p.volume = v;
             },
-            stopSpeech: stopSpeaking,
-            music: {
-              play: () => !released && player.play(),
-              pause: () => !released && player.pause(),
-              setVolume: (v) => {
-                if (!released) player.volume = v;
-              },
-              release: () => {
-                if (released) return;
-                released = true;
-                try {
-                  player.clearLockScreenControls();
-                } catch {
-                  // ignore
-                }
-                player.remove();
-              },
+            release: () => {
+              if (released) return;
+              released = true;
+              try {
+                p.clearLockScreenControls();
+              } catch {
+                // ignore
+              }
+              p.remove();
             },
           },
-          setState,
-          (s) => finish.current(s),
-        );
-        engine.current = e;
-        e.start();
-      });
+        },
+        setState,
+        (s) => finish.current(s),
+      );
+      engine.current = e;
+      e.start();
+    });
 
     // Back from the lock screen or another app: re-sync music and clock.
     const sub = AppState.addEventListener('change', (next) => {
-      if (next === 'active') e?.resync();
+      if (next === 'background' && player) {
+        backgroundedAt = {
+          wallMs: Date.now(),
+          musicSec: player.currentTime,
+          playing: player.playing,
+        };
+      }
+      if (next === 'active') {
+        if (backgroundedAt && player) {
+          // Did the music keep playing while the app was in the background?
+          const awaySec = (Date.now() - backgroundedAt.wallMs) / 1000;
+          const advanced = player.currentTime !== backgroundedAt.musicSec || player.playing;
+          setAudioCheck(
+            `Audio check: away ${Math.round(awaySec)} s · music was ${backgroundedAt.playing ? 'playing' : 'NOT playing'} when locked · ${advanced ? 'kept playing' : 'was paused by the system'}`,
+          );
+          backgroundedAt = null;
+        }
+        e?.resync();
+      }
     });
 
     return () => {
@@ -116,6 +146,7 @@ export function useSession({
 
   return {
     state,
+    audioCheck,
     pause: () => engine.current?.pause(),
     resume: () => engine.current?.resume(),
     end: () => engine.current?.end(),

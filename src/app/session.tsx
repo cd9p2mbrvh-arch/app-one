@@ -44,7 +44,7 @@ export default function SessionScreen() {
     [selection.theme, selection.voice],
   );
 
-  const { state, pause, resume, end } = useSession({
+  const { state, pause, resume, end, audioCheck } = useSession({
     lines,
     nowPlaying: { title: theme?.label ?? 'Meditation', artist: narrator.label },
     durationMs: selection.duration * 60000,
@@ -108,6 +108,15 @@ export default function SessionScreen() {
               End session
             </AppText>
           </Pressable>
+          {/* TEMPORARY: helps find why audio stops with the screen locked. */}
+          <AppText
+            variant="caption"
+            color={colors.textMuted}
+            style={styles.centerText}
+            testID="audio-check"
+          >
+            {audioCheck}
+          </AppText>
         </>
       }
     >

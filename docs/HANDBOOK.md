@@ -246,6 +246,7 @@ testing before review.
 
 - [ ] Remove the background preview button (top-left).
 - [ ] Remove "Reset demo purchases".
+- [ ] Remove the "Audio check" line under the session controls.
 - [ ] Replace the demo purchase sheet with real store purchases.
 - [ ] Replace placeholder **lines**, **narrator voices** (currently the phone's
       built-in speech), **portraits** and **music**.
