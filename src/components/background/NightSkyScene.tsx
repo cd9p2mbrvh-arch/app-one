@@ -5,7 +5,11 @@ import { Glow } from './Glow';
 import { SceneEvents, ShootingStar, Ufo } from './events';
 import { seededRandom, useLoop, useOscillator, type SceneProps } from './motion';
 
-const NIGHT_EVENTS = { ufo: Ufo, shootingStar: ShootingStar };
+// The UFO is a rare treat: shooting stars are four times as likely.
+const NIGHT_EVENTS = {
+  shootingStar: { event: ShootingStar, weight: 4 },
+  ufo: { event: Ufo, weight: 1 },
+};
 
 /**
  * Night: the moon with a soft halo, shimmering stars with a few sparkles, thin
@@ -54,6 +58,7 @@ export function NightSkyScene({ width, height, still, topInset = 0 }: SceneProps
         </G>
       </Svg>
 
+      <MoonClouds x={moonX} y={moonY} r={moonR} still={still} />
       <NightClouds width={width} height={height} still={still} topInset={topInset} />
       <SceneEvents
         events={NIGHT_EVENTS}
@@ -77,7 +82,7 @@ function StarField({ width, height, still }: SceneProps) {
       r: 0.8 + random() * 1.6,
     })),
   );
-  const sparkles = Array.from({ length: 6 }, () => ({
+  const sparkles = Array.from({ length: 4 }, () => ({
     x: random() * width,
     y: Math.pow(random(), 1.4) * height * 0.75,
     size: 14 + random() * 10,
@@ -108,7 +113,7 @@ function Sparkle({
   size: number;
   still: boolean;
 }) {
-  const pulse = useOscillator(1100 + index * 370, still, index * 450);
+  const pulse = useOscillator(2200 + index * 600, still, index * 700);
   const c = size / 2;
   const arm = size / 2;
   const waist = size * 0.09;
@@ -119,10 +124,10 @@ function Sparkle({
         position: 'absolute',
         left: x - c,
         top: y - c,
-        opacity: pulse.interpolate({ inputRange: [0, 1], outputRange: [0.15, 1] }),
+        opacity: pulse.interpolate({ inputRange: [0, 1], outputRange: [0.35, 0.85] }),
         transform: [
-          { scale: pulse.interpolate({ inputRange: [0, 1], outputRange: [0.4, 1] }) },
-          { rotate: pulse.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '20deg'] }) },
+          { scale: pulse.interpolate({ inputRange: [0, 1], outputRange: [0.7, 1] }) },
+          { rotate: pulse.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '12deg'] }) },
         ],
       }}
     >
@@ -141,7 +146,7 @@ function StarGroup({
   height,
   still,
 }: SceneProps & { index: number; stars: { x: number; y: number; r: number }[] }) {
-  const twinkle = useOscillator(900 + index * 550, still, index * 400);
+  const twinkle = useOscillator(1700 + index * 700, still, index * 500);
   return (
     <Animated.View
       style={{
@@ -150,7 +155,7 @@ function StarGroup({
         left: 0,
         width,
         height,
-        opacity: twinkle.interpolate({ inputRange: [0, 1], outputRange: [0.2, 1] }),
+        opacity: twinkle.interpolate({ inputRange: [0, 1], outputRange: [0.5, 1] }),
       }}
     >
       <Svg width={width} height={height}>
@@ -215,6 +220,88 @@ function NightCloud({
           <Ellipse cx={w * 0.4} cy={h * 0.55} rx={w * 0.38} ry={h * 0.42} />
           <Ellipse cx={w * 0.65} cy={h * 0.5} rx={w * 0.32} ry={h * 0.4} />
         </G>
+      </Svg>
+    </Animated.View>
+  );
+}
+
+/**
+ * Soft cloud wisps around the moon, drifting slowly back and forth and now and
+ * then passing in front of it.
+ */
+function MoonClouds({ x, y, r, still }: { x: number; y: number; r: number; still: boolean }) {
+  const wisps = [
+    { dx: -3.2, dy: 0.9, w: 5.5, h: 1.6, drift: 2.2, ms: 14000, delay: 0, opacity: 0.55 },
+    { dx: 0.6, dy: 1.6, w: 4.2, h: 1.3, drift: -1.8, ms: 17000, delay: 3000, opacity: 0.45 },
+    { dx: -1.2, dy: -0.6, w: 3.6, h: 1.1, drift: 1.6, ms: 21000, delay: 6000, opacity: 0.4 },
+  ];
+  return (
+    <>
+      {wisps.map((w, i) => (
+        <MoonWisp key={i} index={i} x={x} y={y} r={r} still={still} {...w} />
+      ))}
+    </>
+  );
+}
+
+function MoonWisp({
+  index,
+  x,
+  y,
+  r,
+  dx,
+  dy,
+  w,
+  h,
+  drift,
+  ms,
+  delay,
+  opacity,
+  still,
+}: {
+  index: number;
+  x: number;
+  y: number;
+  r: number;
+  dx: number;
+  dy: number;
+  w: number;
+  h: number;
+  drift: number;
+  ms: number;
+  delay: number;
+  opacity: number;
+  still: boolean;
+}) {
+  const t = useOscillator(ms, still, delay);
+  const width = w * r;
+  const height = h * r;
+  return (
+    <Animated.View
+      style={{
+        position: 'absolute',
+        left: x + dx * r - width / 2,
+        top: y + dy * r - height / 2,
+        opacity,
+        transform: [
+          { translateX: t.interpolate({ inputRange: [0, 1], outputRange: [0, drift * r] }) },
+        ],
+      }}
+    >
+      <Svg width={width} height={height}>
+        <Defs>
+          <RadialGradient id={`wisp${index}`} cx="50%" cy="50%" r="50%">
+            <Stop offset="0" stopColor="#5D73A3" stopOpacity={0.9} />
+            <Stop offset="1" stopColor="#5D73A3" stopOpacity={0} />
+          </RadialGradient>
+        </Defs>
+        <Ellipse
+          cx={width / 2}
+          cy={height / 2}
+          rx={width / 2}
+          ry={height / 2}
+          fill={`url(#wisp${index})`}
+        />
       </Svg>
     </Animated.View>
   );

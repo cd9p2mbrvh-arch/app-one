@@ -102,7 +102,8 @@ export const looks: Record<TimeOfDay, Look> = {
     backdrop: {
       // Moon and stars: deep navy above, lighter blue below, drifting clouds.
       gradient: ['#060B19', '#13213F', '#2A3F6E'],
-      sceneColors: ['#22355E', '#2E4C85'],
+      // Night clouds, and the moon's cloud wisps blended over the sky (worst case).
+      sceneColors: ['#22355E', '#2E4C85', '#435988'],
       glass: 'dark',
     },
   },

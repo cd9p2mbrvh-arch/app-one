@@ -11,12 +11,32 @@ export function delayBetween([min, max]: [number, number], random: () => number)
   return Math.round(min + (max - min) * random());
 }
 
-/** Picks the next event at random, avoiding an immediate repeat when possible. */
+export type WeightedName<T extends string> = { name: T; weight: number };
+
+/**
+ * Picks the next event at random, in proportion to its weight. The previous
+ * event is excluded, unless it is clearly the most common one (the only event
+ * with the highest weight), so rare events never come twice in a row while
+ * common ones may.
+ */
 export function pickEvent<T extends string>(
-  names: readonly T[],
+  entries: readonly WeightedName<T>[],
   previous: T | null,
   random: () => number,
 ): T {
-  const pool = names.length > 1 && previous ? names.filter((n) => n !== previous) : names;
-  return pool[Math.min(pool.length - 1, Math.floor(random() * pool.length))];
+  const maxWeight = Math.max(...entries.map((e) => e.weight));
+  const uniqueMax = entries.filter((e) => e.weight === maxWeight).length === 1;
+  const prevIsUniqueMax =
+    uniqueMax && entries.some((e) => e.name === previous && e.weight === maxWeight);
+  const pool =
+    entries.length > 1 && previous && !prevIsUniqueMax
+      ? entries.filter((e) => e.name !== previous)
+      : entries;
+  const total = pool.reduce((sum, e) => sum + e.weight, 0);
+  let r = random() * total;
+  for (const e of pool) {
+    r -= e.weight;
+    if (r < 0) return e.name;
+  }
+  return pool[pool.length - 1].name;
 }

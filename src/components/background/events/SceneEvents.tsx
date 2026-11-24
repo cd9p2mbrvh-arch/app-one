@@ -15,8 +15,11 @@ export type EventProps = {
 
 export type SceneEvent = (props: EventProps) => ReactNode;
 
+/** An event with how often it should happen relative to the others (default 1). */
+export type WeightedEvent = { event: SceneEvent; weight: number };
+
 type Props = {
-  events: Record<string, SceneEvent>;
+  events: Record<string, SceneEvent | WeightedEvent>;
   width: number;
   height: number;
   topInset: number;
@@ -32,11 +35,17 @@ type Current = { name: string; id: number; variant: number };
 export function SceneEvents({ events, width, height, topInset, still }: Props) {
   const [current, setCurrent] = useState<Current | null>(null);
   const scheduleNext = useRef<() => void>(() => {});
-  const names = Object.keys(events).sort().join('|');
+  const weights = Object.entries(events)
+    .map(([name, e]) => `${name}:${typeof e === 'function' ? 1 : e.weight}`)
+    .sort()
+    .join('|');
 
   useEffect(() => {
     if (still) return;
-    const list = names.split('|');
+    const list = weights.split('|').map((entry) => {
+      const [name, weight] = entry.split(':');
+      return { name, weight: Number(weight) };
+    });
     const state = {
       timer: null as ReturnType<typeof setTimeout> | null,
       last: null as string | null,
@@ -59,11 +68,12 @@ export function SceneEvents({ events, width, height, topInset, still }: Props) {
       if (state.timer) clearTimeout(state.timer);
       scheduleNext.current = () => {};
     };
-  }, [still, names]);
+  }, [still, weights]);
 
   if (!current || still) return null;
-  const Event = events[current.name];
-  if (!Event) return null;
+  const entry = events[current.name];
+  if (!entry) return null;
+  const Event = typeof entry === 'function' ? entry : entry.event;
 
   return (
     <View
