@@ -2,20 +2,19 @@ import { createAudioPlayer } from 'expo-audio';
 import { useEffect, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 
-import { speakAs, stopSpeaking } from '@/audio/narratorVoice';
 import { configureAudioSession, configureAudioSessionReporting } from '@/audio/session';
 import type { Narrator } from '@/content/manifest';
+import { narrationSource } from '@/content/narration';
 
 import { SessionEngine, type EngineLine, type EngineState } from './engine';
 
 type Options = {
+  themeId: string;
   lines: EngineLine[];
   /** Shown on the lock screen while the session plays. */
   nowPlaying: { title: string; artist: string };
   durationMs: number;
   narrator: Narrator;
-  /** Position of the narrator in the catalogue (picks the placeholder system voice). */
-  narratorIndex: number;
   musicSource: number;
   onFinish: (state: EngineState) => void;
 };
@@ -25,11 +24,11 @@ type Options = {
  * Wires the engine to real audio: a looping music player and on-device speech.
  */
 export function useSession({
+  themeId,
   lines,
   nowPlaying,
   durationMs,
   narrator,
-  narratorIndex,
   musicSource,
   onFinish,
 }: Options) {
@@ -56,6 +55,10 @@ export function useSession({
     let e: SessionEngine | null = null;
 
     let player: ReturnType<typeof createAudioPlayer> | null = null;
+    let narration: {
+      player: ReturnType<typeof createAudioPlayer>;
+      sub: { remove: () => void };
+    } | null = null;
     let backgroundedAt: { wallMs: number; musicSec: number; playing: boolean } | null = null;
 
     // Wait for the audio session (background playback) before starting audio.
@@ -78,6 +81,21 @@ export function useSession({
       } catch {
         // Not available on every platform; playback works without it.
       }
+      // Narration plays from audio clips on its own player (like the music), which
+      // keeps working with the screen locked — unlike the device's speech engine.
+      const voice = createAudioPlayer(null);
+      // Placeholder narrators differ by playback speed with the pitch following it.
+      voice.shouldCorrectPitch = false;
+      let lineDone: (() => void) | null = null;
+      const voiceSub = voice.addListener('playbackStatusUpdate', (status) => {
+        if (status.didJustFinish && lineDone) {
+          const done = lineDone;
+          lineDone = null;
+          done();
+        }
+      });
+      narration = { player: voice, sub: voiceSub };
+
       let released = false;
       e = new SessionEngine(
         lines,
@@ -85,10 +103,22 @@ export function useSession({
         {
           now: Date.now,
           random: Math.random,
-          speak: (text, onDone) => {
-            speakAs(narrator, narratorIndex, text, onDone).catch(onDone);
+          speak: (line, onDone) => {
+            const source = narrationSource(themeId, narrator.id, line.id);
+            if (!source) {
+              onDone();
+              return;
+            }
+            lineDone = onDone;
+            voice.replace(source);
+            voice.setPlaybackRate(narrator.speech.pitch);
+            voice.volume = 1;
+            voice.play();
           },
-          stopSpeech: stopSpeaking,
+          stopSpeech: () => {
+            lineDone = null;
+            voice.pause();
+          },
           music: {
             play: () => !released && p.play(),
             pause: () => !released && p.pause(),
@@ -141,8 +171,12 @@ export function useSession({
       cancelled = true;
       sub.remove();
       e?.dispose();
+      if (narration) {
+        narration.sub.remove();
+        narration.player.remove();
+      }
     };
-  }, [lines, durationMs, narrator, narratorIndex, musicSource, title, artist]);
+  }, [themeId, lines, durationMs, narrator, musicSource, title, artist]);
 
   return {
     state,

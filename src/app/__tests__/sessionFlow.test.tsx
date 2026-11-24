@@ -11,6 +11,16 @@ import { appRoutes } from '@/test/routes';
 
 const MIN = 60000;
 
+/** The session's players: music is created with a file, the narration player empty. */
+const sessionPlayers = () => {
+  const mock = createAudioPlayer as jest.Mock;
+  const pick = (empty: boolean) => {
+    const i = mock.mock.calls.findLastIndex(([src]) => (src === null) === empty);
+    return mock.mock.results[i]?.value;
+  };
+  return { music: pick(false), voice: pick(true) };
+};
+
 const press = (name: string | RegExp, index = 0) =>
   fireEvent.press(screen.getAllByRole('button', { name })[index]);
 const wait = (ms: number) => act(() => jest.advanceTimersByTime(ms));
@@ -48,10 +58,14 @@ describe('A meditation session', () => {
     expect(screen.getByText('Abundance · Narrator 1')).toBeTruthy();
 
     await wait(5000);
-    expect(Speech.speak).toHaveBeenCalledTimes(1);
-    const spoken = (Speech.speak as jest.Mock).mock.calls[0][0];
-    expect(screen.getByTestId('subtitle')).toHaveTextContent(spoken);
+    const { voice } = sessionPlayers();
+    // The first line plays from its audio clip, and its words show as a subtitle.
+    expect(voice.replace).toHaveBeenCalledTimes(1);
+    expect(voice.play).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId('subtitle')).toBeTruthy();
     expect(screen.getByTestId('time-left')).toHaveTextContent('02:55');
+    // The device's speech engine is no longer used during sessions.
+    expect(Speech.speak).not.toHaveBeenCalled();
   });
 
   it('sets up background playback and the lock screen before the music starts', async () => {
@@ -61,7 +75,7 @@ describe('A meditation session', () => {
       shouldPlayInBackground: true,
       interruptionMode: 'doNotMix',
     });
-    const music = (createAudioPlayer as jest.Mock).mock.results.at(-1)?.value;
+    const { music, voice } = sessionPlayers();
     expect(music.loop).toBe(true);
     expect(music.setActiveForLockScreen).toHaveBeenCalledWith(true, {
       title: 'Abundance',
@@ -69,11 +83,11 @@ describe('A meditation session', () => {
       albumTitle: 'App One',
     });
     expect(music.play).toHaveBeenCalled();
-    expect(Speech.speak).not.toHaveBeenCalled();
+    // Narration: its own player, pitch following speed for the placeholder voices.
+    expect(voice.shouldCorrectPitch).toBe(false);
     await wait(5000);
-    expect((Speech.speak as jest.Mock).mock.calls[0][1]).toMatchObject({
-      useApplicationAudioSession: true,
-    });
+    expect(voice.setPlaybackRate).toHaveBeenCalledWith(1);
+    expect(voice.play).toHaveBeenCalled();
   });
 
   describe('temporary audio check (background playback)', () => {
@@ -113,7 +127,7 @@ describe('A meditation session', () => {
         return original.call(AppState, type as 'change', listener as never);
       }) as typeof AppState.addEventListener;
       await startSession(3);
-      const music = (createAudioPlayer as jest.Mock).mock.results.at(-1)?.value;
+      const { music } = sessionPlayers();
 
       await act(() => listeners.forEach((l) => l('background')));
       music.playing = false; // the system paused it
@@ -126,6 +140,22 @@ describe('A meditation session', () => {
       expect(music.play).toHaveBeenCalledTimes(2); // re-sync restarted it
       AppState.addEventListener = original;
     });
+  });
+
+  it('plays the next clip 10–20 s after the previous one finishes', async () => {
+    await startSession(10);
+    await wait(5000);
+    const { voice } = sessionPlayers();
+    expect(voice.replace).toHaveBeenCalledTimes(1);
+    const onStatus = voice.addListener.mock.calls[0][1];
+
+    await act(() => onStatus({ didJustFinish: true }));
+    await wait(9900);
+    expect(voice.replace).toHaveBeenCalledTimes(1);
+    await wait(10200);
+    expect(voice.replace).toHaveBeenCalledTimes(2);
+    // Never the same clip twice in a row.
+    expect(voice.replace.mock.calls[1][0]).toBeDefined();
   });
 
   it('pauses and resumes the clock', async () => {

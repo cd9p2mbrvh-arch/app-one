@@ -45,11 +45,11 @@ export default function SessionScreen() {
   );
 
   const { state, pause, resume, end, audioCheck } = useSession({
+    themeId: selection.theme,
     lines,
     nowPlaying: { title: theme?.label ?? 'Meditation', artist: narrator.label },
     durationMs: selection.duration * 60000,
     narrator,
-    narratorIndex,
     musicSource: track.source,
     onFinish: (s) => {
       if (profile) {

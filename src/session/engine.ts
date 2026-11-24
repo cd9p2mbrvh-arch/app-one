@@ -1,7 +1,7 @@
 import { canStartLine, createLineQueue, gapMs, INTRO_MS } from '@/domain/linePlan';
 
 /**
- * Runs one meditation session: background music, affirmations spoken one at a
+ * Runs one meditation session: background music, affirmations played one at a
  * time with 10–20 s of quiet in between, a clock that can be paused, and a gentle
  * fade-out at the end. Everything that touches the device (audio, speech, time)
  * is passed in, so the whole session can be tested with a fake clock.
@@ -18,7 +18,8 @@ export type EngineLine = { id: string; text: string };
 export type EngineDeps = {
   now: () => number;
   random: () => number;
-  speak: (text: string, onDone: () => void) => void;
+  /** Plays one line (audio clip or speech) and calls onDone when it has finished. */
+  speak: (line: EngineLine, onDone: () => void) => void;
   stopSpeech: () => void;
   music: {
     play: () => void;
@@ -182,7 +183,7 @@ export class SessionEngine {
     const done = () => this.onLineDone(token);
     this.speechGuard = setTimeout(done, SPEECH_TIMEOUT_MS);
     this.update({ currentLine: text, linesSpoken: this.state.linesSpoken + 1 });
-    this.deps.speak(text, done);
+    this.deps.speak({ id: id!, text }, done);
   }
 
   private onLineDone(token: number) {

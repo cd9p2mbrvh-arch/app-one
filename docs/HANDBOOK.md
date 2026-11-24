@@ -130,7 +130,8 @@ $2". Current setup:
 ### 4.5 Recording narration — specifications for the voice artist
 
 - **One file per line**, named by theme, narrator and line id, e.g.
-  `peace/voice2/s014.wav` (Claude can give you a full list to record).
+  `peace/voice2/s014.wav` (Claude can give you a full list to record). They go
+  into `assets/narration/<theme>/<narrator>/` and replace the placeholder clips.
 - **Format:** WAV, 48 kHz, 24-bit, mono.
 - **Room:** quiet, no echo; same microphone and distance for every session.
 - **Delivery:** calm and slow; each line typically 2–8 seconds.
@@ -191,8 +192,12 @@ Claude whether the music, the voice or both stopped.
 Levels: level 2 at 100 XP, level 3 at 300, level 4 at 600, level 5 at 1000
 (each level needs 100 more than the previous step). Progress is saved per profile.
 
-> The narration currently uses the phone's built-in voices. When real recordings
-> arrive they replace it without other changes.
+> Narration plays from **audio clips** on its own player, next to the music — the
+> same way real recordings will play, and the reliable way to keep playing with
+> the screen locked. The clips are currently **robotic placeholders** made with an
+> offline text-to-speech engine (one voice for all narrators, made to sound
+> different by speed and pitch). Narrator samples on the Narrator tab still use the
+> phone's built-in voices.
 
 ## 6. Paid content and purchases
 
@@ -296,3 +301,4 @@ testing before review.
 | 2026-11-24 | Burgundy noon accents; smoother birds; UFO appears, hovers and flies away; themes can now come with their own narrator and music (not used yet).                                                     |
 | 2026-11-24 | The session: narration in random order with 10–20 s gaps, looping music, breathing circle, pause/end, completion screen with XP and level-up; header shows real progress.                            |
 | 2026-11-24 | Sessions keep playing with the screen locked (lock-screen "Now playing"); +50 XP for morning, noon and night on one day; profile page with history; rarer UFO, calmer stars, clouds around the moon. |
+| 2026-11-24 | Session narration now plays from audio clips (placeholder recordings) instead of the phone's speech engine, to keep working with the screen locked; temporary "Audio check" line added.              |

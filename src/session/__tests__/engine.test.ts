@@ -22,8 +22,8 @@ function setup({ durationMs = 10 * MIN, speechMs = 4000, autoFinishSpeech = true
   const deps = {
     now: () => Date.now(),
     random: seededRandom(9),
-    speak: jest.fn((text: string, onDone: () => void) => {
-      spoken.push(text);
+    speak: jest.fn((line: EngineLine, onDone: () => void) => {
+      spoken.push(line.text);
       pendingDone = onDone;
       if (autoFinishSpeech) setTimeout(onDone, speechMs);
     }),
