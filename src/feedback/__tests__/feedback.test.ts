@@ -1,7 +1,7 @@
 import { createAudioPlayer } from 'expo-audio';
 import * as Haptics from 'expo-haptics';
 
-import { majorTick, playWhoosh, resetSounds, tap, tick } from '..';
+import { getTabSound, majorTick, playTabSound, resetSounds, setTabSound, tap, tick } from '..';
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -28,10 +28,14 @@ describe('haptics', () => {
   });
 });
 
-describe('playWhoosh', () => {
-  it('creates one player, rewinds and plays it each time', () => {
-    playWhoosh();
-    playWhoosh();
+describe('playTabSound', () => {
+  it('defaults to the swish', () => {
+    expect(getTabSound()).toBe('swish');
+  });
+
+  it('creates one player per sound, rewinds and plays it each time', () => {
+    playTabSound();
+    playTabSound();
     expect(createAudioPlayer).toHaveBeenCalledTimes(1);
     const player = (createAudioPlayer as jest.Mock).mock.results[0].value;
     expect(player.seekTo).toHaveBeenCalledWith(0);
@@ -43,6 +47,14 @@ describe('playWhoosh', () => {
     (createAudioPlayer as jest.Mock).mockImplementationOnce(() => {
       throw new Error('audio unavailable');
     });
-    expect(() => playWhoosh()).not.toThrow();
+    expect(() => playTabSound()).not.toThrow();
+  });
+
+  it('uses a separate player after switching sound', () => {
+    playTabSound();
+    setTabSound('chime');
+    playTabSound();
+    expect(createAudioPlayer).toHaveBeenCalledTimes(2);
+    expect(getTabSound()).toBe('chime');
   });
 });

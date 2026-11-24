@@ -175,16 +175,16 @@ describe('Main screen', () => {
     expect(Speech.stop).toHaveBeenCalled();
   });
 
-  it('plays a woosh and a haptic when changing tabs', async () => {
+  it('plays a sound and a haptic when changing tabs', async () => {
     await open();
     const Haptics = jest.requireMock('expo-haptics');
     Haptics.impactAsync.mockClear();
 
     await press('Music', 'tab');
 
-    const whoosh = (createAudioPlayer as jest.Mock).mock.results.at(-1)?.value;
-    expect(whoosh.play).toHaveBeenCalled();
-    expect(whoosh.seekTo).toHaveBeenCalledWith(0);
+    const sound = (createAudioPlayer as jest.Mock).mock.results.at(-1)?.value;
+    expect(sound.play).toHaveBeenCalled();
+    expect(sound.seekTo).toHaveBeenCalledWith(0);
     expect(Haptics.impactAsync).toHaveBeenCalledWith('medium');
     expect(screen.getByRole('tab', { name: 'Music' })).toBeSelected();
   });
@@ -199,6 +199,13 @@ describe('Main screen', () => {
       expect(screen.getByTestId('tab-content')).toHaveStyle({ transform: [{ translateX: 0 }] });
     },
   );
+
+  it('cycles and plays the candidate tab sounds from the header', async () => {
+    await open();
+    await press('Tab sound: swish');
+    expect(screen.getByRole('button', { name: 'Tab sound: pop' })).toBeTruthy();
+    expect(lastPlayer()?.play).toHaveBeenCalled();
+  });
 
   it('does nothing when the current tab is tapped again', async () => {
     await open();
