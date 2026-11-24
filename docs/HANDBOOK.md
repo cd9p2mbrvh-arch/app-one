@@ -166,13 +166,14 @@ prepare the list.
 
 **XP (first version, easy to change):**
 
-| What                                      | XP                      |
-| ----------------------------------------- | ----------------------- |
-| Each minute of a completed session        | 10                      |
-| Completing the session                    | +25                     |
-| First session of the day (that earns XP)  | +15                     |
-| Each full minute of a session ended early | 5 (no completion bonus) |
-| Sessions shorter than one minute          | 0                       |
+| What                                         | XP                             |
+| -------------------------------------------- | ------------------------------ |
+| Each minute of a completed session           | 10                             |
+| Completing the session                       | +25                            |
+| First session of the day (that earns XP)     | +15                            |
+| Morning, noon and night completed on one day | +50 (once a day, on the third) |
+| Each full minute of a session ended early    | 5 (no completion bonus)        |
+| Sessions shorter than one minute             | 0                              |
 
 A meditation day runs from **05:00 to 05:00**, so a session at 1 am still counts
 as that night. Times of day follow the real clock (morning 05–11, noon 11–18,
