@@ -9,4 +9,5 @@ export { ProfileForm } from './ProfileForm';
 export { ProgressBar, clampProgress } from './ProgressBar';
 export { Screen } from './Screen';
 export { Tabs, type TabItem } from './Tabs';
+export { RotaryWheel, type WheelItem } from './wheel/RotaryWheel';
 export { TextField } from './TextField';
