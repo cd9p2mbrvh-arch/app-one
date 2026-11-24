@@ -24,9 +24,17 @@ async function step(direction: 'increment' | 'decrement', expected: string) {
  */
 const lastPlayer = () => (createAudioPlayer as jest.Mock).mock.results.at(-1)?.value;
 
+type NavState = { routes: { name: string; state?: NavState }[] } | undefined;
+
+/** Every route name in the (nested) navigation state. */
+function routeNames(state: NavState): string[] {
+  return (state?.routes ?? []).flatMap((r) => [r.name, ...routeNames(r.state)]);
+}
+
 async function open() {
-  await renderRouter(appRoutes, { wrapper: themeWrapper() });
+  const app = await renderRouter(appRoutes, { wrapper: themeWrapper() });
   await screen.findByRole('tab', { name: 'Theme' });
+  return app;
 }
 
 /** Lets the async speech call (voice list lookup) finish. */
@@ -155,6 +163,10 @@ describe('Main screen', () => {
     await step('increment', '15 minutes');
     await press('Begin');
 
+    // The screen zooms and fades into the blur first, then the session opens.
+    // (Native-driver animations complete immediately in tests, so only the end
+    // result is checked here.)
+    await act(() => jest.advanceTimersByTime(800));
     expect(screen).toHavePathname('/session');
     expect(screen.getByText('Theme: Gratitude')).toBeTruthy();
     expect(screen.getByText('Narrator: Narrator 3')).toBeTruthy();
@@ -201,6 +213,43 @@ describe('Main screen', () => {
     Haptics.impactAsync.mockClear();
     await press('Theme', 'tab');
     expect(Haptics.impactAsync).not.toHaveBeenCalled();
+  });
+
+  it('starts the session only once when Begin is tapped twice', async () => {
+    const app = await open();
+    await press('Time', 'tab');
+    await press('Begin');
+    await press('Begin');
+    await act(() => jest.advanceTimersByTime(800));
+    expect(screen).toHavePathname('/session');
+    expect(
+      routeNames(app.getRouterState() as NavState).filter((n) => n === 'session'),
+    ).toHaveLength(1);
+  });
+
+  it('shows the setup again, fully visible, after coming back from the session', async () => {
+    await open();
+    await press('Time', 'tab');
+    await press('Begin');
+    await act(() => jest.advanceTimersByTime(800));
+    expect(screen).toHavePathname('/session');
+
+    await press('Back');
+    await act(() => jest.advanceTimersByTime(500));
+    expect(screen).toHavePathname('/home');
+    expect(screen.getByTestId('setup-screen')).toHaveStyle({ opacity: 1 });
+    expect(screen.getByTestId('begin-blur')).toHaveStyle({ opacity: 0 });
+    expect(screen.getByRole('button', { name: /^(Next|Begin)$/ })).toBeEnabled();
+  });
+
+  it('skips the Begin animation when Reduce Motion is on', async () => {
+    const { AccessibilityInfo } = jest.requireActual('react-native');
+    jest.spyOn(AccessibilityInfo, 'isReduceMotionEnabled').mockResolvedValue(true);
+    await open();
+    await act(() => jest.advanceTimersByTime(0));
+    await press('Time', 'tab');
+    await press('Begin');
+    expect(screen).toHavePathname('/session');
   });
 
   it('opens the profile picker from the header', async () => {

@@ -1,6 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Redirect, router } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
+import { BlurView } from 'expo-blur';
+import { Redirect, router, useFocusEffect } from 'expo-router';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, Easing, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -17,6 +18,7 @@ import { MusicList, NarratorSelect, ThemeGrid } from '@/components/setup';
 import { MUSIC, THEMES, VOICES } from '@/content/manifest';
 import { levelForXp, xpToReachLevel } from '@/domain/progress';
 import { tap } from '@/feedback';
+import { useReduceMotion } from '@/hooks/useReduceMotion';
 import { useActiveProfile } from '@/state/profiles';
 import {
   canBegin,
@@ -44,7 +46,35 @@ const STEP_TITLES: Record<SetupStep, string> = {
 
 /** Main screen: pick theme, voice, music and duration on rotating wheels. */
 export default function HomeScreen() {
-  const { colors } = useTheme();
+  const { colors, backdrop } = useTheme();
+  const reduceMotion = useReduceMotion();
+  // 0 = screen shown, 1 = zoomed in and faded into the blur (leaving for the session).
+  const [leaving] = useState(() => new Animated.Value(0));
+  const isLeaving = useRef(false);
+
+  // Coming back from the session: show the screen again.
+  useFocusEffect(
+    useCallback(() => {
+      leaving.setValue(0);
+      isLeaving.current = false;
+    }, [leaving]),
+  );
+
+  const begin = () => {
+    if (isLeaving.current) return;
+    isLeaving.current = true;
+    tap();
+    if (reduceMotion) {
+      router.push('/session');
+      return;
+    }
+    Animated.timing(leaving, {
+      toValue: 1,
+      duration: 650,
+      easing: Easing.inOut(Easing.cubic),
+      useNativeDriver: true,
+    }).start(() => router.push('/session'));
+  };
   const { width, height } = useWindowDimensions();
   const profile = useActiveProfile();
   const selection: SetupSelection = useSessionSetup(
@@ -101,123 +131,149 @@ export default function HomeScreen() {
       ? `Your ${STEP_LABELS[lockedStep].toLowerCase()} choice is locked. Pick another to begin.`
       : null;
   const onPrimary = () => {
-    if (isLast) router.push('/session');
+    if (isLast) begin();
     else goTo(SETUP_STEPS[stepIndex + 1]);
   };
 
   return (
-    <Screen
-      scroll={!isDial}
-      footer={
-        <>
-          {blockedHint ? (
-            <AppText variant="caption" color={colors.textMuted} style={styles.hint}>
-              {blockedHint}
-            </AppText>
-          ) : null}
-          <ChunkyButton
-            title={primaryTitle}
-            disabled={locked || (isLast && !canBegin(selection, level))}
-            onPress={onPrimary}
-          />
-        </>
-      }
-    >
-      <View style={styles.header}>
-        <Pressable
-          onPress={() => router.push('/profiles')}
-          accessibilityRole="button"
-          accessibilityLabel={`Switch profile, currently ${profile.name}`}
-          style={styles.profile}
-        >
-          <Avatar avatar={profile.avatar} size={44} />
-          <View style={styles.profileText}>
-            <AppText variant="label" numberOfLines={1}>
-              {profile.name}
-            </AppText>
-            <View style={styles.levelRow}>
-              <AppText variant="caption" color={colors.accent}>
-                Level {level}
-              </AppText>
-              <View style={styles.levelBar}>
-                <ProgressBar value={levelProgress} height={8} accessibilityLabel="Level progress" />
-              </View>
-            </View>
-          </View>
-          <Ionicons name="swap-horizontal" size={20} color={colors.textMuted} />
-        </Pressable>
-        <BackgroundPreviewButton />
-      </View>
-
-      <Tabs
-        tabs={SETUP_STEPS.map((step) => ({ key: step, label: STEP_LABELS[step] }))}
-        active={active}
-        onChange={goTo}
-      />
-
+    <View style={styles.root}>
       <Animated.View
-        testID="tab-content"
+        testID="setup-screen"
         style={[
-          styles.content,
-          isDial && styles.dialContent,
+          styles.root,
           {
-            opacity: slide.interpolate({ inputRange: [-1, 0, 1], outputRange: [0, 1, 0] }),
+            opacity: leaving.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }),
             transform: [
-              {
-                translateX: slide.interpolate({
-                  inputRange: [-1, 0, 1],
-                  outputRange: [-70, 0, 70],
-                }),
-              },
+              { scale: leaving.interpolate({ inputRange: [0, 1], outputRange: [1, 1.15] }) },
             ],
           },
         ]}
       >
-        <AppText variant="title" style={styles.title}>
-          {STEP_TITLES[active]}
-        </AppText>
-
-        {active === 'theme' ? (
-          <ThemeGrid
-            themes={THEMES}
-            selectedId={selection.theme}
-            onSelect={(id) => choose('theme', id)}
-          />
-        ) : null}
-
-        {active === 'voice' ? (
-          <NarratorSelect
-            narrators={VOICES}
-            selectedId={selection.voice}
-            level={level}
-            onSelect={(id) => choose('voice', id)}
-          />
-        ) : null}
-
-        {active === 'music' ? (
-          <MusicList
-            tracks={MUSIC}
-            selectedId={selection.music}
-            level={level}
-            onSelect={(id) => choose('music', id)}
-          />
-        ) : null}
-
-        {isDial ? (
-          <View style={styles.dialArea}>
-            <DurationDial
-              value={selection.duration}
-              onChange={(minutes) => choose('duration', minutes)}
-              size={dialSize}
-              testID="dial"
-            />
-            <AppText variant="caption" color={colors.textMuted}>
-              Tap the dial or drag the knob · one circle = 60 minutes
-            </AppText>
+        <Screen
+          scroll={!isDial}
+          footer={
+            <>
+              {blockedHint ? (
+                <AppText variant="caption" color={colors.textMuted} style={styles.hint}>
+                  {blockedHint}
+                </AppText>
+              ) : null}
+              <ChunkyButton
+                title={primaryTitle}
+                disabled={locked || (isLast && !canBegin(selection, level))}
+                onPress={onPrimary}
+              />
+            </>
+          }
+        >
+          <View style={styles.header}>
+            <Pressable
+              onPress={() => router.push('/profiles')}
+              accessibilityRole="button"
+              accessibilityLabel={`Switch profile, currently ${profile.name}`}
+              style={styles.profile}
+            >
+              <Avatar avatar={profile.avatar} size={44} />
+              <View style={styles.profileText}>
+                <AppText variant="label" numberOfLines={1}>
+                  {profile.name}
+                </AppText>
+                <View style={styles.levelRow}>
+                  <AppText variant="caption" color={colors.accent}>
+                    Level {level}
+                  </AppText>
+                  <View style={styles.levelBar}>
+                    <ProgressBar
+                      value={levelProgress}
+                      height={8}
+                      accessibilityLabel="Level progress"
+                    />
+                  </View>
+                </View>
+              </View>
+              <Ionicons name="swap-horizontal" size={20} color={colors.textMuted} />
+            </Pressable>
+            <BackgroundPreviewButton />
           </View>
-        ) : null}
+
+          <Tabs
+            tabs={SETUP_STEPS.map((step) => ({ key: step, label: STEP_LABELS[step] }))}
+            active={active}
+            onChange={goTo}
+          />
+
+          <Animated.View
+            testID="tab-content"
+            style={[
+              styles.content,
+              isDial && styles.dialContent,
+              {
+                opacity: slide.interpolate({ inputRange: [-1, 0, 1], outputRange: [0, 1, 0] }),
+                transform: [
+                  {
+                    translateX: slide.interpolate({
+                      inputRange: [-1, 0, 1],
+                      outputRange: [-70, 0, 70],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          >
+            <AppText variant="title" style={styles.title}>
+              {STEP_TITLES[active]}
+            </AppText>
+
+            {active === 'theme' ? (
+              <ThemeGrid
+                themes={THEMES}
+                selectedId={selection.theme}
+                onSelect={(id) => choose('theme', id)}
+              />
+            ) : null}
+
+            {active === 'voice' ? (
+              <NarratorSelect
+                narrators={VOICES}
+                selectedId={selection.voice}
+                level={level}
+                onSelect={(id) => choose('voice', id)}
+              />
+            ) : null}
+
+            {active === 'music' ? (
+              <MusicList
+                tracks={MUSIC}
+                selectedId={selection.music}
+                level={level}
+                onSelect={(id) => choose('music', id)}
+              />
+            ) : null}
+
+            {isDial ? (
+              <View style={styles.dialArea}>
+                <DurationDial
+                  value={selection.duration}
+                  onChange={(minutes) => choose('duration', minutes)}
+                  size={dialSize}
+                  testID="dial"
+                />
+                <AppText variant="caption" color={colors.textMuted}>
+                  Tap the dial or drag the knob · one circle = 60 minutes
+                </AppText>
+              </View>
+            ) : null}
+          </Animated.View>
+        </Screen>
       </Animated.View>
-    </Screen>
+      <Animated.View
+        testID="begin-blur"
+        pointerEvents="none"
+        style={[StyleSheet.absoluteFill, { opacity: leaving }]}
+      >
+        <BlurView intensity={70} tint={backdrop.glass} style={StyleSheet.absoluteFill} />
+      </Animated.View>
+    </View>
   );
 }
 
@@ -251,6 +307,7 @@ function BackgroundPreviewButton() {
 }
 
 const styles = StyleSheet.create({
+  root: { flex: 1 },
   header: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   profile: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   profileText: { flex: 1, gap: 2 },
