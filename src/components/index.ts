@@ -11,6 +11,7 @@ export { Screen } from './Screen';
 export { Tabs, type TabItem } from './Tabs';
 export { TextField } from './TextField';
 export { DurationDial } from './dial/DurationDial';
+export { TimeWheel } from './dial/TimeWheel';
 export { Sheet } from './Sheet';
 export { BreathingCircle } from './session/BreathingCircle';
 export { DayTracker } from './DayTracker';

@@ -172,7 +172,7 @@ export const MUSIC: MusicTrack[] = [
   },
 ];
 
-export const MIN_DURATION_MIN = 3;
+export const MIN_DURATION_MIN = 5;
 export const MAX_DURATION_MIN = 60;
 export const DEFAULT_DURATION_MIN = 10;
 

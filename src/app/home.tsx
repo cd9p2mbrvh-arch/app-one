@@ -10,6 +10,7 @@ import {
   Avatar,
   ChunkyButton,
   DurationDial,
+  TimeWheel,
   ProgressBar,
   Screen,
   Tabs,
@@ -35,6 +36,13 @@ import {
   type SetupStep,
 } from '@/state/sessionSetup';
 import { spacing, useTheme, type TimeOfDay } from '@/theme';
+
+/**
+ * Which picker the Time tab shows. 'rotatingWheel' = the whole wheel turns under a
+ * fixed top marker (current design). 'clockDial' = the earlier clock face with a
+ * draggable knob. Change this one line to switch back.
+ */
+const TIME_PICKER: 'rotatingWheel' | 'clockDial' = 'rotatingWheel';
 
 const STEP_LABELS: Record<SetupStep, string> = {
   theme: 'Theme',
@@ -299,14 +307,25 @@ export default function HomeScreen() {
 
             {isDial ? (
               <View style={styles.dialArea}>
-                <DurationDial
-                  value={selection.duration}
-                  onChange={(minutes) => choose('duration', minutes)}
-                  size={dialSize}
-                  testID="dial"
-                />
+                {TIME_PICKER === 'rotatingWheel' ? (
+                  <TimeWheel
+                    value={selection.duration}
+                    onChange={(minutes) => choose('duration', minutes)}
+                    size={dialSize}
+                    testID="dial"
+                  />
+                ) : (
+                  <DurationDial
+                    value={selection.duration}
+                    onChange={(minutes) => choose('duration', minutes)}
+                    size={dialSize}
+                    testID="dial"
+                  />
+                )}
                 <AppText variant="caption" color={colors.textMuted}>
-                  Tap the dial or drag the knob · one circle = 60 minutes
+                  {TIME_PICKER === 'rotatingWheel'
+                    ? 'Turn the wheel or tap a number · clockwise adds time'
+                    : 'Tap the dial or drag the knob · one circle = 60 minutes'}
                 </AppText>
               </View>
             ) : null}

@@ -1,9 +1,11 @@
+import { MAX_DURATION_MIN, MIN_DURATION_MIN } from '@/content/manifest';
+
 /**
  * The time dial works like a clock face: one full circle is 60 minutes, so each
  * minute is 6°. 60 sits at the top (12 o'clock), 15 at 3 o'clock, 30 at 6 o'clock.
  */
-export const DIAL_MIN = 3;
-export const DIAL_MAX = 60;
+export const DIAL_MIN = MIN_DURATION_MIN;
+export const DIAL_MAX = MAX_DURATION_MIN;
 export const DEG_PER_MINUTE = 6;
 
 /** Angle of a point around a centre: 0° at the top, growing clockwise, in [0, 360). */
@@ -23,7 +25,7 @@ export function valueForTap(angle: number): number {
 /**
  * Minutes while dragging from `prev`. Crossing the top is blocked: dragging past
  * 60 stays at 60, and dragging back past the start stays at the minimum, so the
- * value never flips between 60 and 3.
+ * value never flips between 60 and the minimum.
  */
 export function valueForDrag(prev: number, angle: number): number {
   const raw = Math.round(angle / DEG_PER_MINUTE) % 60;

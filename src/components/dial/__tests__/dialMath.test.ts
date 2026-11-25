@@ -16,8 +16,9 @@ describe('valueForTap', () => {
     [270, 45],
     [0, 60],
     [359, 60],
-    [6, 3], // 1 minute is below the minimum
+    [6, 5], // 1 minute is below the minimum
     [60, 10],
+    [24, 5],
   ])('a tap at %i° gives %i minutes', (angle, minutes) => {
     expect(valueForTap(angle)).toBe(minutes);
   });
@@ -35,8 +36,8 @@ describe('valueForDrag', () => {
   });
 
   it('stops at the minimum instead of flipping backwards past the top', () => {
-    expect(valueForDrag(4, 350)).toBe(3);
-    expect(valueForDrag(3, 0)).toBe(3);
+    expect(valueForDrag(6, 350)).toBe(5);
+    expect(valueForDrag(5, 0)).toBe(5);
   });
 });
 
@@ -44,13 +45,13 @@ describe('angleForValue', () => {
   it('places the knob like a clock hand', () => {
     expect(angleForValue(15)).toBe(90);
     expect(angleForValue(60)).toBe(360);
-    expect(angleForValue(1)).toBe(18); // clamped to 3 minutes
+    expect(angleForValue(1)).toBe(30); // clamped to 5 minutes
   });
 });
 
 describe('stepValue', () => {
   it('steps by one minute up to 10, then by five', () => {
-    expect(stepValue(3, 1)).toBe(4);
+    expect(stepValue(5, 1)).toBe(6);
     expect(stepValue(9, 1)).toBe(10);
     expect(stepValue(10, 1)).toBe(15);
     expect(stepValue(12, 1)).toBe(15);
@@ -61,17 +62,17 @@ describe('stepValue', () => {
     expect(stepValue(15, -1)).toBe(10);
     expect(stepValue(12, -1)).toBe(10);
     expect(stepValue(10, -1)).toBe(9);
-    expect(stepValue(3, -1)).toBe(3);
+    expect(stepValue(5, -1)).toBe(5);
   });
 
-  it('reaches 60 from 3 in 17 steps', () => {
-    let v = 3;
+  it('reaches 60 from 5 in 15 steps', () => {
+    let v = 5;
     let steps = 0;
     while (v < 60) {
       v = stepValue(v, 1);
       steps++;
     }
-    expect(steps).toBe(17);
+    expect(steps).toBe(15);
   });
 });
 

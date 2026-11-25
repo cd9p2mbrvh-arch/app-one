@@ -156,6 +156,23 @@ prepare the list.
 
 ---
 
+### 4.7 Choosing the session length (Time tab)
+
+- Sessions can be **5 to 60 minutes** long (default 10). The limits are
+  `MIN_DURATION_MIN` / `MAX_DURATION_MIN` in `src/content/manifest.ts`.
+- **Current design — rotating wheel** (since 25 Nov 2026): the whole wheel turns
+  under a fixed marker at the top; the number under the marker (also shown big in
+  the middle) is the time. Turn clockwise to add time, anticlockwise to remove it;
+  tap a number to turn straight to it. It settles on the nearest minute, with a
+  light haptic tick per minute and a firmer one every 5 minutes.
+- **Previous design — clock dial** (kept in the code): a clock face where one
+  circle is 60 minutes; tap anywhere to jump there or drag the knob.
+- **To switch back to the clock dial**, ask Claude: "switch the Time tab back to
+  the clock dial". It is a one-line change: `TIME_PICKER` at the top of
+  `src/app/home.tsx`, from `'rotatingWheel'` to `'clockDial'`. The app exactly as
+  it was before the redesign is also saved on GitHub as the branch
+  `saved/time-picker-clock-dial`.
+
 ## 5. How a session works
 
 - **Begin** zooms into the blur and the session starts: music fades in, and after
@@ -335,3 +352,4 @@ testing before review.
 | 2026-11-24 | Session narration now plays from audio clips (placeholder recordings) instead of the phone's speech engine, to keep working with the screen locked; temporary "Audio check" line added.              |
 | 2026-11-24 | Settings & info screen (restore purchases, health notice, privacy policy, version); privacy policy written; Health theme note; store approval checklist added to this handbook.                      |
 | 2026-11-25 | The top-right corner stays empty in Expo Go (its gear button sits there); Settings & info moved to a row on the profile page.                                                                        |
+| 2026-11-25 | Time tab redesigned: the whole wheel turns under a fixed top marker (old clock dial kept, see 4.7); shortest session is now 5 minutes.                                                               |
