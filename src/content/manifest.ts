@@ -38,13 +38,21 @@ export const PAID_PRICE_LABEL = '$1';
  */
 export type Theme = CatalogItem & {
   fixed?: { voice?: string; music?: string };
+  /** Light colour of the theme's glossy icon tile (falls back to the look's primary). */
+  accent?: string;
 };
 
 export const THEMES: Theme[] = [
-  { id: 'abundance', label: 'Abundance', icon: 'sparkles-outline', unlockLevel: 1 },
-  { id: 'peace', label: 'Peace of Mind', icon: 'cloud-outline', unlockLevel: 1 },
-  { id: 'health', label: 'Health', icon: 'leaf-outline', unlockLevel: 1 },
-  { id: 'gratitude', label: 'Gratitude', icon: 'heart-outline', unlockLevel: 1 },
+  {
+    id: 'abundance',
+    label: 'Abundance',
+    icon: 'sparkles-outline',
+    unlockLevel: 1,
+    accent: '#E5BE62',
+  },
+  { id: 'peace', label: 'Peace of Mind', icon: 'cloud-outline', unlockLevel: 1, accent: '#8EBCE6' },
+  { id: 'health', label: 'Health', icon: 'leaf-outline', unlockLevel: 1, accent: '#93C98C' },
+  { id: 'gratitude', label: 'Gratitude', icon: 'heart-outline', unlockLevel: 1, accent: '#E99DB1' },
 ];
 
 /**

@@ -1,3 +1,5 @@
+import { relativeLuminance } from '@/theme/contrast';
+
 import { linesFor, LINES_EN } from '../lines';
 import {
   DURATIONS_MIN,
@@ -125,5 +127,14 @@ describe('theme-fixed narrator and music', () => {
       if (theme.fixed?.voice) expect(VOICES.map((v) => v.id)).toContain(theme.fixed.voice);
       if (theme.fixed?.music) expect(MUSIC.map((m) => m.id)).toContain(theme.fixed.music);
     }
+  });
+});
+
+describe('theme colours', () => {
+  it('gives every theme its own light accent colour', () => {
+    const accents = THEMES.map((t) => t.accent);
+    expect(accents.every((a) => typeof a === 'string')).toBe(true);
+    expect(new Set(accents).size).toBe(THEMES.length);
+    for (const a of accents) expect(relativeLuminance(a!)).toBeGreaterThan(0.4);
   });
 });

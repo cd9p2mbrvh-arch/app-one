@@ -1,17 +1,17 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useEffect, useState, type ReactNode } from 'react';
-import { Animated, Pressable, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import { useMusicPreview } from '@/audio/useMusicPreview';
 import { lockReason, type LockReason, type MusicTrack } from '@/content/manifest';
 import { tap } from '@/feedback';
-import { useReduceMotion } from '@/hooks/useReduceMotion';
 import { usePurchases } from '@/state/purchases';
 import { spacing, useTheme } from '@/theme';
 import { withAlpha } from '@/theme/color';
 
 import { AppText } from '../AppText';
 import { GlossyTile } from '../GlossyTile';
+import { Fade, FadeIn } from '../SelectFade';
 import { Equalizer } from './Equalizer';
 import { PriceTag } from './PriceTag';
 import { PurchaseSheet } from './PurchaseSheet';
@@ -27,8 +27,6 @@ type Props = {
 
 const TILE = 56;
 const CARD_RADIUS = 24;
-/** Length of the selection fade: short and quick. */
-export const SELECT_FADE_MS = 160;
 
 function accessibilityLabelFor(track: MusicTrack, lock: LockReason | null) {
   const status =
@@ -38,47 +36,6 @@ function accessibilityLabelFor(track: MusicTrack, lock: LockReason | null) {
         ? `, ${lock.priceLabel} to unlock`
         : '';
   return `${track.label}, ${track.mood}${status}`;
-}
-
-/** Fades its children in when `on` becomes true and out when it becomes false. */
-function Fade({ on, style, children }: { on: boolean; style?: object; children: ReactNode }) {
-  const reduceMotion = useReduceMotion();
-  const [opacity] = useState(() => new Animated.Value(on ? 1 : 0));
-  useEffect(() => {
-    if (reduceMotion) {
-      opacity.setValue(on ? 1 : 0);
-      return;
-    }
-    const anim = Animated.timing(opacity, {
-      toValue: on ? 1 : 0,
-      duration: SELECT_FADE_MS,
-      useNativeDriver: true,
-    });
-    anim.start();
-    return () => anim.stop();
-  }, [on, opacity, reduceMotion]);
-  return (
-    <Animated.View pointerEvents="none" style={[style, { opacity }]}>
-      {children}
-    </Animated.View>
-  );
-}
-
-/** Fades in once when it appears (used for the row's details). */
-function FadeIn({ children }: { children: ReactNode }) {
-  const reduceMotion = useReduceMotion();
-  const [opacity] = useState(() => new Animated.Value(0));
-  useEffect(() => {
-    if (reduceMotion) return opacity.setValue(1);
-    const anim = Animated.timing(opacity, {
-      toValue: 1,
-      duration: SELECT_FADE_MS,
-      useNativeDriver: true,
-    });
-    anim.start();
-    return () => anim.stop();
-  }, [opacity, reduceMotion]);
-  return <Animated.View style={{ opacity }}>{children}</Animated.View>;
 }
 
 /**
@@ -141,9 +98,7 @@ export function MusicList({ tracks, selectedId, level, owned, onSelect }: Props)
                       boxShadow: `0px 12px 26px ${withAlpha(track.accent, 0.5)}`,
                     },
                   ]}
-                >
-                  {null}
-                </Fade>
+                />
 
                 <View style={styles.main}>
                   <GlossyTile

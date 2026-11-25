@@ -71,7 +71,8 @@ Placeholders are already in place, so real content simply replaces them.
 
 Give Claude:
 
-- **Name** (e.g. "Confidence") and an idea for its **icon**.
+- **Name** (e.g. "Confidence") and an idea for its **icon** and **colour** (a light
+  colour for its glossy icon tile; Claude can suggest one).
 - **100 shared lines** — read by every narrator.
 - **30 extra lines per narrator** (if you want narrator-specific lines).
 - Later: the **recordings** of those lines for each narrator (see 4.5).
@@ -368,3 +369,4 @@ testing before review.
 | 2026-11-25 | Time tab redesigned: the whole wheel turns under a fixed top marker (old clock dial kept, see 4.7); shortest session is now 5 minutes.                                                               |
 | 2026-11-25 | Time wheel ticks exactly as each minute line reaches the marker; new font (Plus Jakarta Sans, less cartoonish); Music tab redesigned as soft 3D cards with filters (old list kept, see 4.8).         |
 | 2026-11-25 | Music tab back to a list, keeping the glossy glowing icons, with a quick fade on selection; filter buttons removed. Time wheel now adds time when turned anticlockwise.                              |
+| 2026-11-25 | Theme tab: glossy, glowing icon tiles like the Music tab, each theme in its own light colour; quick fade on selection.                                                                               |

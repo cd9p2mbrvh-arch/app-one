@@ -1,22 +1,31 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import type { CatalogItem } from '@/content/manifest';
-import { edge, spacing, useTheme } from '@/theme';
+import type { Theme } from '@/content/manifest';
 import { tap } from '@/feedback';
+import { spacing, useTheme } from '@/theme';
+import { withAlpha } from '@/theme/color';
 
 import { AppText } from '../AppText';
-import { ChunkySurface } from '../ChunkySurface';
+import { GlossyTile } from '../GlossyTile';
+import { Fade } from '../SelectFade';
 
 type Props = {
-  themes: CatalogItem[];
+  themes: Theme[];
   selectedId: string;
   onSelect: (id: string) => void;
 };
 
-/** Themes as large square tiles, two per row. */
+const CARD_RADIUS = 24;
+const TILE = 72;
+
+/**
+ * Themes as large square cards, two per row, in the same soft "3D" style as the
+ * music list: a glossy, glowing icon tile in the theme's own light colour. The
+ * selection highlight fades quickly from one square to the next.
+ */
 export function ThemeGrid({ themes, selectedId, onSelect }: Props) {
-  const rows: CatalogItem[][] = [];
+  const rows: Theme[][] = [];
   for (let i = 0; i < themes.length; i += 2) rows.push(themes.slice(i, i + 2));
   return (
     <View style={styles.grid}>
@@ -45,12 +54,12 @@ function ThemeSquare({
   selected,
   onPress,
 }: {
-  theme: CatalogItem;
+  theme: Theme;
   selected: boolean;
   onPress: () => void;
 }) {
   const { colors } = useTheme();
-  const fg = selected ? colors.onPrimary : colors.text;
+  const accent = theme.accent ?? colors.primary;
   return (
     <Pressable
       onPress={onPress}
@@ -60,24 +69,36 @@ function ThemeSquare({
       style={styles.cell}
     >
       {({ pressed }) => (
-        <ChunkySurface
-          pressed={pressed}
-          depth={edge.card}
-          face={selected ? colors.primary : colors.surface}
-          edge={selected ? colors.primaryEdge : colors.border}
-          border={selected ? colors.primary : colors.border}
-          style={styles.square}
+        <View
+          style={[
+            styles.square,
+            {
+              backgroundColor: colors.surface,
+              borderColor: colors.border,
+              boxShadow: `0px 10px 22px ${withAlpha(accent, 0.25)}`,
+              transform: [{ scale: pressed ? 0.97 : 1 }],
+            },
+          ]}
         >
-          <Ionicons name={theme.icon} size={44} color={selected ? fg : colors.primary} />
-          <AppText variant="label" color={fg} style={styles.label}>
+          {/* Selection highlight: border and glow, fades in and out. */}
+          <Fade
+            on={selected}
+            style={[
+              styles.highlight,
+              {
+                borderColor: colors.primary,
+                boxShadow: `0px 12px 26px ${withAlpha(accent, 0.55)}`,
+              },
+            ]}
+          />
+          <GlossyTile color={accent} icon={theme.icon} size={TILE} />
+          <AppText variant="label" style={styles.label}>
             {theme.label}
           </AppText>
-          {selected ? (
-            <View style={styles.check}>
-              <Ionicons name="checkmark-circle" size={22} color={colors.onPrimary} />
-            </View>
-          ) : null}
-        </ChunkySurface>
+          <Fade on={selected} style={styles.check}>
+            <Ionicons name="checkmark-circle" size={24} color={colors.primary} />
+          </Fade>
+        </View>
       )}
     </Pressable>
   );
@@ -91,8 +112,19 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: spacing.sm,
+    gap: spacing.sm + 4,
     padding: spacing.sm,
+    borderRadius: CARD_RADIUS,
+    borderWidth: 2,
+  },
+  highlight: {
+    position: 'absolute',
+    top: -2,
+    left: -2,
+    right: -2,
+    bottom: -2,
+    borderRadius: CARD_RADIUS,
+    borderWidth: 2,
   },
   label: { textAlign: 'center' },
   check: { position: 'absolute', top: spacing.sm, right: spacing.sm },
