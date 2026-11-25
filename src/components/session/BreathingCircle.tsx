@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { Animated, Easing, StyleSheet, View } from 'react-native';
 
 import { useReduceMotion } from '@/hooks/useReduceMotion';
-import { useTheme } from '@/theme';
+import { useTheme, useGlass } from '@/theme';
 
 import { AppText } from '../AppText';
 
@@ -21,6 +21,7 @@ type Props = {
  */
 export function BreathingCircle({ size, running, children }: Props) {
   const { colors } = useTheme();
+  const glass = useGlass();
   const still = useReduceMotion();
   const [scale] = useState(() => new Animated.Value(0.82));
   const [phase, setPhase] = useState<'in' | 'out'>('in');
@@ -64,8 +65,7 @@ export function BreathingCircle({ size, running, children }: Props) {
           width: size * factor,
           height: size * factor,
           borderRadius: (size * factor) / 2,
-          backgroundColor: colors.surface,
-          borderColor: colors.border,
+          ...glass.card,
           opacity,
           transform: [{ scale }],
         },

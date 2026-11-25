@@ -17,7 +17,7 @@ import { formatSessionDate, formatSessionLength } from '@/domain/format';
 import { levelForXp, xpToReachLevel } from '@/domain/progress';
 import { useActiveProfile } from '@/state/profiles';
 import { periodsToday, useProfileProgress, type SessionRecord } from '@/state/progress';
-import { radius, spacing, useTheme, type TimeOfDay } from '@/theme';
+import { radius, spacing, useTheme, type TimeOfDay, useGlass } from '@/theme';
 
 const PERIOD_ICONS: Record<TimeOfDay, IconName> = {
   morning: 'partly-sunny-outline',
@@ -28,6 +28,7 @@ const PERIOD_ICONS: Record<TimeOfDay, IconName> = {
 /** The active profile's progress and a simple list of past meditations. */
 export default function HistoryScreen() {
   const { colors } = useTheme();
+  const glass = useGlass();
   const profile = useActiveProfile();
   const progress = useProfileProgress(profile?.id);
 
@@ -66,10 +67,7 @@ export default function HistoryScreen() {
         onPress={() => router.push('/settings')}
         accessibilityRole="button"
         accessibilityLabel="Settings and info"
-        style={[
-          styles.settingsRow,
-          { backgroundColor: colors.surface, borderColor: colors.border },
-        ]}
+        style={[styles.settingsRow, glass.card]}
       >
         <Ionicons name="settings-outline" size={22} color={colors.primary} />
         <AppText variant="label" style={styles.settingsLabel}>
@@ -96,8 +94,9 @@ export default function HistoryScreen() {
 
 function Stat({ label, value }: { label: string; value: number }) {
   const { colors } = useTheme();
+  const glass = useGlass();
   return (
-    <View style={[styles.stat, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+    <View style={[styles.stat, glass.card]}>
       <AppText variant="heading">{value}</AppText>
       <AppText variant="caption" color={colors.textMuted}>
         {label}
@@ -108,12 +107,13 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function HistoryRow({ session }: { session: SessionRecord }) {
   const { colors } = useTheme();
+  const glass = useGlass();
   const theme = THEMES.find((t) => t.id === session.themeId)?.label ?? 'Meditation';
   const when = formatSessionDate(new Date(session.endedAt));
   const length = formatSessionLength(session.completed, session.plannedMinutes, session.listenedMs);
   return (
     <View
-      style={[styles.row, { backgroundColor: colors.surface, borderColor: colors.border }]}
+      style={[styles.row, glass.card]}
       accessible
       accessibilityLabel={`${when}. ${theme}, ${length}${session.completed ? '' : ', ended early'}. ${session.xp} XP.`}
     >

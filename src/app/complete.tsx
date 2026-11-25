@@ -9,7 +9,7 @@ import { MUSIC, THEMES, VOICES } from '@/content/manifest';
 import { xpToReachLevel } from '@/domain/progress';
 import { useActiveProfile } from '@/state/profiles';
 import { useProfileProgress } from '@/state/progress';
-import { radius, spacing, useTheme } from '@/theme';
+import { radius, spacing, useTheme, useGlass } from '@/theme';
 
 /** Fraction of the way through `level` for an XP total. */
 function levelFraction(xp: number, level: number) {
@@ -20,6 +20,7 @@ function levelFraction(xp: number, level: number) {
 /** After a session: XP earned, the level bar filling up, and any level-up. */
 export default function CompleteScreen() {
   const { colors } = useTheme();
+  const glass = useGlass();
   const profile = useActiveProfile();
   const result = useProfileProgress(profile?.id).lastResult;
   const [fill] = useState(() => new Animated.Value(0));
@@ -93,7 +94,7 @@ export default function CompleteScreen() {
         </AppText>
       </View>
 
-      <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+      <View style={[styles.card, glass.card]}>
         {result.xp.total > 0 ? (
           rows
             .filter(([, xp]) => xp > 0)

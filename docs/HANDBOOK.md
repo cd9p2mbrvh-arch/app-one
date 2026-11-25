@@ -196,6 +196,18 @@ prepare the list.
   back, ask Claude "switch the tab bar back to solid", or change `TABS_STYLE` at
   the top of `src/app/home.tsx` from `'glass'` to `'solid'`.
 
+### 4.10 Glass look across the app
+
+- **Current — glass:** cards, lists, the tab bar, text fields, small round
+  buttons, the profile page, settings and the pop-up sheets are soft,
+  see-through frosted glass: a light see-through fill, a bright thin edge and a
+  soft shadow. The main buttons (Next, Begin, Create profile…) stay solid so they
+  are easy to spot. Text is checked to stay easy to read on the glass in every
+  look (automatic test).
+- **Previous — chunky cards:** more solid cards with a 3D bottom edge. To switch
+  back, ask Claude "switch the app back to the chunky cards", or change
+  `UI_MATERIAL` in `src/theme/palettes.ts` from `'glass'` to `'chunky'`.
+
 ## 5. How a session works
 
 - **Begin** zooms into the blur and the session starts: music fades in, and after
@@ -380,3 +392,4 @@ testing before review.
 | 2026-11-25 | Music tab back to a list, keeping the glossy glowing icons, with a quick fade on selection; filter buttons removed. Time wheel now adds time when turned anticlockwise.                              |
 | 2026-11-25 | Theme tab: glossy, glowing icon tiles like the Music tab, each theme in its own light colour; quick fade on selection.                                                                               |
 | 2026-11-25 | Tab bar experiment: see-through frosted glass with a glass pill on the active tab (old solid bar kept, see 4.9).                                                                                     |
+| 2026-11-25 | Soft frosted-glass look across the whole app (cards, lists, fields, sheets, profile page, settings); main buttons stay solid (see 4.10).                                                             |

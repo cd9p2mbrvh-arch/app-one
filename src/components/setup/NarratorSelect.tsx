@@ -5,7 +5,7 @@ import { Animated, Pressable, StyleSheet, useWindowDimensions, View } from 'reac
 import { speakAs, stopSpeaking } from '@/audio/narratorVoice';
 import { lockReason, type Narrator } from '@/content/manifest';
 import { usePurchases } from '@/state/purchases';
-import { fonts, radius, spacing, useTheme } from '@/theme';
+import { fonts, radius, spacing, useTheme, useGlass } from '@/theme';
 import { tap } from '@/feedback';
 
 import { AppText } from '../AppText';
@@ -32,6 +32,7 @@ const COLUMNS = 3;
  */
 export function NarratorSelect({ narrators, selectedId, level, owned, onSelect }: Props) {
   const { colors } = useTheme();
+  const glass = useGlass();
   const { width } = useWindowDimensions();
   const [focusedId, setFocusedId] = useState(selectedId);
   const [speakingId, setSpeakingId] = useState<string | null>(null);
@@ -168,6 +169,7 @@ export function NarratorSelect({ narrators, selectedId, level, owned, onSelect }
                           : colors.border,
                       borderWidth: selected ? 3 : 2,
                       backgroundColor: colors.surface,
+                      boxShadow: glass.shadow,
                       transform: [{ scale: pressed ? 0.96 : selected ? 1.03 : 1 }],
                     },
                   ]}

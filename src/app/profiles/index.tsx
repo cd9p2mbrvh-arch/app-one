@@ -7,7 +7,7 @@ import { canAddProfile, MAX_PROFILES, type Profile } from '@/domain/profiles';
 import { useProfiles } from '@/state/profiles';
 import { usePurchases } from '@/state/purchases';
 import { useSessionSetup } from '@/state/sessionSetup';
-import { edge, spacing, useTheme } from '@/theme';
+import { edge, spacing, useTheme, useGlass } from '@/theme';
 
 /** Profile picker: choose who is meditating, add, or edit profiles. */
 export default function ProfilesScreen() {
@@ -93,6 +93,7 @@ type TileProps = {
 
 function Tile({ label, icon, onPress, onEdit, active }: TileProps) {
   const { colors } = useTheme();
+  const glass = useGlass();
   return (
     <View style={styles.tileWrap}>
       <Pressable
@@ -123,7 +124,7 @@ function Tile({ label, icon, onPress, onEdit, active }: TileProps) {
           accessibilityRole="button"
           accessibilityLabel={`Edit ${label}`}
           hitSlop={8}
-          style={[styles.edit, { backgroundColor: colors.surface, borderColor: colors.border }]}
+          style={[styles.edit, glass.card]}
         >
           <Ionicons name="pencil" size={16} color={colors.text} />
         </Pressable>

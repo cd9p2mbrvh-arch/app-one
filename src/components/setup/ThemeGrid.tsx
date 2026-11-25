@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import type { Theme } from '@/content/manifest';
 import { tap } from '@/feedback';
-import { spacing, useTheme } from '@/theme';
+import { spacing, useGlass, useTheme } from '@/theme';
 import { withAlpha } from '@/theme/color';
 
 import { AppText } from '../AppText';
@@ -59,6 +59,7 @@ function ThemeSquare({
   onPress: () => void;
 }) {
   const { colors } = useTheme();
+  const glass = useGlass();
   const accent = theme.accent ?? colors.primary;
   return (
     <Pressable
@@ -75,7 +76,7 @@ function ThemeSquare({
             {
               backgroundColor: colors.surface,
               borderColor: colors.border,
-              boxShadow: `0px 10px 22px ${withAlpha(accent, 0.25)}`,
+              boxShadow: `0px 10px 22px ${withAlpha(accent, 0.25)}${glass.highlight}`,
               transform: [{ scale: pressed ? 0.97 : 1 }],
             },
           ]}

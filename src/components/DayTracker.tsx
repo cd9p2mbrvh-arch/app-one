@@ -2,7 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyleSheet, View } from 'react-native';
 
 import { ALL_PERIODS_BONUS } from '@/domain/xp';
-import { radius, spacing, useTheme, type TimeOfDay } from '@/theme';
+import { radius, spacing, useTheme, type TimeOfDay, useGlass } from '@/theme';
 
 import { AppText } from './AppText';
 import type { IconName } from './OptionCard';
@@ -16,10 +16,11 @@ const PERIODS: { key: TimeOfDay; label: string; icon: IconName }[] = [
 /** Today's morning / noon / night meditations, towards the +50 XP bonus. */
 export function DayTracker({ done }: { done: TimeOfDay[] }) {
   const { colors } = useTheme();
+  const glass = useGlass();
   const all = PERIODS.every((p) => done.includes(p.key));
   return (
     <View
-      style={[styles.wrap, { backgroundColor: colors.surface, borderColor: colors.border }]}
+      style={[styles.wrap, glass.card]}
       accessible
       accessibilityLabel={`Today: ${PERIODS.map((p) => `${p.label} ${done.includes(p.key) ? 'done' : 'not yet'}`).join(', ')}.`}
       testID="day-tracker"

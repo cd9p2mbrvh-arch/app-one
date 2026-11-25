@@ -41,7 +41,7 @@ import {
   type SetupSelection,
   type SetupStep,
 } from '@/state/sessionSetup';
-import { spacing, useTheme, type TimeOfDay } from '@/theme';
+import { spacing, useTheme, type TimeOfDay, useGlass } from '@/theme';
 
 /**
  * Which picker the Time tab shows. 'rotatingWheel' = the whole wheel turns under a
@@ -374,6 +374,7 @@ const PREVIEW_ICONS = {
 
 function BackgroundPreviewButton() {
   const { colors, override, setOverride } = useTheme();
+  const glass = useGlass();
   const name = override ?? 'auto';
   const next = PREVIEW_ORDER[(PREVIEW_ORDER.indexOf(override) + 1) % PREVIEW_ORDER.length];
   return (
@@ -382,10 +383,7 @@ function BackgroundPreviewButton() {
       accessibilityRole="button"
       accessibilityLabel={`Background preview: ${name}`}
       hitSlop={8}
-      style={[
-        styles.previewButton,
-        { borderColor: colors.border, backgroundColor: colors.surface },
-      ]}
+      style={[styles.previewButton, glass.card]}
     >
       <Ionicons name={PREVIEW_ICONS[name]} size={20} color={colors.text} />
     </Pressable>

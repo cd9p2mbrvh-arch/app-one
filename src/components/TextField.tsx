@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput, View, type TextInputProps } from 'react-native';
 
-import { radius, spacing, typography, useTheme } from '@/theme';
+import { radius, spacing, typography, useTheme, useGlass } from '@/theme';
 
 import { AppText } from './AppText';
 
@@ -12,6 +12,7 @@ type Props = Omit<TextInputProps, 'style'> & {
 /** Labelled text input with an optional error message. */
 export function TextField({ label, error, ...input }: Props) {
   const { colors } = useTheme();
+  const glass = useGlass();
   return (
     <View style={styles.wrap}>
       <AppText variant="label">{label}</AppText>
@@ -23,7 +24,7 @@ export function TextField({ label, error, ...input }: Props) {
           typography.body,
           {
             color: colors.text,
-            backgroundColor: colors.surface,
+            ...glass.card,
             borderColor: error ? colors.text : colors.border,
           },
         ]}

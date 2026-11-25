@@ -8,7 +8,7 @@ import { AppText, BackButton, ChunkyButton, Screen, type IconName, HeaderRow } f
 import { APP_INFO } from '@/config/appInfo';
 import { tap } from '@/feedback';
 import { usePurchases } from '@/state/purchases';
-import { radius, spacing, useTheme } from '@/theme';
+import { radius, spacing, useTheme, useGlass } from '@/theme';
 
 /** Settings & info: restore purchases, health notice, privacy policy, support, version. */
 export default function SettingsScreen() {
@@ -87,9 +87,9 @@ export default function SettingsScreen() {
 }
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
-  const { colors } = useTheme();
+  const glass = useGlass();
   return (
-    <View style={[styles.section, { backgroundColor: colors.surface, borderColor: colors.border }]}>
+    <View style={[styles.section, glass.card]}>
       <AppText variant="heading" accessibilityRole="header">
         {title}
       </AppText>

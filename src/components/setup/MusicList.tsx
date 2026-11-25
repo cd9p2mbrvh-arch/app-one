@@ -6,7 +6,7 @@ import { useMusicPreview } from '@/audio/useMusicPreview';
 import { lockReason, type LockReason, type MusicTrack } from '@/content/manifest';
 import { tap } from '@/feedback';
 import { usePurchases } from '@/state/purchases';
-import { spacing, useTheme } from '@/theme';
+import { spacing, useGlass, useTheme } from '@/theme';
 import { withAlpha } from '@/theme/color';
 
 import { AppText } from '../AppText';
@@ -47,6 +47,7 @@ function accessibilityLabelFor(track: MusicTrack, lock: LockReason | null) {
  */
 export function MusicList({ tracks, selectedId, level, owned, onSelect }: Props) {
   const { colors } = useTheme();
+  const glass = useGlass();
   const { playingId, play, stop } = useMusicPreview();
   const [focusedId, setFocusedId] = useState(selectedId);
   const [buying, setBuying] = useState<MusicTrack | null>(null);
@@ -83,7 +84,7 @@ export function MusicList({ tracks, selectedId, level, owned, onSelect }: Props)
                   {
                     backgroundColor: colors.surface,
                     borderColor: colors.border,
-                    boxShadow: `0px 10px 22px ${withAlpha(track.accent, 0.22)}`,
+                    boxShadow: `0px 10px 22px ${withAlpha(track.accent, 0.22)}${glass.highlight}`,
                     transform: [{ scale: pressed ? 0.98 : 1 }],
                   },
                 ]}
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
   list: { gap: spacing.md },
   card: {
     borderRadius: CARD_RADIUS,
-    borderWidth: 2,
+    borderWidth: 1.5,
     padding: spacing.sm + 2,
   },
   highlight: {

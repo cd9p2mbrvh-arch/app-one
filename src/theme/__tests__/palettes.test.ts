@@ -1,5 +1,5 @@
 import { composite, contrastRatio, parseHex, relativeLuminance } from '../contrast';
-import { looks } from '../palettes';
+import { baseLooks, looks } from '../palettes';
 
 /** WCAG AA: 4.5 for normal text, 3 for large/bold text and UI elements. */
 const AA_TEXT = 4.5;
@@ -57,3 +57,18 @@ describe.each(Object.entries(looks))('%s look', (_period, { colors: c, backdrop 
     expect(contrastRatio(c.primary, composite(c.track, bg))).toBeGreaterThanOrEqual(AA_UI);
   });
 });
+
+describe.each(Object.entries(baseLooks))(
+  '%s look, both materials',
+  (_period, { colors: c, backdrop }) => {
+    const backgrounds = [...backdrop.gradient, ...backdrop.sceneColors];
+    it.each(backgrounds)('text is readable on glass and on solid cards over %s', (bg) => {
+      for (const fill of [c.glassFill, c.surface]) {
+        const card = composite(fill, bg);
+        expect(contrastRatio(c.text, card)).toBeGreaterThanOrEqual(AA_TEXT);
+        expect(contrastRatio(c.textMuted, card)).toBeGreaterThanOrEqual(AA_TEXT);
+        expect(contrastRatio(c.primary, card)).toBeGreaterThanOrEqual(AA_UI);
+      }
+    });
+  },
+);

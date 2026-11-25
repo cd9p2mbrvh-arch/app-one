@@ -4,11 +4,12 @@ import { StyleSheet, View } from 'react-native';
 
 import { AppText, BackButton, ChunkyButton, ProfileForm, Screen, HeaderRow } from '@/components';
 import { useProfiles } from '@/state/profiles';
-import { radius, spacing, useTheme } from '@/theme';
+import { radius, spacing, useTheme, useGlass } from '@/theme';
 
 export default function EditProfileScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { colors } = useTheme();
+  const glass = useGlass();
   const profile = useProfiles((s) => s.profiles.find((p) => p.id === id));
   const updateProfile = useProfiles((s) => s.updateProfile);
   const deleteProfile = useProfiles((s) => s.deleteProfile);
@@ -43,9 +44,7 @@ export default function EditProfileScreen() {
       />
 
       {confirming ? (
-        <View
-          style={[styles.confirm, { backgroundColor: colors.surface, borderColor: colors.border }]}
-        >
+        <View style={[styles.confirm, glass.card]}>
           <AppText variant="label">Delete {profile.name}?</AppText>
           <AppText variant="caption" color={colors.textMuted}>
             All progress for this profile will be lost. This cannot be undone.

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { View, type StyleProp, type ViewStyle } from 'react-native';
 
-import { radius } from '@/theme';
+import { radius, UI_MATERIAL, useGlass, useTheme } from '@/theme';
 
 type Props = {
   pressed: boolean;
@@ -23,6 +23,29 @@ const BORDER = 2;
  * edge collapses and the face moves down by the same amount.
  */
 export function ChunkySurface({ pressed, depth, face, edge, border, style, children }: Props) {
+  const { colors } = useTheme();
+  const glass = useGlass();
+  // With the glass material, cards (not the coloured buttons) become see-through
+  // glass: no solid bottom edge, a soft shadow instead, and a small press-in.
+  if (UI_MATERIAL === 'glass' && face !== colors.primary) {
+    return (
+      <View
+        style={[
+          {
+            backgroundColor: face,
+            borderRadius: radius.md + 4,
+            borderWidth: 1.5,
+            borderColor: border,
+            boxShadow: glass.shadow,
+            transform: [{ scale: pressed ? 0.98 : 1 }],
+          },
+          style,
+        ]}
+      >
+        {children}
+      </View>
+    );
+  }
   return (
     <View
       style={[

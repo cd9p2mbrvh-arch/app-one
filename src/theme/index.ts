@@ -1,5 +1,6 @@
-export { looks, type Backdrop, type Look, type Palette } from './palettes';
+export { baseLooks, looks, UI_MATERIAL, type Backdrop, type Look, type Palette } from './palettes';
 export { ThemeProvider, useTheme } from './ThemeProvider';
+export { useGlass } from './useGlass';
 export { getTimeOfDay, PERIOD_START_HOUR, type TimeOfDay } from './timeOfDay';
 
 export const spacing = { xs: 4, sm: 8, md: 16, lg: 24, xl: 32 } as const;

@@ -26,6 +26,12 @@ export type Palette = {
   track: string;
   /** Small highlights such as XP labels */
   accent: string;
+  /** Glass material: see-through fill for cards, bars and fields */
+  glassFill: string;
+  /** Glass material: bright edge where light catches the glass */
+  glassEdge: string;
+  /** Glass material: colour of the soft shadow under glass (used with low alpha) */
+  glassShadow: string;
 };
 
 export type Backdrop = {
@@ -43,7 +49,8 @@ export type Backdrop = {
 
 export type Look = { colors: Palette; backdrop: Backdrop };
 
-export const looks: Record<TimeOfDay, Look> = {
+/** The looks as first designed, with the solid "chunky" card material. */
+export const baseLooks: Record<TimeOfDay, Look> = {
   morning: {
     // Sunrise sky: clear light blue above, warm white and a faint peach glow below.
     colors: {
@@ -57,6 +64,9 @@ export const looks: Record<TimeOfDay, Look> = {
       onPrimary: '#FFFFFF',
       track: '#FFFFFF99',
       accent: '#1F527D',
+      glassFill: '#FFFFFF80',
+      glassEdge: '#FFFFFFCC',
+      glassShadow: '#2C4A6B',
     },
     backdrop: {
       // Sunrise: clear sky above, warm light near the horizon, the sun rising.
@@ -78,6 +88,9 @@ export const looks: Record<TimeOfDay, Look> = {
       onPrimary: '#FFFFFF',
       track: '#FFFFFF8C',
       accent: '#6E1E22',
+      glassFill: '#FFFFFF7A',
+      glassEdge: '#FFFFFFC7',
+      glassShadow: '#7A3410',
     },
     backdrop: {
       // Sunset at the beach: golden sky, sun sinking into a warm sea, sand below.
@@ -98,6 +111,9 @@ export const looks: Record<TimeOfDay, Look> = {
       onPrimary: '#101B30',
       track: '#FFFFFF1A',
       accent: '#D2DEF5',
+      glassFill: '#FFFFFF14',
+      glassEdge: '#FFFFFF38',
+      glassShadow: '#000000',
     },
     backdrop: {
       // Moon and stars: deep navy above, lighter blue below, drifting clouds.
@@ -107,4 +123,25 @@ export const looks: Record<TimeOfDay, Look> = {
       glass: 'dark',
     },
   },
+};
+
+/**
+ * Material of cards, bars and fields across the app. 'glass' = see-through soft
+ * frosted glass with bright edges and soft shadows (current). 'chunky' = the
+ * earlier frosted cards with a solid 3D bottom edge. Change this one line to
+ * switch back.
+ */
+export const UI_MATERIAL: 'glass' | 'chunky' = 'glass';
+
+function withMaterial(look: Look): Look {
+  if (UI_MATERIAL !== 'glass') return look;
+  const c = look.colors;
+  return { ...look, colors: { ...c, surface: c.glassFill, border: c.glassEdge } };
+}
+
+/** The looks in use (with the material above applied). */
+export const looks: Record<TimeOfDay, Look> = {
+  morning: withMaterial(baseLooks.morning),
+  noon: withMaterial(baseLooks.noon),
+  night: withMaterial(baseLooks.night),
 };
