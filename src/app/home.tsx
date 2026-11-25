@@ -56,6 +56,11 @@ const TIME_PICKER: 'rotatingWheel' | 'clockDial' = 'rotatingWheel';
  * 'classic' = the earlier plain list of rows. Change this one line to switch back.
  */
 const MUSIC_STYLE: 'glossy' | 'classic' = 'glossy';
+/**
+ * Look of the tab bar (Theme · Narrator · Music · Time). 'glass' = see-through
+ * frosted glass (experiment, current). 'solid' = the earlier filled pill bar.
+ */
+const TABS_STYLE: 'glass' | 'solid' = 'glass';
 const MusicPicker = MUSIC_STYLE === 'glossy' ? MusicList : MusicListClassic;
 
 const STEP_LABELS: Record<SetupStep, string> = {
@@ -238,6 +243,7 @@ export default function HomeScreen() {
             tabs={SETUP_STEPS.map((step) => ({ key: step, label: STEP_LABELS[step] }))}
             active={active}
             onChange={goTo}
+            variant={TABS_STYLE}
           />
 
           <Animated.View

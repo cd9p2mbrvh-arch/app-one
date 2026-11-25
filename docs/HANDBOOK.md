@@ -187,6 +187,15 @@ prepare the list.
   `MUSIC_STYLE` at the top of `src/app/home.tsx` from `'glossy'` to `'classic'`.
 - A two-column card grid with filter buttons was tried on 25 Nov 2026 and dropped.
 
+### 4.9 Tab bar look (experiment)
+
+- **Current — glass:** the Theme · Narrator · Music · Time bar is see-through
+  frosted glass; the active tab sits on a brighter glass pill with its name in the
+  look's main colour.
+- **Previous — solid:** a filled colour pill on a card-coloured bar. To switch
+  back, ask Claude "switch the tab bar back to solid", or change `TABS_STYLE` at
+  the top of `src/app/home.tsx` from `'glass'` to `'solid'`.
+
 ## 5. How a session works
 
 - **Begin** zooms into the blur and the session starts: music fades in, and after
@@ -370,3 +379,4 @@ testing before review.
 | 2026-11-25 | Time wheel ticks exactly as each minute line reaches the marker; new font (Plus Jakarta Sans, less cartoonish); Music tab redesigned as soft 3D cards with filters (old list kept, see 4.8).         |
 | 2026-11-25 | Music tab back to a list, keeping the glossy glowing icons, with a quick fade on selection; filter buttons removed. Time wheel now adds time when turned anticlockwise.                              |
 | 2026-11-25 | Theme tab: glossy, glowing icon tiles like the Music tab, each theme in its own light colour; quick fade on selection.                                                                               |
+| 2026-11-25 | Tab bar experiment: see-through frosted glass with a glass pill on the active tab (old solid bar kept, see 4.9).                                                                                     |

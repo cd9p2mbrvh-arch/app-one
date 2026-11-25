@@ -24,4 +24,12 @@ describe('Tabs', () => {
     await fireEvent.press(screen.getByRole('tab', { name: 'Alpha, done' }));
     expect(onChange).toHaveBeenCalledWith('a');
   });
+
+  it('works the same in the glass look', async () => {
+    const onChange = jest.fn();
+    await render(<Tabs tabs={[...tabs]} active="b" onChange={onChange} variant="glass" />);
+    expect(screen.getByRole('tab', { name: 'Beta' })).toBeSelected();
+    await fireEvent.press(screen.getByRole('tab', { name: 'Alpha, done' }));
+    expect(onChange).toHaveBeenCalledWith('a');
+  });
 });
