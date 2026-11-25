@@ -162,7 +162,8 @@ prepare the list.
   `MIN_DURATION_MIN` / `MAX_DURATION_MIN` in `src/content/manifest.ts`.
 - **Current design — rotating wheel** (since 25 Nov 2026): the whole wheel turns
   under a fixed marker at the top; the number under the marker (also shown big in
-  the middle) is the time. Turn clockwise to add time, anticlockwise to remove it;
+  the middle) is the time. Turn anticlockwise to add time, clockwise to remove it
+  (to flip this, change `WHEEL_DIRECTION` in `src/components/dial/wheelMath.ts`);
   tap a number to turn straight to it. It settles on the nearest minute. A light
   haptic tick plays the moment each minute line reaches the marker, a firmer one
   every 5 minutes.
@@ -174,16 +175,16 @@ prepare the list.
   it was before the redesign is also saved on GitHub as the branch
   `saved/time-picker-clock-dial`.
 
-### 4.8 Music tab design (experiment)
+### 4.8 Music tab design
 
-- **Current design — soft 3D cards** (since 25 Nov 2026, inspired by a reference
-  screenshot): two columns of rounded cards, each with a glossy icon tile popping
-  out of its top edge; chips on top filter **All · Free · Premium**; a small
-  player bar under the cards tells what is playing and offers **Unlock** for paid
-  music. Colours still follow the time-of-day looks and each track's own colour.
-- **Previous design — list of rows** is kept in the code. To switch back, ask
-  Claude "switch the Music tab back to the list", or change `MUSIC_STYLE` at the
-  top of `src/app/home.tsx` from `'cards'` to `'classic'`.
+- **Current design — glossy list** (since 25 Nov 2026): one row per track, as
+  before, but each row is a soft rounded card with a glossy, glowing icon tile in
+  the track's own colour. When you pick another track the highlight fades quickly
+  from the old row to the new one (it simply switches when Reduce Motion is on).
+- **Previous design — plain list of rows** is kept in the code. To switch back,
+  ask Claude "switch the Music tab back to the plain list", or change
+  `MUSIC_STYLE` at the top of `src/app/home.tsx` from `'glossy'` to `'classic'`.
+- A two-column card grid with filter buttons was tried on 25 Nov 2026 and dropped.
 
 ## 5. How a session works
 
@@ -366,3 +367,4 @@ testing before review.
 | 2026-11-25 | The top-right corner stays empty in Expo Go (its gear button sits there); Settings & info moved to a row on the profile page.                                                                        |
 | 2026-11-25 | Time tab redesigned: the whole wheel turns under a fixed top marker (old clock dial kept, see 4.7); shortest session is now 5 minutes.                                                               |
 | 2026-11-25 | Time wheel ticks exactly as each minute line reaches the marker; new font (Plus Jakarta Sans, less cartoonish); Music tab redesigned as soft 3D cards with filters (old list kept, see 4.8).         |
+| 2026-11-25 | Music tab back to a list, keeping the glossy glowing icons, with a quick fade on selection; filter buttons removed. Time wheel now adds time when turned anticlockwise.                              |

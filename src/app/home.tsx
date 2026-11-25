@@ -17,7 +17,7 @@ import {
   HeaderRow,
 } from '@/components';
 import {
-  MusicCards,
+  MusicList,
   MusicListClassic,
   NarratorSelect,
   ThemeFixedChoice,
@@ -51,12 +51,12 @@ import { spacing, useTheme, type TimeOfDay } from '@/theme';
 const TIME_PICKER: 'rotatingWheel' | 'clockDial' = 'rotatingWheel';
 
 /**
- * Which design the Music tab uses. 'cards' = soft 3D cards in two columns with
- * filter chips and a mini player (experiment, current). 'classic' = the earlier
- * list of rows. Change this one line to switch back.
+ * Which design the Music tab uses. 'glossy' = list of soft 3D cards with glossy,
+ * glowing icon tiles and a quick fade when the selection changes (current).
+ * 'classic' = the earlier plain list of rows. Change this one line to switch back.
  */
-const MUSIC_STYLE: 'cards' | 'classic' = 'cards';
-const MusicPicker = MUSIC_STYLE === 'cards' ? MusicCards : MusicListClassic;
+const MUSIC_STYLE: 'glossy' | 'classic' = 'glossy';
+const MusicPicker = MUSIC_STYLE === 'glossy' ? MusicList : MusicListClassic;
 
 const STEP_LABELS: Record<SetupStep, string> = {
   theme: 'Theme',
@@ -338,7 +338,7 @@ export default function HomeScreen() {
                 )}
                 <AppText variant="caption" color={colors.textMuted}>
                   {TIME_PICKER === 'rotatingWheel'
-                    ? 'Turn the wheel or tap a number · clockwise adds time'
+                    ? 'Turn anticlockwise to add time · or tap a number'
                     : 'Tap the dial or drag the knob · one circle = 60 minutes'}
                 </AppText>
               </View>

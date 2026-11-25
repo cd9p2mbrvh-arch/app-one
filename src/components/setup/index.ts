@@ -1,4 +1,4 @@
-export { MusicCards } from './MusicCards';
+export { MusicList } from './MusicList';
 export { MusicListClassic } from './MusicListClassic';
 export { NarratorPortrait } from './NarratorPortrait';
 export { NarratorSelect } from './NarratorSelect';

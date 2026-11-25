@@ -2,20 +2,23 @@ import { DEG_PER_MINUTE, DIAL_MAX, DIAL_MIN } from './dialMath';
 
 /**
  * The rotating time wheel: the numbers sit on a wheel that turns under a fixed
- * marker at the top. The value is the number under the marker. Turning the wheel
- * clockwise adds time (like a kitchen timer), so the numbers are laid out
- * counter-clockwise: minute m sits at -m × 6° on the wheel, and the wheel is
- * turned by +value × 6° to bring it to the top.
+ * marker at the top. The value is the number under the marker.
+ *
+ * WHEEL_DIRECTION sets which way adds time: -1 = turning anticlockwise adds time
+ * (current), 1 = turning clockwise adds time (like a kitchen timer; the first
+ * version). The numbers are laid out the opposite way round, so turning the
+ * wheel brings the next number under the marker.
  */
+export const WHEEL_DIRECTION: 1 | -1 = -1;
 
 /** Wheel rotation (degrees, clockwise) that puts `value` under the top marker. */
 export function rotationForValue(value: number): number {
-  return value * DEG_PER_MINUTE;
+  return WHEEL_DIRECTION * value * DEG_PER_MINUTE;
 }
 
 /** Where minute `m` sits on the unturned wheel (degrees, 0 = top, clockwise). */
 export function wheelAngleOf(minute: number): number {
-  return -minute * DEG_PER_MINUTE;
+  return -WHEEL_DIRECTION * minute * DEG_PER_MINUTE;
 }
 
 /** Shortest signed turn from angle `from` to angle `to`, in (-180, 180]. */
@@ -29,9 +32,9 @@ export function clampExact(value: number): number {
   return Math.min(DIAL_MAX, Math.max(DIAL_MIN, value));
 }
 
-/** Exact value after the finger turned the wheel by `delta` degrees. */
+/** Exact value after the finger turned the wheel by `delta` degrees (clockwise +). */
 export function valueAfterTurn(exact: number, delta: number): number {
-  return clampExact(exact + delta / DEG_PER_MINUTE);
+  return clampExact(exact + (WHEEL_DIRECTION * delta) / DEG_PER_MINUTE);
 }
 
 /** Whole minutes shown for an exact value (what the wheel settles on). */
@@ -46,7 +49,7 @@ export function settledValue(exact: number): number {
  */
 export function valueAtTouch(touchAngle: number, currentValue: number): number {
   const onWheel = touchAngle - rotationForValue(currentValue);
-  const minute = ((Math.round(-onWheel / DEG_PER_MINUTE) % 60) + 60) % 60 || 60;
+  const minute = ((Math.round((-WHEEL_DIRECTION * onWheel) / DEG_PER_MINUTE) % 60) + 60) % 60 || 60;
   if (minute >= DIAL_MIN) return minute;
   // 1…(min-1): closer to 60 or to the minimum?
   return minute < DIAL_MIN / 2 ? DIAL_MAX : DIAL_MIN;
