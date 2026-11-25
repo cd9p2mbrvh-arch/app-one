@@ -39,3 +39,15 @@ Docs: https://docs.expo.dev/eas/index.md
 - If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
 - Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
 - Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+
+## Project rules (App One)
+
+- **Keep the top-right corner free.** While the app runs in Expo Go, Expo Go's
+  floating gear button sits in the top-right corner and covers anything there.
+  Never put buttons or important content in that corner. Use `HeaderRow`
+  (`src/components/HeaderRow.tsx`) for every screen's top row: it keeps the corner
+  clear in Expo Go (and adds nothing in real builds).
+- Read `docs/HANDBOOK.md` and `docs/PLAN.md` before making changes; update them
+  (and the handbook change log) with every user-visible change.
+- `npx expo install` needs `EXPO_OFFLINE=1` in this environment (the version
+  lookup service is not reachable); `npm run check` must pass before committing.

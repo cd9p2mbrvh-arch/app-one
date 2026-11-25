@@ -2,7 +2,7 @@ import { Redirect, router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { AppText, BackButton, ChunkyButton, ProfileForm, Screen } from '@/components';
+import { AppText, BackButton, ChunkyButton, ProfileForm, Screen, HeaderRow } from '@/components';
 import { useProfiles } from '@/state/profiles';
 import { radius, spacing, useTheme } from '@/theme';
 
@@ -25,10 +25,10 @@ export default function EditProfileScreen() {
 
   return (
     <Screen>
-      <View style={styles.header}>
+      <HeaderRow style={styles.header}>
         <BackButton />
         <AppText variant="title">Edit profile</AppText>
-      </View>
+      </HeaderRow>
 
       <ProfileForm
         initialName={profile.name}

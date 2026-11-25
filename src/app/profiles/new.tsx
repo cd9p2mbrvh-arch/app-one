@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
-import { AppText, BackButton, ProfileForm, Screen } from '@/components';
+import { AppText, BackButton, ProfileForm, Screen, HeaderRow } from '@/components';
 import { useProfiles } from '@/state/profiles';
 import { useSessionSetup } from '@/state/sessionSetup';
 import { spacing, useTheme } from '@/theme';
@@ -13,10 +13,10 @@ export default function NewProfileScreen() {
 
   return (
     <Screen>
-      <View style={styles.header}>
+      <HeaderRow style={styles.header}>
         {!isFirst ? <BackButton /> : null}
         <AppText variant="title">{isFirst ? 'Welcome to App One' : 'New profile'}</AppText>
-      </View>
+      </HeaderRow>
       {isFirst ? (
         <AppText color={colors.textMuted}>
           Create your profile to keep track of your progress. Everything stays on this device.

@@ -39,6 +39,9 @@ expo.dev → Account settings → Access tokens, and create a new one.
 **If something looks wrong:** close Expo Go completely (swipe it away) and scan
 again. In Expo Go you can also shake the phone → **Reload**.
 
+**Expo Go's gear button** sits in the top-right corner of the screen. The app keeps
+that corner empty while it runs in Expo Go, so nothing of ours is hidden behind it.
+
 **Temporary test buttons** (they will be removed before release):
 
 - Top-left round button: cycles the background **Auto → Morning → Noon → Night**.
@@ -331,3 +334,4 @@ testing before review.
 | 2026-11-24 | Sessions keep playing with the screen locked (lock-screen "Now playing"); +50 XP for morning, noon and night on one day; profile page with history; rarer UFO, calmer stars, clouds around the moon. |
 | 2026-11-24 | Session narration now plays from audio clips (placeholder recordings) instead of the phone's speech engine, to keep working with the screen locked; temporary "Audio check" line added.              |
 | 2026-11-24 | Settings & info screen (restore purchases, health notice, privacy policy, version); privacy policy written; Health theme note; store approval checklist added to this handbook.                      |
+| 2026-11-25 | The top-right corner stays empty in Expo Go (its gear button sits there); Settings & info moved to a row on the profile page.                                                                        |

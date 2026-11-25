@@ -13,6 +13,7 @@ import {
   ProgressBar,
   Screen,
   Tabs,
+  HeaderRow,
 } from '@/components';
 import { MusicList, NarratorSelect, ThemeFixedChoice, ThemeGrid } from '@/components/setup';
 import { MUSIC, THEMES, VOICES } from '@/content/manifest';
@@ -172,7 +173,7 @@ export default function HomeScreen() {
             </>
           }
         >
-          <View style={styles.header}>
+          <HeaderRow style={styles.header}>
             {/* Left side: the top-right corner is covered by Expo Go's floating gear. */}
             <BackgroundPreviewButton />
             <Pressable
@@ -209,7 +210,7 @@ export default function HomeScreen() {
             >
               <Ionicons name="swap-horizontal" size={22} color={colors.textMuted} />
             </Pressable>
-          </View>
+          </HeaderRow>
 
           <Tabs
             tabs={SETUP_STEPS.map((step) => ({ key: step, label: STEP_LABELS[step] }))}

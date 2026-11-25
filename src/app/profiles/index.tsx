@@ -2,7 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { router, useCanGoBack } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { AppText, Avatar, BackButton, ChunkySurface, Screen } from '@/components';
+import { AppText, Avatar, BackButton, ChunkySurface, Screen, HeaderRow } from '@/components';
 import { canAddProfile, MAX_PROFILES, type Profile } from '@/domain/profiles';
 import { useProfiles } from '@/state/profiles';
 import { usePurchases } from '@/state/purchases';
@@ -30,10 +30,10 @@ export default function ProfilesScreen() {
 
   return (
     <Screen>
-      <View style={styles.header}>
+      <HeaderRow style={styles.header}>
         {canGoBack ? <BackButton /> : null}
         <AppText variant="title">{"Who's meditating?"}</AppText>
-      </View>
+      </HeaderRow>
 
       <View style={styles.grid}>
         {rows.map((row, i) => (

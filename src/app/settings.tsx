@@ -4,7 +4,7 @@ import { useState, type ReactNode } from 'react';
 import { Linking, Pressable, StyleSheet, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { AppText, BackButton, ChunkyButton, Screen, type IconName } from '@/components';
+import { AppText, BackButton, ChunkyButton, Screen, type IconName, HeaderRow } from '@/components';
 import { APP_INFO } from '@/config/appInfo';
 import { tap } from '@/feedback';
 import { usePurchases } from '@/state/purchases';
@@ -37,10 +37,10 @@ export default function SettingsScreen() {
 
   return (
     <Screen>
-      <View style={styles.header}>
+      <HeaderRow style={styles.header}>
         <BackButton />
         <AppText variant="title">Settings & info</AppText>
-      </View>
+      </HeaderRow>
 
       <Section title="Purchases">
         <AppText color={colors.textMuted}>

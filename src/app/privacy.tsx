@@ -1,6 +1,6 @@
 import { Linking, StyleSheet, View } from 'react-native';
 
-import { AppText, BackButton, ChunkyButton, Screen } from '@/components';
+import { AppText, BackButton, ChunkyButton, Screen, HeaderRow } from '@/components';
 import { APP_INFO } from '@/config/appInfo';
 import { PRIVACY_POLICY, PRIVACY_POLICY_UPDATED } from '@/content/legal/privacyPolicy';
 import { spacing, useTheme } from '@/theme';
@@ -10,10 +10,10 @@ export default function PrivacyScreen() {
   const { colors } = useTheme();
   return (
     <Screen>
-      <View style={styles.header}>
+      <HeaderRow style={styles.header}>
         <BackButton />
         <AppText variant="title">Privacy policy</AppText>
-      </View>
+      </HeaderRow>
       <AppText variant="caption" color={colors.textMuted}>
         Last updated: {PRIVACY_POLICY_UPDATED}
       </AppText>

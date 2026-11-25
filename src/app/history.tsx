@@ -2,7 +2,15 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { Redirect, router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { AppText, Avatar, BackButton, DayTracker, ProgressBar, Screen } from '@/components';
+import {
+  AppText,
+  Avatar,
+  BackButton,
+  DayTracker,
+  ProgressBar,
+  Screen,
+  HeaderRow,
+} from '@/components';
 import type { IconName } from '@/components';
 import { THEMES } from '@/content/manifest';
 import { formatSessionDate, formatSessionLength } from '@/domain/format';
@@ -31,7 +39,7 @@ export default function HistoryScreen() {
 
   return (
     <Screen>
-      <View style={styles.header}>
+      <HeaderRow style={styles.header}>
         <BackButton />
         <Avatar avatar={profile.avatar} size={48} />
         <View style={styles.headerText}>
@@ -40,15 +48,7 @@ export default function HistoryScreen() {
             Level {level} · {progress.totalXp - start} / {next - start} XP to level {level + 1}
           </AppText>
         </View>
-        <Pressable
-          onPress={() => router.push('/settings')}
-          accessibilityRole="button"
-          accessibilityLabel="Settings and info"
-          hitSlop={10}
-        >
-          <Ionicons name="settings-outline" size={24} color={colors.text} />
-        </Pressable>
-      </View>
+      </HeaderRow>
       <ProgressBar
         value={(progress.totalXp - start) / (next - start)}
         accessibilityLabel="Level progress"
@@ -61,6 +61,22 @@ export default function HistoryScreen() {
       </View>
 
       <DayTracker done={periodsToday(progress)} />
+
+      <Pressable
+        onPress={() => router.push('/settings')}
+        accessibilityRole="button"
+        accessibilityLabel="Settings and info"
+        style={[
+          styles.settingsRow,
+          { backgroundColor: colors.surface, borderColor: colors.border },
+        ]}
+      >
+        <Ionicons name="settings-outline" size={22} color={colors.primary} />
+        <AppText variant="label" style={styles.settingsLabel}>
+          Settings & info
+        </AppText>
+        <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
+      </Pressable>
 
       <AppText variant="heading">History</AppText>
       {progress.history.length === 0 ? (
@@ -127,6 +143,15 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
     alignItems: 'center',
   },
+  settingsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+    borderWidth: 2,
+    borderRadius: radius.md,
+    padding: spacing.md,
+  },
+  settingsLabel: { flex: 1 },
   list: { gap: spacing.sm },
   row: {
     flexDirection: 'row',

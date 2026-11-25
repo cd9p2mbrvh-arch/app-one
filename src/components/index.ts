@@ -14,3 +14,4 @@ export { DurationDial } from './dial/DurationDial';
 export { Sheet } from './Sheet';
 export { BreathingCircle } from './session/BreathingCircle';
 export { DayTracker } from './DayTracker';
+export { EXPO_GO_CORNER, expoGoCornerInset, HeaderRow } from './HeaderRow';
