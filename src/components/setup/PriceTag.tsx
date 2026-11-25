@@ -1,6 +1,8 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { StyleSheet, View } from 'react-native';
 
+import { fonts } from '@/theme';
+
 import { AppText } from '../AppText';
 
 /** Gold price badge for paid content (fixed colours, readable on any background). */
@@ -29,5 +31,5 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
   },
   compact: { paddingHorizontal: 6, paddingVertical: 1 },
-  text: { fontFamily: 'Nunito_900Black' },
+  text: { fontFamily: fonts.black },
 });

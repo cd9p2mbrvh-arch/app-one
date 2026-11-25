@@ -1,4 +1,5 @@
-export { MusicList } from './MusicList';
+export { MusicCards } from './MusicCards';
+export { MusicListClassic } from './MusicListClassic';
 export { NarratorPortrait } from './NarratorPortrait';
 export { NarratorSelect } from './NarratorSelect';
 export { ThemeGrid } from './ThemeGrid';

@@ -1,9 +1,9 @@
 import {
-  Nunito_600SemiBold,
-  Nunito_800ExtraBold,
-  Nunito_900Black,
+  PlusJakartaSans_500Medium,
+  PlusJakartaSans_700Bold,
+  PlusJakartaSans_800ExtraBold,
   useFonts,
-} from '@expo-google-fonts/nunito';
+} from '@expo-google-fonts/plus-jakarta-sans';
 import { DefaultTheme, ThemeProvider as NavigationThemeProvider, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
@@ -14,9 +14,9 @@ import { ThemeProvider, useTheme } from '@/theme';
 
 export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
-    Nunito_600SemiBold,
-    Nunito_800ExtraBold,
-    Nunito_900Black,
+    PlusJakartaSans_500Medium,
+    PlusJakartaSans_700Bold,
+    PlusJakartaSans_800ExtraBold,
   });
 
   // Keep the native splash visible until fonts are ready. If fonts fail to load,

@@ -1,6 +1,7 @@
 import { DIAL_MAX, DIAL_MIN } from '../dialMath';
 import {
   angleDelta,
+  crossedMinute,
   rotationForValue,
   settledValue,
   valueAfterTurn,
@@ -65,5 +66,31 @@ describe('valueAtTouch', () => {
     // With 10 at the top, minute 1 is at 54° and minute 4 at 36°.
     expect(valueAtTouch(54, 10)).toBe(DIAL_MAX);
     expect(valueAtTouch(36, 10)).toBe(DIAL_MIN);
+  });
+});
+
+describe('crossedMinute', () => {
+  it('reports a minute only when its line reaches the marker', () => {
+    expect(crossedMinute(10, 10.4)).toBeNull();
+    expect(crossedMinute(10.4, 10.6)).toBeNull(); // halfway is not a mark
+    expect(crossedMinute(10.9, 11)).toBe(11);
+    expect(crossedMinute(10.9, 11.2)).toBe(11);
+  });
+
+  it('works turning back too', () => {
+    expect(crossedMinute(11, 10.6)).toBeNull();
+    expect(crossedMinute(10.1, 9.95)).toBe(10);
+    expect(crossedMinute(10, 9.5)).toBeNull();
+    expect(crossedMinute(9.2, 9)).toBe(9);
+  });
+
+  it('turning back and forth inside a minute does not tick', () => {
+    expect(crossedMinute(10.7, 10.5)).toBeNull();
+    expect(crossedMinute(10.5, 10.8)).toBeNull();
+  });
+
+  it('returns the last line when several pass in one move', () => {
+    expect(crossedMinute(10.5, 13.2)).toBe(13);
+    expect(crossedMinute(13.2, 10.5)).toBe(11);
   });
 });

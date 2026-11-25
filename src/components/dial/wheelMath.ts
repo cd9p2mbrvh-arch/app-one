@@ -51,3 +51,21 @@ export function valueAtTouch(touchAngle: number, currentValue: number): number {
   // 1…(min-1): closer to 60 or to the minimum?
   return minute < DIAL_MIN / 2 ? DIAL_MAX : DIAL_MIN;
 }
+
+/**
+ * The minute line that passed under the marker while the wheel turned from
+ * `prev` to `next` (exact values), or null if none did. This is the moment to
+ * tick and update the number, so the feedback lines up with the marks. If
+ * several lines passed in one move, the last one is returned.
+ */
+export function crossedMinute(prev: number, next: number): number | null {
+  if (next > prev) {
+    const line = Math.floor(next);
+    return line > prev ? line : null;
+  }
+  if (next < prev) {
+    const line = Math.ceil(next);
+    return line < prev ? line : null;
+  }
+  return null;
+}

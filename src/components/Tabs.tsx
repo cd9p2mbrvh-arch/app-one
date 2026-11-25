@@ -2,7 +2,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useEffect, useState } from 'react';
 import { Animated, Pressable, StyleSheet, View } from 'react-native';
 
-import { radius, spacing, useTheme } from '@/theme';
+import { fonts, radius, spacing, useTheme } from '@/theme';
 
 import { AppText } from './AppText';
 
@@ -115,5 +115,5 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
     borderRadius: radius.pill,
   },
-  label: { fontFamily: 'Nunito_800ExtraBold' },
+  label: { fontFamily: fonts.bold },
 });

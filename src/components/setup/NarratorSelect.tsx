@@ -5,7 +5,7 @@ import { Animated, Pressable, StyleSheet, useWindowDimensions, View } from 'reac
 import { speakAs, stopSpeaking } from '@/audio/narratorVoice';
 import { lockReason, type Narrator } from '@/content/manifest';
 import { usePurchases } from '@/state/purchases';
-import { radius, spacing, useTheme } from '@/theme';
+import { fonts, radius, spacing, useTheme } from '@/theme';
 import { tap } from '@/feedback';
 
 import { AppText } from '../AppText';
@@ -272,5 +272,5 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   nameStrip: { alignSelf: 'stretch', paddingVertical: 4 },
-  name: { textAlign: 'center', fontFamily: 'Nunito_800ExtraBold' },
+  name: { textAlign: 'center', fontFamily: fonts.bold },
 });

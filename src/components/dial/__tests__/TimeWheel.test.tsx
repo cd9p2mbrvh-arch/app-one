@@ -92,6 +92,17 @@ describe('TimeWheel', () => {
     expect(Haptics.impactAsync).toHaveBeenCalledTimes(1); // 15
   });
 
+  it('ticks when a minute line reaches the marker, not halfway', async () => {
+    const { dial } = await setup(10);
+    await fireEvent(dial, 'responderGrant', at(0, 0));
+    await fireEvent(dial, 'responderMove', at(4, 400)); // 10.67: past halfway
+    expect(Haptics.selectionAsync).not.toHaveBeenCalled();
+    expect(screen.getByTestId('dial-value')).toHaveTextContent('10');
+    await fireEvent(dial, 'responderMove', at(6, 600)); // line 11 at the marker
+    expect(Haptics.selectionAsync).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId('dial-value')).toHaveTextContent('11');
+  });
+
   it('only clicks on 5-minute marks during a fast spin', async () => {
     const { dial } = await setup(10);
     await turn(dial, 120, 2); // ~83 min/s

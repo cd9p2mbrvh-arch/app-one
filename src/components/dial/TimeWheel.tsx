@@ -10,6 +10,7 @@ import { hapticForStep, speedBetween } from './dialHaptics';
 import { angleOf, DIAL_MAX, DIAL_MIN, pointAt, stepValue } from './dialMath';
 import {
   angleDelta,
+  crossedMinute,
   rotationForValue,
   settledValue,
   valueAfterTurn,
@@ -125,9 +126,12 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
     // Angles jump around near the centre; ignore them there.
     if (t.nearCentre) return;
     d.moved += Math.abs(delta);
+    const prev = d.exact;
     d.exact = valueAfterTurn(d.exact, delta);
     rotation.setValue(rotationForValue(d.exact));
-    update(settledValue(d.exact), e.nativeEvent.timestamp);
+    // Tick and change the number when a minute line reaches the marker, not halfway.
+    const line = crossedMinute(prev, d.exact);
+    if (line !== null) update(line, e.nativeEvent.timestamp);
   };
 
   const onRelease = (e?: GestureResponderEvent) => {
@@ -140,7 +144,10 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
       update(target, e?.nativeEvent.timestamp ?? Date.now());
       return settleTo(target);
     }
-    settleTo(settledValue(d.exact));
+    // Snapping to the nearest minute may carry one more line under the marker.
+    const target = settledValue(d.exact);
+    update(target, e?.nativeEvent.timestamp ?? Date.now());
+    settleTo(target);
   };
 
   const step = (direction: 1 | -1) => {

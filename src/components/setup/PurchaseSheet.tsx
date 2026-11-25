@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 
-import { spacing, useTheme } from '@/theme';
+import { fonts, spacing, useTheme } from '@/theme';
 
 import { AppText } from '../AppText';
 import { ChunkyButton } from '../ChunkyButton';
@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
     marginBottom: spacing.xs,
   },
-  demoText: { fontFamily: 'Nunito_900Black' },
+  demoText: { fontFamily: fonts.black },
   note: { textAlign: 'center' },
 });

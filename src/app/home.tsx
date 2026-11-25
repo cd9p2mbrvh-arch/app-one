@@ -16,7 +16,13 @@ import {
   Tabs,
   HeaderRow,
 } from '@/components';
-import { MusicList, NarratorSelect, ThemeFixedChoice, ThemeGrid } from '@/components/setup';
+import {
+  MusicCards,
+  MusicListClassic,
+  NarratorSelect,
+  ThemeFixedChoice,
+  ThemeGrid,
+} from '@/components/setup';
 import { MUSIC, THEMES, VOICES } from '@/content/manifest';
 import { levelForXp, xpToReachLevel } from '@/domain/progress';
 import { tap } from '@/feedback';
@@ -43,6 +49,14 @@ import { spacing, useTheme, type TimeOfDay } from '@/theme';
  * draggable knob. Change this one line to switch back.
  */
 const TIME_PICKER: 'rotatingWheel' | 'clockDial' = 'rotatingWheel';
+
+/**
+ * Which design the Music tab uses. 'cards' = soft 3D cards in two columns with
+ * filter chips and a mini player (experiment, current). 'classic' = the earlier
+ * list of rows. Change this one line to switch back.
+ */
+const MUSIC_STYLE: 'cards' | 'classic' = 'cards';
+const MusicPicker = MUSIC_STYLE === 'cards' ? MusicCards : MusicListClassic;
 
 const STEP_LABELS: Record<SetupStep, string> = {
   theme: 'Theme',
@@ -296,7 +310,7 @@ export default function HomeScreen() {
             ) : null}
 
             {active === 'music' && !isStepFixed(selection, 'music') ? (
-              <MusicList
+              <MusicPicker
                 tracks={MUSIC}
                 selectedId={selection.music}
                 level={level}

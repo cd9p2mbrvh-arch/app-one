@@ -24,11 +24,11 @@ type Props = {
 };
 
 /**
- * Music as a list of rows, like a music app. Tapping a row plays a short preview
+ * Classic music list (rows, like a music app). Kept as an alternative design. Tapping a row plays a short preview
  * and expands it; tapping the playing row again stops it. Locked tracks can be
  * previewed but not chosen.
  */
-export function MusicList({ tracks, selectedId, level, owned, onSelect }: Props) {
+export function MusicListClassic({ tracks, selectedId, level, owned, onSelect }: Props) {
   const { colors } = useTheme();
   const { playingId, play, stop } = useMusicPreview();
   const [focusedId, setFocusedId] = useState(selectedId);

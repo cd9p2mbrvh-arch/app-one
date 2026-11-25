@@ -10,9 +10,9 @@ export const radius = { md: 16, lg: 24, pill: 999 } as const;
 export const edge = { button: 5, card: 4 } as const;
 
 export const fonts = {
-  regular: 'Nunito_600SemiBold',
-  bold: 'Nunito_800ExtraBold',
-  black: 'Nunito_900Black',
+  regular: 'PlusJakartaSans_500Medium',
+  bold: 'PlusJakartaSans_700Bold',
+  black: 'PlusJakartaSans_800ExtraBold',
 } as const;
 
 export const typography = {
@@ -21,7 +21,7 @@ export const typography = {
   body: { fontFamily: fonts.regular, fontSize: 16, lineHeight: 22 },
   label: { fontFamily: fonts.bold, fontSize: 15, lineHeight: 20 },
   caption: { fontFamily: fonts.regular, fontSize: 13, lineHeight: 18 },
-  button: { fontFamily: fonts.black, fontSize: 16, lineHeight: 20, letterSpacing: 1 },
+  button: { fontFamily: fonts.black, fontSize: 16, lineHeight: 20, letterSpacing: 0.8 },
 } as const;
 
 export type TypographyVariant = keyof typeof typography;

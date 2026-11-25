@@ -147,6 +147,24 @@ describe('Main screen', () => {
     expect(screen.getByText('Tap to hear a preview')).toBeTruthy();
   });
 
+  it('filters music into free and premium', async () => {
+    await open();
+    await press('Music', 'tab');
+    expect(screen.getAllByRole('button', { name: /^Music \d/ })).toHaveLength(7);
+
+    await press('Show premium music');
+    expect(
+      screen.getAllByRole('button', { name: /^Music \d/ }).map((b) => b.props.accessibilityLabel),
+    ).toEqual([
+      expect.stringMatching(/^Music 5/),
+      expect.stringMatching(/^Music 6/),
+      expect.stringMatching(/^Music 7/),
+    ]);
+
+    await press('Show free music');
+    expect(screen.getAllByRole('button', { name: /^Music \d/ })).toHaveLength(4);
+  });
+
   it('lets locked music be previewed but not chosen', async () => {
     await open();
     await press('Music', 'tab');
