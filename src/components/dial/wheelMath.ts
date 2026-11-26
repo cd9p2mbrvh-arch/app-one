@@ -1,4 +1,4 @@
-import { DEG_PER_MINUTE, DIAL_MAX, DIAL_MIN } from './dialMath';
+import { DIAL_MAX, DIAL_MIN } from './dialMath';
 
 /**
  * The rotating time wheel: the numbers sit on a wheel that turns under a fixed
@@ -11,14 +11,22 @@ import { DEG_PER_MINUTE, DIAL_MAX, DIAL_MIN } from './dialMath';
  */
 export const WHEEL_DIRECTION: 1 | -1 = -1;
 
+/**
+ * The minutes from the minimum to the maximum are spread over the whole wheel,
+ * with no empty part: 5…30 is 26 marks, so each minute gets 360° / 26 ≈ 13.8°,
+ * and 30 sits right next to 5.
+ */
+export const WHEEL_STEPS = DIAL_MAX - DIAL_MIN + 1;
+export const WHEEL_DEG_PER_MINUTE = 360 / WHEEL_STEPS;
+
 /** Wheel rotation (degrees, clockwise) that puts `value` under the top marker. */
 export function rotationForValue(value: number): number {
-  return WHEEL_DIRECTION * value * DEG_PER_MINUTE;
+  return WHEEL_DIRECTION * (value - DIAL_MIN) * WHEEL_DEG_PER_MINUTE;
 }
 
 /** Where minute `m` sits on the unturned wheel (degrees, 0 = top, clockwise). */
 export function wheelAngleOf(minute: number): number {
-  return -WHEEL_DIRECTION * minute * DEG_PER_MINUTE;
+  return -WHEEL_DIRECTION * (minute - DIAL_MIN) * WHEEL_DEG_PER_MINUTE;
 }
 
 /** Shortest signed turn from angle `from` to angle `to`, in (-180, 180]. */
@@ -34,7 +42,9 @@ export function clampExact(value: number): number {
 
 /** Exact value after the finger turned the wheel by `delta` degrees (clockwise +). */
 export function valueAfterTurn(exact: number, delta: number): number {
-  return clampExact(exact + (WHEEL_DIRECTION * delta) / DEG_PER_MINUTE);
+  const next = exact + (WHEEL_DIRECTION * delta) / WHEEL_DEG_PER_MINUTE;
+  // Drop floating-point dust so a mark reached exactly counts as reached.
+  return clampExact(Math.round(next * 1e9) / 1e9);
 }
 
 /** Whole minutes shown for an exact value (what the wheel settles on). */
@@ -43,18 +53,13 @@ export function settledValue(exact: number): number {
 }
 
 /**
- * Minute printed on the wheel at a touched screen angle, given the wheel's
- * current value. Used for "tap a number to turn to it". The empty part of the
- * wheel between the maximum and the minimum goes to the nearer end.
+ * Minute on the wheel at a touched screen angle, given the wheel's current value.
+ * Used for "tap a number to turn to it".
  */
 export function valueAtTouch(touchAngle: number, currentValue: number): number {
   const onWheel = touchAngle - rotationForValue(currentValue);
-  const minute =
-    ((Math.round((-WHEEL_DIRECTION * onWheel) / DEG_PER_MINUTE) % DIAL_MAX) + DIAL_MAX) %
-      DIAL_MAX || DIAL_MAX;
-  if (minute >= DIAL_MIN) return minute;
-  // 1…(min-1): closer to the maximum or to the minimum?
-  return minute < DIAL_MIN / 2 ? DIAL_MAX : DIAL_MIN;
+  const steps = Math.round((-WHEEL_DIRECTION * onWheel) / WHEEL_DEG_PER_MINUTE);
+  return DIAL_MIN + (((steps % WHEEL_STEPS) + WHEEL_STEPS) % WHEEL_STEPS);
 }
 
 /**

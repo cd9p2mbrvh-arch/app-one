@@ -159,8 +159,9 @@ prepare the list.
 
 ### 4.7 Choosing the session length (Time tab)
 
-- Sessions can be **5 to 30 minutes** long (default 10); one full turn of the wheel
-  is 30 minutes, with a number for every minute. The limits are
+- Sessions can be **5 to 30 minutes** long (default 10). The wheel shows only
+  5, 10, 15, 20, 25 and 30, spread around the whole wheel with no empty part
+  (30 sits next to 5), so each minute gets as much room as possible. The limits are
   `MIN_DURATION_MIN` / `MAX_DURATION_MIN` in `src/content/manifest.ts`.
 - **Current design — rotating wheel** (since 25 Nov 2026): the whole wheel turns
   under a fixed marker at the top; the number under the marker (also shown big in
@@ -421,3 +422,4 @@ testing before review.
 | 2026-11-25 | Soft frosted-glass look across the whole app (cards, lists, fields, sheets, profile page, settings); main buttons stay solid (see 4.10).                                                                                                                                                |
 | 2026-11-26 | Small website (support page + privacy policy) in `site/`, published free with GitHub Pages; built from the same texts as the app.                                                                                                                                                       |
 | 2026-11-26 | Next/Begin and other main buttons are see-through glass too; 2-second launch intro with a "Michael apps" logo; Settings & info became **About** (the "i" button next to your name); sessions are now 5–30 minutes with a number for every minute on the wheel and firmer haptic clicks. |
+| 2026-11-26 | Time wheel: only 5, 10 … 30 shown, spread around the whole wheel (more room per minute for clearer clicks).                                                                                                                                                                             |

@@ -26,8 +26,10 @@ type Props = {
   testID?: string;
 };
 
-/** A number for every minute; multiples of 5 are larger. */
-const LABELS = Array.from({ length: DIAL_MAX - DIAL_MIN + 1 }, (_, i) => DIAL_MIN + i);
+/** Numbers only every 5 minutes; the other minutes are tick marks. */
+const LABELS = Array.from({ length: DIAL_MAX - DIAL_MIN + 1 }, (_, i) => DIAL_MIN + i).filter(
+  (m) => m % 5 === 0,
+);
 /** A touch that turned the wheel less than this counts as a tap. */
 const TAP_DEGREES = 4;
 const POINTER = 14;
@@ -214,7 +216,6 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
           {LABELS.map((m) => {
             const p = pointAt(wheelAngleOf(m), labelRadius);
             const selected = m === current;
-            const major = m % 5 === 0;
             return (
               <Animated.View
                 key={m}
@@ -228,9 +229,9 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
                 ]}
               >
                 <AppText
-                  variant={major ? 'label' : 'caption'}
-                  color={selected ? colors.primary : major ? colors.text : colors.textMuted}
-                  style={selected ? styles.selectedLabel : major ? undefined : styles.minorLabel}
+                  variant="label"
+                  color={selected ? colors.primary : colors.text}
+                  style={selected ? styles.selectedLabel : undefined}
                 >
                   {m}
                 </AppText>
@@ -283,7 +284,6 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
 const styles = StyleSheet.create({
   label: { position: 'absolute', width: 36, height: 24, alignItems: 'center' },
   selectedLabel: { fontSize: 20, lineHeight: 24, fontFamily: fonts.black },
-  minorLabel: { fontSize: 12, lineHeight: 16, opacity: 0.85 },
   center: { alignItems: 'center', justifyContent: 'center' },
   bigNumber: { fontSize: 56, lineHeight: 62 },
 });
