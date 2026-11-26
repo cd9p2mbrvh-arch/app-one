@@ -303,6 +303,20 @@ testing before review.
 
 ---
 
+### Website (support page and privacy policy)
+
+- The stores need two web links: a **privacy policy** and a **support page**.
+  They live in the `site/` folder and are published for free with GitHub Pages
+  at **https://cd9p2mbrvh-arch.github.io/app-one/** (support) and
+  **https://cd9p2mbrvh-arch.github.io/app-one/privacy/** (privacy policy).
+- The pages are built from the same texts the app shows (`npm run legal:export`),
+  so they always match; a test checks this. Every push to `main` that changes
+  `site/` republishes them automatically.
+- Your developer name and support e-mail (in `src/config/appInfo.ts`) appear on
+  both pages once filled in.
+- Later you can add your own domain (about $10–15 per year) without changing the
+  pages.
+
 ### Store approval checklist (researched November 2026)
 
 **You (accounts, forms, listings):**
@@ -393,3 +407,4 @@ testing before review.
 | 2026-11-25 | Theme tab: glossy, glowing icon tiles like the Music tab, each theme in its own light colour; quick fade on selection.                                                                               |
 | 2026-11-25 | Tab bar experiment: see-through frosted glass with a glass pill on the active tab (old solid bar kept, see 4.9).                                                                                     |
 | 2026-11-25 | Soft frosted-glass look across the whole app (cards, lists, fields, sheets, profile page, settings); main buttons stay solid (see 4.10).                                                             |
+| 2026-11-26 | Small website (support page + privacy policy) in `site/`, published free with GitHub Pages; built from the same texts as the app.                                                                    |
