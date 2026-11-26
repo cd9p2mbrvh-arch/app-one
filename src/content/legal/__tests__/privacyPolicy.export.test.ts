@@ -29,7 +29,9 @@ describe('website (site/)', () => {
 
   it('the website shows every section of the privacy policy', () => {
     const html = siteFiles()['privacy/index.html'];
-    for (const line of privacyPolicyMarkdown().split('\n').filter((l) => l.startsWith('## '))) {
+    for (const line of privacyPolicyMarkdown()
+      .split('\n')
+      .filter((l) => l.startsWith('## '))) {
       expect(html).toContain(`<h2>${line.slice(3).replace(/&/g, '&amp;')}</h2>`);
     }
   });

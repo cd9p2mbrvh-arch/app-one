@@ -100,7 +100,8 @@ export function privacyPageHtml(): string {
 </section>
 <section class="card policy">
 ${PRIVACY_POLICY.map(
-  (s) => `  <h2>${escape(s.heading)}</h2>\n${s.paragraphs.map((p) => `  <p>${escape(p)}</p>`).join('\n')}`,
+  (s) =>
+    `  <h2>${escape(s.heading)}</h2>\n${s.paragraphs.map((p) => `  <p>${escape(p)}</p>`).join('\n')}`,
 ).join('\n')}
 </section>`,
   });
