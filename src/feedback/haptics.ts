@@ -22,3 +22,13 @@ export function majorTick() {
 export function tap() {
   safe(Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium));
 }
+
+/** One minute on the time wheel: a clear, firm click. */
+export function wheelTick() {
+  safe(Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium));
+}
+
+/** Every 5 minutes on the time wheel: the strongest click. */
+export function wheelMajorTick() {
+  safe(Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy));
+}

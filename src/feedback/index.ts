@@ -1,1 +1,1 @@
-export { majorTick, tap, tick } from './haptics';
+export { majorTick, tap, tick, wheelMajorTick, wheelTick } from './haptics';

@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Redirect, router } from 'expo-router';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Redirect } from 'expo-router';
+import { StyleSheet, View } from 'react-native';
 
 import {
   AppText,
@@ -28,7 +28,6 @@ const PERIOD_ICONS: Record<TimeOfDay, IconName> = {
 /** The active profile's progress and a simple list of past meditations. */
 export default function HistoryScreen() {
   const { colors } = useTheme();
-  const glass = useGlass();
   const profile = useActiveProfile();
   const progress = useProfileProgress(profile?.id);
 
@@ -62,19 +61,6 @@ export default function HistoryScreen() {
       </View>
 
       <DayTracker done={periodsToday(progress)} />
-
-      <Pressable
-        onPress={() => router.push('/settings')}
-        accessibilityRole="button"
-        accessibilityLabel="Settings and info"
-        style={[styles.settingsRow, glass.card]}
-      >
-        <Ionicons name="settings-outline" size={22} color={colors.primary} />
-        <AppText variant="label" style={styles.settingsLabel}>
-          Settings & info
-        </AppText>
-        <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
-      </Pressable>
 
       <AppText variant="heading">History</AppText>
       {progress.history.length === 0 ? (
@@ -143,15 +129,6 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
     alignItems: 'center',
   },
-  settingsRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.md,
-    borderWidth: 2,
-    borderRadius: radius.md,
-    padding: spacing.md,
-  },
-  settingsLabel: { flex: 1 },
   list: { gap: spacing.sm },
   row: {
     flexDirection: 'row',

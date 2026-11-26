@@ -80,6 +80,7 @@ const STEP_TITLES: Record<SetupStep, string> = {
 /** Main screen: pick theme, voice, music and duration on rotating wheels. */
 export default function HomeScreen() {
   const { colors, backdrop } = useTheme();
+  const glass = useGlass();
   const reduceMotion = useReduceMotion();
   // 0 = screen shown, 1 = zoomed in and faded into the blur (leaving for the session).
   const [leaving] = useState(() => new Animated.Value(0));
@@ -227,6 +228,15 @@ export default function HomeScreen() {
                   </View>
                 </View>
               </View>
+            </Pressable>
+            <Pressable
+              onPress={() => router.push('/about')}
+              accessibilityRole="button"
+              accessibilityLabel="About App One"
+              hitSlop={8}
+              style={[styles.aboutButton, glass.card]}
+            >
+              <Ionicons name="information" size={20} color={colors.text} />
             </Pressable>
             <Pressable
               onPress={() => router.push('/profiles')}
@@ -403,6 +413,14 @@ const styles = StyleSheet.create({
   dialContent: { flex: 1 },
   dialArea: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: spacing.md },
   switchButton: { padding: spacing.xs },
+  aboutButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   previewButton: {
     width: 40,
     height: 40,

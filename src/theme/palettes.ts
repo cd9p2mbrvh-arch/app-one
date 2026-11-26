@@ -32,6 +32,8 @@ export type Palette = {
   glassEdge: string;
   /** Glass material: colour of the soft shadow under glass (used with low alpha) */
   glassShadow: string;
+  /** Glass material: see-through tint of main buttons (Next, Begin…), #RRGGBBAA */
+  glassButton: string;
 };
 
 export type Backdrop = {
@@ -67,6 +69,7 @@ export const baseLooks: Record<TimeOfDay, Look> = {
       glassFill: '#FFFFFF80',
       glassEdge: '#FFFFFFCC',
       glassShadow: '#2C4A6B',
+      glassButton: '#205584D1',
     },
     backdrop: {
       // Sunrise: clear sky above, warm light near the horizon, the sun rising.
@@ -91,6 +94,7 @@ export const baseLooks: Record<TimeOfDay, Look> = {
       glassFill: '#FFFFFF7A',
       glassEdge: '#FFFFFFC7',
       glassShadow: '#7A3410',
+      glassButton: '#9A2F2BD1',
     },
     backdrop: {
       // Sunset at the beach: golden sky, sun sinking into a warm sea, sand below.
@@ -114,6 +118,7 @@ export const baseLooks: Record<TimeOfDay, Look> = {
       glassFill: '#FFFFFF14',
       glassEdge: '#FFFFFF38',
       glassShadow: '#000000',
+      glassButton: '#C3D3F4D1',
     },
     backdrop: {
       // Moon and stars: deep navy above, lighter blue below, drifting clouds.

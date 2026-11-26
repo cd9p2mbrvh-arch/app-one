@@ -41,14 +41,14 @@ describe('TimeWheel', () => {
     expect(screen.getByTestId('dial-value')).toHaveTextContent('25');
   });
 
-  it('turns the whole wheel: anticlockwise adds a minute per 6°', async () => {
+  it('turns the whole wheel: anticlockwise adds a minute per 12°', async () => {
     const { dial, onChange } = await setup(10);
-    await turn(dial, -30);
+    await turn(dial, -60);
     expect(dial).toHaveAccessibilityValue({ text: '15 minutes' });
     expect(onChange).toHaveBeenLastCalledWith(15);
     const style = screen.getByTestId('dial-wheel').props.style as { transform?: unknown }[];
     const rotate = JSON.stringify(style).match(/"rotate":"([-\d.]+)deg"/)?.[1];
-    expect(Number(rotate)).toBeCloseTo(-90); // 15 minutes × 6°, anticlockwise
+    expect(Number(rotate)).toBeCloseTo(-180); // 15 minutes × 12°, anticlockwise
   });
 
   it('turning clockwise removes time and stops at 5 minutes', async () => {
@@ -58,23 +58,23 @@ describe('TimeWheel', () => {
     expect(onChange).toHaveBeenLastCalledWith(5);
   });
 
-  it('stops at 60 minutes', async () => {
-    const { dial, onChange } = await setup(55);
+  it('stops at 30 minutes', async () => {
+    const { dial, onChange } = await setup(25);
     await turn(dial, -90);
-    expect(onChange).toHaveBeenLastCalledWith(60);
+    expect(onChange).toHaveBeenLastCalledWith(30);
   });
 
   it('settles on the nearest whole minute', async () => {
     const { dial, onChange } = await setup(10);
-    await turn(dial, -10); // 1.67 minutes
+    await turn(dial, -20); // 1.67 minutes
     expect(onChange).toHaveBeenLastCalledWith(12);
   });
 
   it('turns straight to a tapped number', async () => {
     const { dial, onChange } = await setup(10);
-    // With 10 at the top, 25 is a quarter turn to the right.
-    await fireEvent(dial, 'responderGrant', at(90));
-    await fireEvent(dial, 'responderRelease', at(90));
+    // With 10 at the top, 25 is half a turn away.
+    await fireEvent(dial, 'responderGrant', at(180));
+    await fireEvent(dial, 'responderRelease', at(180));
     expect(onChange).toHaveBeenCalledWith(25);
     expect(dial).toHaveAccessibilityValue({ text: '25 minutes' });
   });
@@ -86,30 +86,40 @@ describe('TimeWheel', () => {
     expect(onChange).toHaveBeenCalledWith(10);
   });
 
-  it('ticks each minute when turning slowly, firmer on 5-minute marks', async () => {
+  it('clicks firmly each minute when turning slowly, strongest on 5-minute marks', async () => {
     const { dial } = await setup(10);
-    await turn(dial, -30, 100); // 1 minute per 600 ms
-    expect(Haptics.selectionAsync).toHaveBeenCalledTimes(4); // 11–14
-    expect(Haptics.impactAsync).toHaveBeenCalledTimes(1); // 15
+    await turn(dial, -60, 100); // 1 minute per 1.2 s
+    expect(Haptics.impactAsync).toHaveBeenCalledTimes(5);
+    expect(jest.mocked(Haptics.impactAsync).mock.calls.map((c) => c[0])).toEqual([
+      'medium', // 11
+      'medium',
+      'medium',
+      'medium', // 14
+      'heavy', // 15
+    ]);
   });
 
   it('ticks when a minute line reaches the marker, not halfway', async () => {
     const { dial } = await setup(10);
     await fireEvent(dial, 'responderGrant', at(0, 0));
-    await fireEvent(dial, 'responderMove', at(-4, 400)); // 10.67: past halfway
-    expect(Haptics.selectionAsync).not.toHaveBeenCalled();
+    await fireEvent(dial, 'responderMove', at(-8, 400)); // 10.67: past halfway
+    expect(Haptics.impactAsync).not.toHaveBeenCalled();
     expect(screen.getByTestId('dial-value')).toHaveTextContent('10');
-    await fireEvent(dial, 'responderMove', at(-6, 600)); // line 11 at the marker
-    expect(Haptics.selectionAsync).toHaveBeenCalledTimes(1);
+    await fireEvent(dial, 'responderMove', at(-12, 600)); // line 11 at the marker
+    expect(Haptics.impactAsync).toHaveBeenCalledWith('medium');
     expect(screen.getByTestId('dial-value')).toHaveTextContent('11');
   });
 
   it('only clicks on 5-minute marks during a fast spin', async () => {
     const { dial } = await setup(10);
-    await turn(dial, -120, 2); // ~83 min/s
+    await turn(dial, -240, 2); // ~40 min/s
     expect(dial).toHaveAccessibilityValue({ text: '30 minutes' });
-    expect(Haptics.selectionAsync).not.toHaveBeenCalled();
-    expect(Haptics.impactAsync).toHaveBeenCalledTimes(4); // 15, 20, 25, 30
+    expect(jest.mocked(Haptics.impactAsync).mock.calls.map((c) => c[0])).toEqual([
+      'heavy', // 15
+      'heavy',
+      'heavy',
+      'heavy', // 30
+    ]);
   });
 
   it('supports VoiceOver steps', async () => {

@@ -1,12 +1,13 @@
 import { MAX_DURATION_MIN, MIN_DURATION_MIN } from '@/content/manifest';
 
 /**
- * The time dial works like a clock face: one full circle is 60 minutes, so each
- * minute is 6°. 60 sits at the top (12 o'clock), 15 at 3 o'clock, 30 at 6 o'clock.
+ * The time dials: one full circle is the longest session (DIAL_MAX minutes), so
+ * with 30 minutes each minute is 12°. The maximum sits at the top, a quarter of
+ * it at 3 o'clock, half at 6 o'clock.
  */
 export const DIAL_MIN = MIN_DURATION_MIN;
 export const DIAL_MAX = MAX_DURATION_MIN;
-export const DEG_PER_MINUTE = 6;
+export const DEG_PER_MINUTE = 360 / DIAL_MAX;
 
 /** Angle of a point around a centre: 0° at the top, growing clockwise, in [0, 360). */
 export function angleOf(x: number, y: number, cx: number, cy: number): number {
@@ -16,21 +17,22 @@ export function angleOf(x: number, y: number, cx: number, cy: number): number {
 
 const clamp = (v: number) => Math.min(DIAL_MAX, Math.max(DIAL_MIN, v));
 
-/** Minutes for a tap at `angle`: jump straight there. The top counts as 60. */
+/** Minutes for a tap at `angle`: jump straight there. The top counts as the maximum. */
 export function valueForTap(angle: number): number {
-  const raw = Math.round(angle / DEG_PER_MINUTE) % 60;
+  const raw = Math.round(angle / DEG_PER_MINUTE) % DIAL_MAX;
   return clamp(raw === 0 ? DIAL_MAX : raw);
 }
 
 /**
  * Minutes while dragging from `prev`. Crossing the top is blocked: dragging past
- * 60 stays at 60, and dragging back past the start stays at the minimum, so the
- * value never flips between 60 and the minimum.
+ * the maximum stays there, and dragging back past the start stays at the minimum, so the
+ * value never flips between the maximum and the minimum.
  */
 export function valueForDrag(prev: number, angle: number): number {
-  const raw = Math.round(angle / DEG_PER_MINUTE) % 60;
-  if (prev >= 45 && raw <= 15) return DIAL_MAX;
-  if (prev <= 15 && (raw >= 45 || raw === 0)) return DIAL_MIN;
+  const raw = Math.round(angle / DEG_PER_MINUTE) % DIAL_MAX;
+  const quarter = DIAL_MAX / 4;
+  if (prev >= DIAL_MAX - quarter && raw <= quarter) return DIAL_MAX;
+  if (prev <= quarter && (raw >= DIAL_MAX - quarter || raw === 0)) return DIAL_MIN;
   return clamp(raw);
 }
 
@@ -41,7 +43,7 @@ export function angleForValue(value: number): number {
 
 /**
  * Accessibility steps: single minutes up to 10, then 5-minute steps,
- * so VoiceOver users reach 60 in a reasonable number of swipes.
+ * so VoiceOver users reach the maximum in a few swipes.
  */
 export function stepValue(value: number, direction: 1 | -1): number {
   if (direction === 1) {

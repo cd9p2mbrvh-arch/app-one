@@ -41,7 +41,7 @@ describe('durations', () => {
   it('covers every minute from 3 to 60', () => {
     expect(DURATIONS_MIN[0]).toBe(MIN_DURATION_MIN);
     expect(DURATIONS_MIN.at(-1)).toBe(MAX_DURATION_MIN);
-    expect(DURATIONS_MIN).toHaveLength(56);
+    expect(DURATIONS_MIN).toHaveLength(26);
   });
 });
 

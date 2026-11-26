@@ -11,14 +11,14 @@ describe('angleOf', () => {
 
 describe('valueForTap', () => {
   it.each([
-    [90, 15],
-    [180, 30],
-    [270, 45],
-    [0, 60],
-    [359, 60],
-    [6, 5], // 1 minute is below the minimum
-    [60, 10],
-    [24, 5],
+    [180, 15],
+    [90, 8], // 7.5 rounds up
+    [0, 30],
+    [359, 30],
+    [12, 5], // 1 minute is below the minimum
+    [48, 5],
+    [120, 10],
+    [300, 25],
   ])('a tap at %i° gives %i minutes', (angle, minutes) => {
     expect(valueForTap(angle)).toBe(minutes);
   });
@@ -26,13 +26,13 @@ describe('valueForTap', () => {
 
 describe('valueForDrag', () => {
   it('follows the finger', () => {
-    expect(valueForDrag(10, 66)).toBe(11);
-    expect(valueForDrag(30, 240)).toBe(40);
+    expect(valueForDrag(10, 132)).toBe(11);
+    expect(valueForDrag(20, 300)).toBe(25);
   });
 
-  it('stops at 60 instead of flipping past the top', () => {
-    expect(valueForDrag(59, 0)).toBe(60);
-    expect(valueForDrag(60, 30)).toBe(60);
+  it('stops at 30 instead of flipping past the top', () => {
+    expect(valueForDrag(29, 0)).toBe(30);
+    expect(valueForDrag(30, 12)).toBe(30);
   });
 
   it('stops at the minimum instead of flipping backwards past the top', () => {
@@ -42,10 +42,10 @@ describe('valueForDrag', () => {
 });
 
 describe('angleForValue', () => {
-  it('places the knob like a clock hand', () => {
-    expect(angleForValue(15)).toBe(90);
-    expect(angleForValue(60)).toBe(360);
-    expect(angleForValue(1)).toBe(30); // clamped to 5 minutes
+  it('places the knob like a clock hand (one circle = 30 minutes)', () => {
+    expect(angleForValue(15)).toBe(180);
+    expect(angleForValue(30)).toBe(360);
+    expect(angleForValue(1)).toBe(60); // clamped to 5 minutes
   });
 });
 
@@ -55,7 +55,7 @@ describe('stepValue', () => {
     expect(stepValue(9, 1)).toBe(10);
     expect(stepValue(10, 1)).toBe(15);
     expect(stepValue(12, 1)).toBe(15);
-    expect(stepValue(60, 1)).toBe(60);
+    expect(stepValue(30, 1)).toBe(30);
   });
 
   it('steps back the same way', () => {
@@ -65,14 +65,14 @@ describe('stepValue', () => {
     expect(stepValue(5, -1)).toBe(5);
   });
 
-  it('reaches 60 from 5 in 15 steps', () => {
+  it('reaches 30 from 5 in 9 steps', () => {
     let v = 5;
     let steps = 0;
-    while (v < 60) {
+    while (v < 30) {
       v = stepValue(v, 1);
       steps++;
     }
-    expect(steps).toBe(15);
+    expect(steps).toBe(9);
   });
 });
 

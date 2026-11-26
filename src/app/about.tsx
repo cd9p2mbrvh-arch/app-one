@@ -10,8 +10,8 @@ import { tap } from '@/feedback';
 import { usePurchases } from '@/state/purchases';
 import { radius, spacing, useTheme, useGlass } from '@/theme';
 
-/** Settings & info: restore purchases, health notice, privacy policy, support, version. */
-export default function SettingsScreen() {
+/** About: restore purchases, health notice, privacy policy, support, version. */
+export default function AboutScreen() {
   const { colors } = useTheme();
   const restore = usePurchases((s) => s.restore);
   const [restoreMessage, setRestoreMessage] = useState<string | null>(null);
@@ -39,7 +39,7 @@ export default function SettingsScreen() {
     <Screen>
       <HeaderRow style={styles.header}>
         <BackButton />
-        <AppText variant="title">Settings & info</AppText>
+        <AppText variant="title">About</AppText>
       </HeaderRow>
 
       <Section title="Purchases">
@@ -66,7 +66,7 @@ export default function SettingsScreen() {
         </AppText>
       </Section>
 
-      <Section title="About">
+      <Section title="App info">
         <Row
           icon="shield-checkmark-outline"
           label="Privacy policy"

@@ -159,17 +159,18 @@ prepare the list.
 
 ### 4.7 Choosing the session length (Time tab)
 
-- Sessions can be **5 to 60 minutes** long (default 10). The limits are
+- Sessions can be **5 to 30 minutes** long (default 10); one full turn of the wheel
+  is 30 minutes, with a number for every minute. The limits are
   `MIN_DURATION_MIN` / `MAX_DURATION_MIN` in `src/content/manifest.ts`.
 - **Current design — rotating wheel** (since 25 Nov 2026): the whole wheel turns
   under a fixed marker at the top; the number under the marker (also shown big in
   the middle) is the time. Turn anticlockwise to add time, clockwise to remove it
   (to flip this, change `WHEEL_DIRECTION` in `src/components/dial/wheelMath.ts`);
-  tap a number to turn straight to it. It settles on the nearest minute. A light
-  haptic tick plays the moment each minute line reaches the marker, a firmer one
-  every 5 minutes.
+  tap a number to turn straight to it. It settles on the nearest minute. A firm
+  haptic click plays the moment each minute line reaches the marker, the
+  strongest one every 5 minutes.
 - **Previous design — clock dial** (kept in the code): a clock face where one
-  circle is 60 minutes; tap anywhere to jump there or drag the knob.
+  circle is 30 minutes; tap anywhere to jump there or drag the knob.
 - **To switch back to the clock dial**, ask Claude: "switch the Time tab back to
   the clock dial". It is a one-line change: `TIME_PICKER` at the top of
   `src/app/home.tsx`, from `'rotatingWheel'` to `'clockDial'`. The app exactly as
@@ -199,14 +200,25 @@ prepare the list.
 ### 4.10 Glass look across the app
 
 - **Current — glass:** cards, lists, the tab bar, text fields, small round
-  buttons, the profile page, settings and the pop-up sheets are soft,
+  buttons, the profile page, About and the pop-up sheets are soft,
   see-through frosted glass: a light see-through fill, a bright thin edge and a
-  soft shadow. The main buttons (Next, Begin, Create profile…) stay solid so they
-  are easy to spot. Text is checked to stay easy to read on the glass in every
+  soft shadow. The main buttons (Next, Begin, Create profile…) are see-through
+  glass in the look's main colour with a glossy shine, so they still stand out.
+  Text is checked to stay easy to read on the glass in every
   look (automatic test).
 - **Previous — chunky cards:** more solid cards with a 3D bottom edge. To switch
   back, ask Claude "switch the app back to the chunky cards", or change
   `UI_MATERIAL` in `src/theme/palettes.ts` from `'glass'` to `'chunky'`.
+
+### 4.11 Launch intro and the About screen
+
+- **Intro:** when the app starts, a 2-second intro shows the studio logo
+  ("Michael apps", a placeholder logo for now) over softly drifting, blurred
+  colours of the current time of day; then it fades and the app zooms in. The
+  timing is in `INTRO` in `src/components/Intro.tsx`; the logo is `StudioLogo` in
+  the same file (replace it with a real logo later).
+- **About:** the round **i** button next to your name opens About: restore
+  purchases, the health notice, privacy policy, support and the app version.
 
 ## 5. How a session works
 
@@ -332,7 +344,7 @@ testing before review.
 
 **Claude (app changes):**
 
-- [x] Settings & info screen: restore purchases, health notice, privacy policy, support, version.
+- [x] About screen (the "i" button next to your name): restore purchases, health notice, privacy policy, support, version.
 - [x] Privacy policy text (in the app and in `docs/PRIVACY_POLICY.md`; `npm run legal:export` refreshes the web copy).
 - [x] Health theme note ("not medical advice").
 - [ ] Real in-app purchases (Apple / Google) with local prices, instead of the demo.
@@ -387,24 +399,25 @@ testing before review.
 
 ## 11. Change log
 
-| Date       | What changed                                                                                                                                                                                         |
-| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-11-24 | Project set up; design system; time-of-day looks; profiles (up to 4).                                                                                                                                |
-| 2026-11-24 | Session setup: theme squares, narrator character select, music list, clock dial for time.                                                                                                            |
-| 2026-11-24 | Haptics tuned; tab slide animation; Begin zoom-into-blur animation.                                                                                                                                  |
-| 2026-11-24 | Animated scenes: sunrise, beach sunset, moon and stars.                                                                                                                                              |
-| 2026-11-24 | Paid narrators 7–9 and music 5–7 with a demo purchase sheet. This handbook created.                                                                                                                  |
-| 2026-11-24 | Random scene events about every 10 s (airplane, birds, fish, seagull, UFO, shooting star); shimmering stars; 3-second music previews.                                                                |
-| 2026-11-24 | Burgundy noon accents; smoother birds; UFO appears, hovers and flies away; themes can now come with their own narrator and music (not used yet).                                                     |
-| 2026-11-24 | The session: narration in random order with 10–20 s gaps, looping music, breathing circle, pause/end, completion screen with XP and level-up; header shows real progress.                            |
-| 2026-11-24 | Sessions keep playing with the screen locked (lock-screen "Now playing"); +50 XP for morning, noon and night on one day; profile page with history; rarer UFO, calmer stars, clouds around the moon. |
-| 2026-11-24 | Session narration now plays from audio clips (placeholder recordings) instead of the phone's speech engine, to keep working with the screen locked; temporary "Audio check" line added.              |
-| 2026-11-24 | Settings & info screen (restore purchases, health notice, privacy policy, version); privacy policy written; Health theme note; store approval checklist added to this handbook.                      |
-| 2026-11-25 | The top-right corner stays empty in Expo Go (its gear button sits there); Settings & info moved to a row on the profile page.                                                                        |
-| 2026-11-25 | Time tab redesigned: the whole wheel turns under a fixed top marker (old clock dial kept, see 4.7); shortest session is now 5 minutes.                                                               |
-| 2026-11-25 | Time wheel ticks exactly as each minute line reaches the marker; new font (Plus Jakarta Sans, less cartoonish); Music tab redesigned as soft 3D cards with filters (old list kept, see 4.8).         |
-| 2026-11-25 | Music tab back to a list, keeping the glossy glowing icons, with a quick fade on selection; filter buttons removed. Time wheel now adds time when turned anticlockwise.                              |
-| 2026-11-25 | Theme tab: glossy, glowing icon tiles like the Music tab, each theme in its own light colour; quick fade on selection.                                                                               |
-| 2026-11-25 | Tab bar experiment: see-through frosted glass with a glass pill on the active tab (old solid bar kept, see 4.9).                                                                                     |
-| 2026-11-25 | Soft frosted-glass look across the whole app (cards, lists, fields, sheets, profile page, settings); main buttons stay solid (see 4.10).                                                             |
-| 2026-11-26 | Small website (support page + privacy policy) in `site/`, published free with GitHub Pages; built from the same texts as the app.                                                                    |
+| Date       | What changed                                                                                                                                                                                                                                                                            |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-11-24 | Project set up; design system; time-of-day looks; profiles (up to 4).                                                                                                                                                                                                                   |
+| 2026-11-24 | Session setup: theme squares, narrator character select, music list, clock dial for time.                                                                                                                                                                                               |
+| 2026-11-24 | Haptics tuned; tab slide animation; Begin zoom-into-blur animation.                                                                                                                                                                                                                     |
+| 2026-11-24 | Animated scenes: sunrise, beach sunset, moon and stars.                                                                                                                                                                                                                                 |
+| 2026-11-24 | Paid narrators 7–9 and music 5–7 with a demo purchase sheet. This handbook created.                                                                                                                                                                                                     |
+| 2026-11-24 | Random scene events about every 10 s (airplane, birds, fish, seagull, UFO, shooting star); shimmering stars; 3-second music previews.                                                                                                                                                   |
+| 2026-11-24 | Burgundy noon accents; smoother birds; UFO appears, hovers and flies away; themes can now come with their own narrator and music (not used yet).                                                                                                                                        |
+| 2026-11-24 | The session: narration in random order with 10–20 s gaps, looping music, breathing circle, pause/end, completion screen with XP and level-up; header shows real progress.                                                                                                               |
+| 2026-11-24 | Sessions keep playing with the screen locked (lock-screen "Now playing"); +50 XP for morning, noon and night on one day; profile page with history; rarer UFO, calmer stars, clouds around the moon.                                                                                    |
+| 2026-11-24 | Session narration now plays from audio clips (placeholder recordings) instead of the phone's speech engine, to keep working with the screen locked; temporary "Audio check" line added.                                                                                                 |
+| 2026-11-24 | Settings & info screen (restore purchases, health notice, privacy policy, version); privacy policy written; Health theme note; store approval checklist added to this handbook.                                                                                                         |
+| 2026-11-25 | The top-right corner stays empty in Expo Go (its gear button sits there); Settings & info moved to a row on the profile page.                                                                                                                                                           |
+| 2026-11-25 | Time tab redesigned: the whole wheel turns under a fixed top marker (old clock dial kept, see 4.7); shortest session is now 5 minutes.                                                                                                                                                  |
+| 2026-11-25 | Time wheel ticks exactly as each minute line reaches the marker; new font (Plus Jakarta Sans, less cartoonish); Music tab redesigned as soft 3D cards with filters (old list kept, see 4.8).                                                                                            |
+| 2026-11-25 | Music tab back to a list, keeping the glossy glowing icons, with a quick fade on selection; filter buttons removed. Time wheel now adds time when turned anticlockwise.                                                                                                                 |
+| 2026-11-25 | Theme tab: glossy, glowing icon tiles like the Music tab, each theme in its own light colour; quick fade on selection.                                                                                                                                                                  |
+| 2026-11-25 | Tab bar experiment: see-through frosted glass with a glass pill on the active tab (old solid bar kept, see 4.9).                                                                                                                                                                        |
+| 2026-11-25 | Soft frosted-glass look across the whole app (cards, lists, fields, sheets, profile page, settings); main buttons stay solid (see 4.10).                                                                                                                                                |
+| 2026-11-26 | Small website (support page + privacy policy) in `site/`, published free with GitHub Pages; built from the same texts as the app.                                                                                                                                                       |
+| 2026-11-26 | Next/Begin and other main buttons are see-through glass too; 2-second launch intro with a "Michael apps" logo; Settings & info became **About** (the "i" button next to your name); sessions are now 5–30 minutes with a number for every minute on the wheel and firmer haptic clicks. |

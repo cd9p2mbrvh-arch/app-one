@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, StyleSheet, View, type GestureResponderEvent } from 'react-native';
 import Svg, { Circle, Line, Path } from 'react-native-svg';
 
-import { majorTick, tick } from '@/feedback';
-import { useTheme } from '@/theme';
+import { wheelMajorTick, wheelTick } from '@/feedback';
+import { fonts, useTheme } from '@/theme';
 
 import { AppText } from '../AppText';
 import { hapticForStep, speedBetween } from './dialHaptics';
@@ -26,8 +26,8 @@ type Props = {
   testID?: string;
 };
 
-/** Labels every 5 minutes, from the minimum up to 60. */
-const LABELS = Array.from({ length: 12 }, (_, i) => (i + 1) * 5).filter((m) => m >= DIAL_MIN);
+/** A number for every minute; multiples of 5 are larger. */
+const LABELS = Array.from({ length: DIAL_MAX - DIAL_MIN + 1 }, (_, i) => DIAL_MIN + i);
 /** A touch that turned the wheel less than this counts as a tap. */
 const TAP_DEGREES = 4;
 const POINTER = 14;
@@ -81,8 +81,8 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
     setCurrent(next);
     const haptic = hapticForStep({ value: next, now, lastHapticAt: p.lastHapticAt, speed });
     if (haptic) p.lastHapticAt = now;
-    if (haptic === 'major') majorTick();
-    else if (haptic === 'minor') tick();
+    if (haptic === 'major') wheelMajorTick();
+    else if (haptic === 'minor') wheelTick();
   };
 
   const settleTo = (target: number) => {
@@ -214,6 +214,7 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
           {LABELS.map((m) => {
             const p = pointAt(wheelAngleOf(m), labelRadius);
             const selected = m === current;
+            const major = m % 5 === 0;
             return (
               <Animated.View
                 key={m}
@@ -227,9 +228,9 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
                 ]}
               >
                 <AppText
-                  variant="label"
-                  color={selected ? colors.primary : colors.textMuted}
-                  style={selected ? styles.selectedLabel : undefined}
+                  variant={major ? 'label' : 'caption'}
+                  color={selected ? colors.primary : major ? colors.text : colors.textMuted}
+                  style={selected ? styles.selectedLabel : major ? undefined : styles.minorLabel}
                 >
                   {m}
                 </AppText>
@@ -281,7 +282,8 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
 
 const styles = StyleSheet.create({
   label: { position: 'absolute', width: 36, height: 24, alignItems: 'center' },
-  selectedLabel: { fontSize: 20, lineHeight: 24 },
+  selectedLabel: { fontSize: 20, lineHeight: 24, fontFamily: fonts.black },
+  minorLabel: { fontSize: 12, lineHeight: 16, opacity: 0.85 },
   center: { alignItems: 'center', justifyContent: 'center' },
   bigNumber: { fontSize: 56, lineHeight: 62 },
 });

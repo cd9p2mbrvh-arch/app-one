@@ -1,6 +1,7 @@
 export { AppText } from './AppText';
 export { Avatar } from './Avatar';
 export { BackButton } from './BackButton';
+export { Intro, INTRO, StudioLogo } from './Intro';
 export { Background } from './background/Background';
 export { ChunkyButton } from './ChunkyButton';
 export { ChunkySurface } from './ChunkySurface';

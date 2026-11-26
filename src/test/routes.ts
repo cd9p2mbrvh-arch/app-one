@@ -1,12 +1,12 @@
 import CompleteScreen from '@/app/complete';
 import Entry from '@/app/index';
+import AboutScreen from '@/app/about';
 import HistoryScreen from '@/app/history';
 import HomeScreen from '@/app/home';
 import EditProfileScreen from '@/app/profiles/[id]';
 import ProfilesScreen from '@/app/profiles/index';
 import NewProfileScreen from '@/app/profiles/new';
 import PrivacyScreen from '@/app/privacy';
-import SettingsScreen from '@/app/settings';
 import SessionScreen from '@/app/session';
 
 /** All app routes, for renderRouter in integration tests. */
@@ -16,7 +16,7 @@ export const appRoutes = {
   session: SessionScreen,
   complete: CompleteScreen,
   history: HistoryScreen,
-  settings: SettingsScreen,
+  about: AboutScreen,
   privacy: PrivacyScreen,
   'profiles/index': ProfilesScreen,
   'profiles/new': NewProfileScreen,

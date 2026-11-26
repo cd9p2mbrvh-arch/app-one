@@ -12,9 +12,8 @@ const press = (name: string | RegExp) => fireEvent.press(screen.getByRole('butto
 async function openSettings() {
   await renderRouter(appRoutes, { wrapper: themeWrapper(), initialUrl: '/home' });
   await screen.findByRole('tab', { name: 'Theme' });
-  await press(/Your progress and history/);
-  await press('Settings and info');
-  expect(screen).toHavePathname('/settings');
+  await press('About App One');
+  expect(screen).toHavePathname('/about');
 }
 
 beforeEach(async () => {
@@ -31,7 +30,7 @@ afterEach(async () => {
   await act(() => useSessionSetup.getState().reset());
 });
 
-describe('Settings & info', () => {
+describe('About', () => {
   it('is reached from the profile page and shows the health notice and version', async () => {
     await openSettings();
     expect(screen.getByTestId('health-notice')).toHaveTextContent(/not medical advice/);

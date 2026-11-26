@@ -45,13 +45,15 @@ export function settledValue(exact: number): number {
 /**
  * Minute printed on the wheel at a touched screen angle, given the wheel's
  * current value. Used for "tap a number to turn to it". The empty part of the
- * wheel between 60 and the minimum goes to the nearer end.
+ * wheel between the maximum and the minimum goes to the nearer end.
  */
 export function valueAtTouch(touchAngle: number, currentValue: number): number {
   const onWheel = touchAngle - rotationForValue(currentValue);
-  const minute = ((Math.round((-WHEEL_DIRECTION * onWheel) / DEG_PER_MINUTE) % 60) + 60) % 60 || 60;
+  const minute =
+    ((Math.round((-WHEEL_DIRECTION * onWheel) / DEG_PER_MINUTE) % DIAL_MAX) + DIAL_MAX) %
+      DIAL_MAX || DIAL_MAX;
   if (minute >= DIAL_MIN) return minute;
-  // 1…(min-1): closer to 60 or to the minimum?
+  // 1…(min-1): closer to the maximum or to the minimum?
   return minute < DIAL_MIN / 2 ? DIAL_MAX : DIAL_MIN;
 }
 

@@ -10,6 +10,7 @@ import { hapticForStep, speedBetween } from './dialHaptics';
 import {
   angleForValue,
   angleOf,
+  DEG_PER_MINUTE,
   DIAL_MAX,
   pointAt,
   stepValue,
@@ -27,10 +28,10 @@ type Props = {
 
 const RING = 16;
 const KNOB = 34;
-const LABELS = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
+const LABELS = Array.from({ length: DIAL_MAX / 5 }, (_, i) => (i + 1) * 5);
 
 /**
- * Clock-face duration picker: one full circle is 60 minutes. Tap anywhere on the
+ * Clock-face duration picker: one full circle is the longest session. Tap anywhere on the
  * dial to jump to that time, or drag around it. Haptic tick every minute and a
  * stronger one every 5 minutes.
  */
@@ -145,10 +146,10 @@ export function DurationDial({ value, onChange, size, testID }: Props) {
             strokeDashoffset={circumference * (1 - progress)}
             transform={`rotate(-90 ${center} ${center})`}
           />
-          {Array.from({ length: 60 }, (_, m) => {
+          {Array.from({ length: DIAL_MAX }, (_, m) => {
             const major = m % 5 === 0;
-            const outer = pointAt(m * 6, ringRadius - RING / 2 - 4);
-            const inner = pointAt(m * 6, ringRadius - RING / 2 - (major ? 14 : 8));
+            const outer = pointAt(m * DEG_PER_MINUTE, ringRadius - RING / 2 - 4);
+            const inner = pointAt(m * DEG_PER_MINUTE, ringRadius - RING / 2 - (major ? 14 : 8));
             return (
               <Line
                 key={m}
@@ -165,7 +166,7 @@ export function DurationDial({ value, onChange, size, testID }: Props) {
         </Svg>
 
         {LABELS.map((m) => {
-          const p = pointAt(m * 6, labelRadius);
+          const p = pointAt(m * DEG_PER_MINUTE, labelRadius);
           return (
             <View
               key={m}

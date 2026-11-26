@@ -15,13 +15,13 @@ const screenAngle = (minute: number, value: number) =>
 
 describe('wheel layout', () => {
   it('brings the current value under the top marker', () => {
-    for (const v of [5, 10, 33, 60]) expect(screenAngle(v, v)).toBe(0);
+    for (const v of [5, 10, 17, 30]) expect(screenAngle(v, v)).toBe(0);
   });
 
   it('shows the next higher number just right of the marker (turn anticlockwise to add)', () => {
     expect(WHEEL_DIRECTION).toBe(-1);
-    expect(screenAngle(11, 10)).toBe(6);
-    expect(screenAngle(9, 10)).toBe(354);
+    expect(screenAngle(11, 10)).toBe(12);
+    expect(screenAngle(9, 10)).toBe(348);
   });
 });
 
@@ -35,14 +35,14 @@ describe('angleDelta', () => {
 });
 
 describe('valueAfterTurn', () => {
-  it('adds a minute per 6° anticlockwise and removes one per 6° clockwise', () => {
-    expect(valueAfterTurn(10, -6)).toBe(11);
-    expect(valueAfterTurn(10, 12)).toBe(8);
-    expect(valueAfterTurn(10, -3)).toBe(10.5);
+  it('adds a minute per 12° anticlockwise and removes one per 12° clockwise', () => {
+    expect(valueAfterTurn(10, -12)).toBe(11);
+    expect(valueAfterTurn(10, 24)).toBe(8);
+    expect(valueAfterTurn(10, -6)).toBe(10.5);
   });
 
   it('stops at both ends', () => {
-    expect(valueAfterTurn(58, -60)).toBe(DIAL_MAX);
+    expect(valueAfterTurn(28, -60)).toBe(DIAL_MAX);
     expect(valueAfterTurn(6, 60)).toBe(DIAL_MIN);
   });
 });
@@ -57,17 +57,17 @@ describe('settledValue', () => {
 
 describe('valueAtTouch', () => {
   it('returns the number printed where the finger touched', () => {
-    // With 10 under the marker, 25 is 90° to the right.
-    expect(valueAtTouch(90, 10)).toBe(25);
+    // With 10 under the marker, 25 is half a turn away (15 minutes × 12°).
+    expect(valueAtTouch(180, 10)).toBe(25);
     expect(valueAtTouch(0, 10)).toBe(10);
-    // 60 sits 300° clockwise of 10, i.e. 60° to the left.
-    expect(valueAtTouch(300, 10)).toBe(60);
+    // 30 sits 240° clockwise of 10.
+    expect(valueAtTouch(240, 10)).toBe(30);
   });
 
   it('sends taps in the empty gap to the nearer end', () => {
-    // With 10 at the top, minute 1 is at 306° and minute 4 at 324°.
-    expect(valueAtTouch(306, 10)).toBe(DIAL_MAX);
-    expect(valueAtTouch(324, 10)).toBe(DIAL_MIN);
+    // With 10 at the top, minute 1 is at 252° and minute 4 at 288°.
+    expect(valueAtTouch(252, 10)).toBe(DIAL_MAX);
+    expect(valueAtTouch(288, 10)).toBe(DIAL_MIN);
   });
 });
 

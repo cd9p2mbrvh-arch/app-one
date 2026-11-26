@@ -4,14 +4,14 @@ import * as Haptics from 'expo-haptics';
 import { renderWithTheme as render } from '@/test/render';
 
 import { DurationDial } from '../DurationDial';
-import { pointAt } from '../dialMath';
+import { DEG_PER_MINUTE, pointAt } from '../dialMath';
 
 const SIZE = 300;
 const C = SIZE / 2;
 
-/** A touch event at a clock position (minutes 0–60), at time `t` ms. */
+/** A touch event at a dial position (minutes 0–30), at time `t` ms. */
 const at = (minutes: number, t = 0, radius = 120) => {
-  const p = pointAt(minutes * 6, radius);
+  const p = pointAt(minutes * DEG_PER_MINUTE, radius);
   return { nativeEvent: { locationX: C + p.x, locationY: C + p.y, timestamp: t } };
 };
 
@@ -33,31 +33,31 @@ describe('DurationDial', () => {
   it('jumps straight to a tapped position', async () => {
     const { dial, onChange } = await setup(10);
 
-    await fireEvent(dial, 'responderGrant', at(30));
-    await fireEvent(dial, 'responderRelease', at(30));
+    await fireEvent(dial, 'responderGrant', at(20));
+    await fireEvent(dial, 'responderRelease', at(20));
 
-    expect(dial).toHaveAccessibilityValue({ text: '30 minutes' });
-    expect(onChange).toHaveBeenCalledWith(30);
+    expect(dial).toHaveAccessibilityValue({ text: '20 minutes' });
+    expect(onChange).toHaveBeenCalledWith(20);
   });
 
-  it('reaches 60 with a single tap at the top', async () => {
+  it('reaches 30 with a single tap at the top', async () => {
     const { dial, onChange } = await setup(10);
     await fireEvent(dial, 'responderGrant', at(0));
     await fireEvent(dial, 'responderRelease', at(0));
-    expect(onChange).toHaveBeenCalledWith(60);
+    expect(onChange).toHaveBeenCalledWith(30);
   });
 
-  it('follows a drag and does not flip past 60', async () => {
-    const { dial, onChange } = await setup(50);
+  it('follows a drag and does not flip past 30', async () => {
+    const { dial, onChange } = await setup(25);
 
-    await fireEvent(dial, 'responderGrant', at(50));
-    await fireEvent(dial, 'responderMove', at(58));
-    expect(dial).toHaveAccessibilityValue({ text: '58 minutes' });
+    await fireEvent(dial, 'responderGrant', at(25));
+    await fireEvent(dial, 'responderMove', at(28));
+    expect(dial).toHaveAccessibilityValue({ text: '28 minutes' });
     await fireEvent(dial, 'responderMove', at(2)); // past the top
-    expect(dial).toHaveAccessibilityValue({ text: '60 minutes' });
+    expect(dial).toHaveAccessibilityValue({ text: '30 minutes' });
     await fireEvent(dial, 'responderRelease', at(2));
 
-    expect(onChange).toHaveBeenLastCalledWith(60);
+    expect(onChange).toHaveBeenLastCalledWith(30);
   });
 
   it('ticks gently each minute when moving slowly, firmer on 5-minute marks', async () => {
