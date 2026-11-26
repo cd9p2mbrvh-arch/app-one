@@ -5,7 +5,6 @@ import { renderWithTheme as render } from '@/test/render';
 
 import { pointAt } from '../dialMath';
 import { TimeWheel } from '../TimeWheel';
-import { WHEEL_DEG_PER_MINUTE as D } from '../wheelMath';
 
 const SIZE = 300;
 const C = SIZE / 2;
@@ -22,17 +21,13 @@ async function setup(value = 10) {
   return { onChange, dial: screen.getByRole('adjustable', { name: 'Time' }) };
 }
 
-/**
- * Turn the wheel from the top by `degrees` (clockwise positive) in small steps,
- * `msPerDeg` apart. The wheel adds time when turned anticlockwise, so negative
- * degrees add time.
- */
+/** Turn the wheel from the top by `degrees` (clockwise positive) in 1° steps. */
+// The wheel adds time when turned anticlockwise, so negative degrees add time.
 async function turn(dial: ReturnType<typeof screen.getByRole>, degrees: number, msPerDeg = 20) {
   await fireEvent(dial, 'responderGrant', at(0, 0));
-  const n = Math.ceil(Math.abs(degrees));
-  for (let i = 1; i <= n; i++) {
-    const a = (degrees * i) / n;
-    await fireEvent(dial, 'responderMove', at(a, Math.abs(a) * msPerDeg));
+  const dir = Math.sign(degrees);
+  for (let d = 1; d <= Math.abs(degrees); d++) {
+    await fireEvent(dial, 'responderMove', at(dir * d, d * msPerDeg));
   }
   await fireEvent(dial, 'responderRelease', at(degrees, Math.abs(degrees) * msPerDeg));
 }
@@ -46,40 +41,40 @@ describe('TimeWheel', () => {
     expect(screen.getByTestId('dial-value')).toHaveTextContent('25');
   });
 
-  it('turns the whole wheel: anticlockwise adds a minute per step', async () => {
+  it('turns the whole wheel: anticlockwise adds a minute per 12°', async () => {
     const { dial, onChange } = await setup(10);
-    await turn(dial, -5 * D);
+    await turn(dial, -60);
     expect(dial).toHaveAccessibilityValue({ text: '15 minutes' });
     expect(onChange).toHaveBeenLastCalledWith(15);
     const style = screen.getByTestId('dial-wheel').props.style as { transform?: unknown }[];
     const rotate = JSON.stringify(style).match(/"rotate":"([-\d.]+)deg"/)?.[1];
-    expect(Number(rotate)).toBeCloseTo(-10 * D); // 10 steps past 5, anticlockwise
+    expect(Number(rotate)).toBeCloseTo(-180); // 15 minutes × 12°, anticlockwise
   });
 
   it('turning clockwise removes time and stops at 5 minutes', async () => {
     const { dial, onChange } = await setup(10);
-    await turn(dial, 8 * D);
+    await turn(dial, 90);
     expect(dial).toHaveAccessibilityValue({ text: '5 minutes' });
     expect(onChange).toHaveBeenLastCalledWith(5);
   });
 
   it('stops at 30 minutes', async () => {
     const { dial, onChange } = await setup(25);
-    await turn(dial, -8 * D);
+    await turn(dial, -90);
     expect(onChange).toHaveBeenLastCalledWith(30);
   });
 
   it('settles on the nearest whole minute', async () => {
     const { dial, onChange } = await setup(10);
-    await turn(dial, -1.67 * D); // 1.67 minutes
+    await turn(dial, -20); // 1.67 minutes
     expect(onChange).toHaveBeenLastCalledWith(12);
   });
 
   it('turns straight to a tapped number', async () => {
     const { dial, onChange } = await setup(10);
-    // With 10 at the top, 25 is 15 steps away.
-    await fireEvent(dial, 'responderGrant', at(15 * D));
-    await fireEvent(dial, 'responderRelease', at(15 * D));
+    // With 10 at the top, 25 is half a turn away.
+    await fireEvent(dial, 'responderGrant', at(180));
+    await fireEvent(dial, 'responderRelease', at(180));
     expect(onChange).toHaveBeenCalledWith(25);
     expect(dial).toHaveAccessibilityValue({ text: '25 minutes' });
   });
@@ -93,7 +88,7 @@ describe('TimeWheel', () => {
 
   it('clicks firmly each minute when turning slowly, strongest on 5-minute marks', async () => {
     const { dial } = await setup(10);
-    await turn(dial, -5 * D, 100); // about 1 minute per 1.4 s
+    await turn(dial, -60, 100); // 1 minute per 1.2 s
     expect(Haptics.impactAsync).toHaveBeenCalledTimes(5);
     expect(jest.mocked(Haptics.impactAsync).mock.calls.map((c) => c[0])).toEqual([
       'medium', // 11
@@ -107,17 +102,17 @@ describe('TimeWheel', () => {
   it('ticks when a minute line reaches the marker, not halfway', async () => {
     const { dial } = await setup(10);
     await fireEvent(dial, 'responderGrant', at(0, 0));
-    await fireEvent(dial, 'responderMove', at(-0.67 * D, 400)); // 10.67: past halfway
+    await fireEvent(dial, 'responderMove', at(-8, 400)); // 10.67: past halfway
     expect(Haptics.impactAsync).not.toHaveBeenCalled();
     expect(screen.getByTestId('dial-value')).toHaveTextContent('10');
-    await fireEvent(dial, 'responderMove', at(-D, 600)); // line 11 at the marker
+    await fireEvent(dial, 'responderMove', at(-12, 600)); // line 11 at the marker
     expect(Haptics.impactAsync).toHaveBeenCalledWith('medium');
     expect(screen.getByTestId('dial-value')).toHaveTextContent('11');
   });
 
   it('only clicks on 5-minute marks during a fast spin', async () => {
     const { dial } = await setup(10);
-    await turn(dial, -20 * D, 2); // ~36 min/s
+    await turn(dial, -240, 2); // ~40 min/s
     expect(dial).toHaveAccessibilityValue({ text: '30 minutes' });
     expect(jest.mocked(Haptics.impactAsync).mock.calls.map((c) => c[0])).toEqual([
       'heavy', // 15

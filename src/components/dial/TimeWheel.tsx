@@ -7,7 +7,7 @@ import { fonts, useTheme } from '@/theme';
 
 import { AppText } from '../AppText';
 import { hapticForStep, speedBetween } from './dialHaptics';
-import { angleOf, DIAL_MAX, DIAL_MIN, pointAt, stepValue } from './dialMath';
+import { angleOf, DEG_PER_MINUTE, DIAL_MAX, DIAL_MIN, pointAt, stepValue } from './dialMath';
 import {
   angleDelta,
   crossedMinute,
@@ -16,6 +16,8 @@ import {
   valueAfterTurn,
   valueAtTouch,
   wheelAngleOf,
+  WHEEL_DIRECTION,
+  WHEEL_LABELS,
 } from './wheelMath';
 
 type Props = {
@@ -26,13 +28,11 @@ type Props = {
   testID?: string;
 };
 
-/** Numbers only every 5 minutes; the other minutes are tick marks. */
-const LABELS = Array.from({ length: DIAL_MAX - DIAL_MIN + 1 }, (_, i) => DIAL_MIN + i).filter(
-  (m) => m % 5 === 0,
-);
 /** A touch that turned the wheel less than this counts as a tap. */
 const TAP_DEGREES = 4;
 const POINTER = 14;
+/** Width of the soft range band under the ticks. */
+const BAND = 14;
 
 /** Degrees → rotate string; `sign` -1 turns the other way (keeps labels upright). */
 const deg = (v: Animated.Value, sign: 1 | -1) =>
@@ -70,7 +70,15 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
 
   const center = size / 2;
   const outer = center - POINTER - 4;
-  const labelRadius = outer - 34;
+  const labelRadius = outer - 38;
+  // Arc of the choosable range, from the minimum to the maximum mark.
+  const bandRadius = outer - 10;
+  const from = pointAt(wheelAngleOf(DIAL_MIN), bandRadius);
+  const to = pointAt(wheelAngleOf(DIAL_MAX), bandRadius);
+  const span = (DIAL_MAX - DIAL_MIN) * DEG_PER_MINUTE;
+  const rangeArc = `M ${center + from.x} ${center + from.y} A ${bandRadius} ${bandRadius} 0 ${
+    span > 180 ? 1 : 0
+  } ${WHEEL_DIRECTION === -1 ? 1 : 0} ${center + to.x} ${center + to.y}`;
   const hubRadius = outer * 0.5;
 
   const update = (next: number, now: number) => {
@@ -194,6 +202,15 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
               stroke={colors.border}
               strokeWidth={2}
             />
+            {/* Soft band under the ticks marking the choosable range (5–30). */}
+            <Path
+              d={rangeArc}
+              fill="none"
+              stroke={colors.primary}
+              strokeOpacity={0.18}
+              strokeWidth={BAND}
+              strokeLinecap="round"
+            />
             {Array.from({ length: DIAL_MAX - DIAL_MIN + 1 }, (_, i) => {
               const m = DIAL_MIN + i;
               const major = m % 5 === 0;
@@ -213,7 +230,7 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
               );
             })}
           </Svg>
-          {LABELS.map((m) => {
+          {WHEEL_LABELS.map((m) => {
             const p = pointAt(wheelAngleOf(m), labelRadius);
             const selected = m === current;
             return (
@@ -231,7 +248,7 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
                 <AppText
                   variant="label"
                   color={selected ? colors.primary : colors.text}
-                  style={selected ? styles.selectedLabel : undefined}
+                  style={selected ? styles.selectedLabel : styles.number}
                 >
                   {m}
                 </AppText>
@@ -283,7 +300,8 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
 
 const styles = StyleSheet.create({
   label: { position: 'absolute', width: 36, height: 24, alignItems: 'center' },
-  selectedLabel: { fontSize: 20, lineHeight: 24, fontFamily: fonts.black },
+  number: { fontSize: 18, lineHeight: 24 },
+  selectedLabel: { fontSize: 22, lineHeight: 26, fontFamily: fonts.black },
   center: { alignItems: 'center', justifyContent: 'center' },
   bigNumber: { fontSize: 56, lineHeight: 62 },
 });
