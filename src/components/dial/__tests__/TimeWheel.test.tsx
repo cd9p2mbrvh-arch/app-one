@@ -1,4 +1,4 @@
-import { fireEvent, screen } from '@testing-library/react-native';
+import { act, fireEvent, screen } from '@testing-library/react-native';
 import * as Haptics from 'expo-haptics';
 
 import { renderWithTheme as render } from '@/test/render';
@@ -70,13 +70,58 @@ describe('TimeWheel', () => {
     expect(onChange).toHaveBeenLastCalledWith(12);
   });
 
-  it('turns straight to a tapped number', async () => {
-    const { dial, onChange } = await setup(10);
-    // With 10 at the top, 25 is half a turn away.
-    await fireEvent(dial, 'responderGrant', at(180));
-    await fireEvent(dial, 'responderRelease', at(180));
-    expect(onChange).toHaveBeenCalledWith(25);
-    expect(dial).toHaveAccessibilityValue({ text: '25 minutes' });
+  describe('tapping a number', () => {
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => jest.useRealTimers());
+
+    const tapAt = async (dial: ReturnType<typeof screen.getByRole>, angle: number) => {
+      await fireEvent(dial, 'responderGrant', at(angle));
+      await fireEvent(dial, 'responderRelease', at(angle));
+    };
+    const wait = (ms: number) => act(() => jest.advanceTimersByTime(ms));
+
+    it('spins smoothly to it, counting through the minutes', async () => {
+      const { dial, onChange } = await setup(10);
+      // With 10 at the top, 25 is half a turn away.
+      await tapAt(dial, 180);
+      expect(onChange).not.toHaveBeenCalled(); // not a jump
+
+      await wait(250); // part way
+      const mid = Number(screen.getByTestId('dial-value').props.children);
+      expect(mid).toBeGreaterThan(10);
+      expect(mid).toBeLessThan(25);
+
+      await wait(600);
+      expect(onChange).toHaveBeenCalledWith(25);
+      expect(dial).toHaveAccessibilityValue({ text: '25 minutes' });
+      expect(Haptics.impactAsync).toHaveBeenCalled(); // clicks on the way
+    });
+
+    it('spins backwards to a lower number the same way', async () => {
+      const { dial, onChange } = await setup(25);
+      // With 25 at the top, 10 is half a turn away.
+      await tapAt(dial, 180);
+      await wait(250);
+      const mid = Number(screen.getByTestId('dial-value').props.children);
+      expect(mid).toBeLessThan(25);
+      expect(mid).toBeGreaterThan(10);
+      await wait(600);
+      expect(onChange).toHaveBeenLastCalledWith(10);
+    });
+
+    it('is quick: never longer than about two thirds of a second', async () => {
+      const { dial, onChange } = await setup(5);
+      await tapAt(dial, 300); // 30, the farthest number
+      await wait(700);
+      expect(onChange).toHaveBeenCalledWith(30);
+    });
+
+    it('gives VoiceOver the new value at once', async () => {
+      const { dial, onChange } = await setup(10);
+      await fireEvent(dial, 'accessibilityAction', { nativeEvent: { actionName: 'increment' } });
+      expect(onChange).toHaveBeenCalledWith(15);
+      expect(dial).toHaveAccessibilityValue({ text: '15 minutes' });
+    });
   });
 
   it('ignores a tap in the centre', async () => {
@@ -120,12 +165,5 @@ describe('TimeWheel', () => {
       'heavy',
       'heavy', // 30
     ]);
-  });
-
-  it('supports VoiceOver steps', async () => {
-    const { dial, onChange } = await setup(10);
-    await fireEvent(dial, 'accessibilityAction', { nativeEvent: { actionName: 'increment' } });
-    expect(onChange).toHaveBeenCalledWith(15);
-    expect(dial).toHaveAccessibilityValue({ text: '15 minutes' });
   });
 });

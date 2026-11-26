@@ -169,7 +169,9 @@ prepare the list.
   under a fixed marker at the top; the number under the marker (also shown big in
   the middle) is the time. Turn anticlockwise to add time, clockwise to remove it
   (to flip this, change `WHEEL_DIRECTION` in `src/components/dial/wheelMath.ts`);
-  tap a number to turn straight to it. It settles on the nearest minute. A firm
+  tap a number and the wheel spins quickly and smoothly to it (forwards or
+  backwards, at most about 2/3 of a second), counting through the minutes with
+  clicks on the way. It settles on the nearest minute. A firm
   haptic click plays the moment each minute line reaches the marker, the
   strongest one every 5 minutes.
 - **Previous design — clock dial** (kept in the code): a clock face where one
@@ -425,3 +427,4 @@ testing before review.
 | 2026-11-26 | Small website (support page + privacy policy) in `site/`, published free with GitHub Pages; built from the same texts as the app.                                                                                                                                                       |
 | 2026-11-26 | Next/Begin and other main buttons are see-through glass too; 2-second launch intro with a "Michael apps" logo; Settings & info became **About** (the "i" button next to your name); sessions are now 5–30 minutes with a number for every minute on the wheel and firmer haptic clicks. |
 | 2026-11-26 | Time wheel cleaned up: only 5, 10 … 30 shown, evenly spaced like a clock face, with a soft band marking the 5–30 range (a short try with the numbers squeezed round the whole wheel was dropped).                                                                                       |
+| 2026-11-26 | Time wheel: tapping a number spins the wheel smoothly to it instead of jumping (instant with VoiceOver or Reduce Motion).                                                                                                                                                               |

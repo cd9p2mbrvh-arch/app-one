@@ -3,6 +3,7 @@ import { Animated, Easing, StyleSheet, View, type GestureResponderEvent } from '
 import Svg, { Circle, Line, Path } from 'react-native-svg';
 
 import { wheelMajorTick, wheelTick } from '@/feedback';
+import { useReduceMotion } from '@/hooks/useReduceMotion';
 import { fonts, useTheme } from '@/theme';
 
 import { AppText } from '../AppText';
@@ -31,6 +32,10 @@ type Props = {
 /** A touch that turned the wheel less than this counts as a tap. */
 const TAP_DEGREES = 4;
 const POINTER = 14;
+/** Tap-to-spin timing: quick for nearby numbers, never longer than SPIN_MAX_MS. */
+const SPIN_BASE_MS = 220;
+const SPIN_MS_PER_MINUTE = 22;
+const SPIN_MAX_MS = 650;
 /** Width of the soft range band under the ticks. */
 const BAND = 14;
 
@@ -49,12 +54,16 @@ const deg = (v: Animated.Value, sign: 1 | -1) =>
  */
 export function TimeWheel({ value, onChange, size, testID }: Props) {
   const { colors } = useTheme();
+  const reduceMotion = useReduceMotion();
   const [current, setCurrent] = useState(value);
   const [prevValue, setPrevValue] = useState(value);
   const [rotation] = useState(() => new Animated.Value(rotationForValue(value)));
   const [counter] = useState(() => deg(rotation, -1));
   const [wheelTurn] = useState(() => deg(rotation, 1));
   const live = useRef(value);
+  /** Exact wheel position in minutes (may be between marks while moving). */
+  const position = useRef(value);
+  const spinFrame = useRef<number | null>(null);
   const drag = useRef({ exact: value, lastAngle: 0, grantAngle: 0, moved: 0, nearCentre: false });
   const pacing = useRef({ lastHapticAt: -Infinity, sampleValue: value, sampleTime: 0 });
 
@@ -64,9 +73,18 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
     setCurrent(value);
   }
   useEffect(() => {
+    // An outside change (not our own spin finishing) moves the wheel straight there.
+    if (spinFrame.current !== null) return;
     live.current = value;
+    position.current = value;
     rotation.setValue(rotationForValue(value));
   }, [value, rotation]);
+  useEffect(
+    () => () => {
+      if (spinFrame.current !== null) cancelAnimationFrame(spinFrame.current);
+    },
+    [],
+  );
 
   const center = size / 2;
   const outer = center - POINTER - 4;
@@ -95,10 +113,54 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
     else if (haptic === 'minor') wheelTick();
   };
 
+  /**
+   * Spins the wheel smoothly to `target` (after a tap or a VoiceOver step): quick
+   * but not instant, easing in and out. The number counts through the minutes on
+   * the way and each passing line clicks, as if the wheel were turned by hand.
+   */
+  const spinTo = (target: number, opts: { valueFirst?: boolean } = {}) => {
+    stopSpin();
+    const from = position.current;
+    const distance = Math.abs(target - from);
+    // VoiceOver needs the new value at once; Reduce Motion skips the spin.
+    if (opts.valueFirst || reduceMotion || distance < 0.001) {
+      update(target, Number.MAX_SAFE_INTEGER);
+      return settleTo(target);
+    }
+    const duration = Math.min(SPIN_MAX_MS, SPIN_BASE_MS + distance * SPIN_MS_PER_MINUTE);
+    let start: number | null = null;
+    let prev = from;
+    const frame = (now: number) => {
+      start ??= now;
+      const t = Math.min(1, (now - start) / duration);
+      const eased = t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
+      const exact = from + (target - from) * eased;
+      position.current = exact;
+      rotation.setValue(rotationForValue(exact));
+      const line = crossedMinute(prev, exact);
+      if (line !== null) update(line, now);
+      prev = exact;
+      if (t < 1) {
+        spinFrame.current = requestAnimationFrame(frame);
+      } else {
+        spinFrame.current = null;
+        update(target, now);
+        onChange(target);
+      }
+    };
+    spinFrame.current = requestAnimationFrame(frame);
+  };
+
+  const stopSpin = () => {
+    if (spinFrame.current !== null) cancelAnimationFrame(spinFrame.current);
+    spinFrame.current = null;
+  };
+
   const settleTo = (target: number) => {
+    position.current = target;
     Animated.timing(rotation, {
       toValue: rotationForValue(target),
-      duration: 180,
+      duration: reduceMotion ? 0 : 180,
       easing: Easing.out(Easing.cubic),
       useNativeDriver: true,
     }).start();
@@ -115,16 +177,19 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
 
   const onGrant = (e: GestureResponderEvent) => {
     rotation.stopAnimation();
+    // Catching the wheel mid-spin holds it where it is.
+    const spinning = spinFrame.current !== null;
+    stopSpin();
     const t = touch(e);
-    live.current = current;
+    if (!spinning) position.current = live.current;
     drag.current = {
-      exact: current,
+      exact: position.current,
       lastAngle: t.angle,
       grantAngle: t.angle,
       moved: 0,
       nearCentre: t.nearCentre,
     };
-    pacing.current.sampleValue = current;
+    pacing.current.sampleValue = live.current;
     pacing.current.sampleTime = e.nativeEvent.timestamp;
   };
 
@@ -138,6 +203,7 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
     d.moved += Math.abs(delta);
     const prev = d.exact;
     d.exact = valueAfterTurn(d.exact, delta);
+    position.current = d.exact;
     rotation.setValue(rotationForValue(d.exact));
     // Tick and change the number when a minute line reaches the marker, not halfway.
     const line = crossedMinute(prev, d.exact);
@@ -147,12 +213,10 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
   const onRelease = (e?: GestureResponderEvent) => {
     const d = drag.current;
     if (d.moved < TAP_DEGREES) {
-      if (d.nearCentre) return settleTo(live.current);
-      // A tap: turn to the number that was touched.
-      const target = valueAtTouch(d.grantAngle, live.current);
+      if (d.nearCentre) return settleTo(settledValue(d.exact));
+      // A tap: spin to the number that was touched.
       pacing.current.sampleTime = -Infinity;
-      update(target, e?.nativeEvent.timestamp ?? Date.now());
-      return settleTo(target);
+      return spinTo(valueAtTouch(d.grantAngle, settledValue(d.exact)));
     }
     // Snapping to the nearest minute may carry one more line under the marker.
     const target = settledValue(d.exact);
@@ -161,11 +225,8 @@ export function TimeWheel({ value, onChange, size, testID }: Props) {
   };
 
   const step = (direction: 1 | -1) => {
-    live.current = current;
     pacing.current.sampleTime = -Infinity;
-    const next = stepValue(current, direction);
-    update(next, Number.MAX_SAFE_INTEGER);
-    settleTo(next);
+    spinTo(stepValue(live.current, direction), { valueFirst: true });
   };
 
   return (
