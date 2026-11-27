@@ -86,14 +86,6 @@ export default function HomeScreen() {
   const [leaving] = useState(() => new Animated.Value(0));
   const isLeaving = useRef(false);
 
-  // Coming back from the session: show the screen again.
-  useFocusEffect(
-    useCallback(() => {
-      leaving.setValue(0);
-      isLeaving.current = false;
-    }, [leaving]),
-  );
-
   const begin = () => {
     if (isLeaving.current) return;
     isLeaving.current = true;
@@ -120,6 +112,25 @@ export default function HomeScreen() {
   const [active, setActive] = useState<SetupStep>('theme');
   const [slide] = useState(() => new Animated.Value(0));
   const direction = useRef<1 | -1 | 0>(0);
+
+  // Lets the focus effect below call the latest `begin` without re-running.
+  const beginRef = useRef<() => void>(() => {});
+  useEffect(() => {
+    beginRef.current = begin;
+  });
+  // Coming back from the session: show the screen again. Coming from "Play
+  // again": start that session, or open the tab whose choice is locked now.
+  useFocusEffect(
+    useCallback(() => {
+      leaving.setValue(0);
+      isLeaving.current = false;
+      const pending = useSessionSetup.getState().takePending();
+      if (pending === 'begin') beginRef.current();
+      else if (pending) {
+        setActive(pending);
+      }
+    }, [leaving]),
+  );
 
   /** Switches tab with a slide from the direction of travel and a haptic. */
   const goTo = (step: SetupStep) => {

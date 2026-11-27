@@ -258,6 +258,13 @@ screen to see your level, total XP, sessions and minutes, today's morning / noon
 night progress, and every past session with its date, length and XP. The ⇄ icon
 next to it switches profile.
 
+**Play a session again:** in the history, the round **▶** on a session starts it
+again with the same theme, narrator, music and length (the length you chose, not
+how long you listened; at most 30 minutes). Tapping the session itself shows its
+details with a **Play again** button. If its narrator or music is locked now (for
+example on a new phone before restoring purchases), ▶ shows a lock and opens that
+tab so you can choose another. The completion screen also has **Play again**.
+
 **Locked screen:** sessions are set up to keep playing with the screen locked and
 show on the lock screen as "Now playing". If it ever stops when locked, tell
 Claude whether the music, the voice or both stopped.
@@ -428,3 +435,4 @@ testing before review.
 | 2026-11-26 | Next/Begin and other main buttons are see-through glass too; 2-second launch intro with a "Michael apps" logo; Settings & info became **About** (the "i" button next to your name); sessions are now 5–30 minutes with a number for every minute on the wheel and firmer haptic clicks. |
 | 2026-11-26 | Time wheel cleaned up: only 5, 10 … 30 shown, evenly spaced like a clock face, with a soft band marking the 5–30 range (a short try with the numbers squeezed round the whole wheel was dropped).                                                                                       |
 | 2026-11-26 | Time wheel: tapping a number spins the wheel smoothly to it instead of jumping (instant with VoiceOver or Reduce Motion).                                                                                                                                                               |
+| 2026-11-27 | Play a past session again: ▶ on each history row, a details panel when you tap a session, and Play again on the completion screen.                                                                                                                                                      |

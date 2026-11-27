@@ -3,6 +3,8 @@ import { create } from 'zustand';
 import {
   DEFAULT_DURATION_MIN,
   firstUnlocked,
+  MAX_DURATION_MIN,
+  MIN_DURATION_MIN,
   isUnlocked,
   MUSIC,
   NO_PURCHASES,
@@ -23,8 +25,19 @@ export type SetupSelection = {
   duration: number;
 };
 
+/**
+ * What the setup screen should do when it next comes into view: start the
+ * session at once ('begin'), or open a tab whose choice needs attention.
+ */
+export type SetupRequest = 'begin' | SetupStep;
+
 type SetupStore = SetupSelection & {
+  pending: SetupRequest | null;
   choose: <S extends SetupStep>(step: S, value: SetupSelection[S]) => void;
+  /** Fills in all choices (e.g. from a past session) and asks the setup screen to act. */
+  replay: (selection: SetupSelection, request: SetupRequest) => void;
+  /** Returns the pending request once and clears it. */
+  takePending: () => SetupRequest | null;
   reset: () => void;
 };
 
@@ -39,10 +52,17 @@ export function defaultSelection(level = 1): SetupSelection {
 }
 
 /** The choices on the session setup tabs. Not persisted (yet). */
-export const useSessionSetup = create<SetupStore>((set) => ({
+export const useSessionSetup = create<SetupStore>((set, get) => ({
   ...defaultSelection(),
+  pending: null,
   choose: (step, value) => set({ [step]: value } as Partial<SetupSelection>),
-  reset: () => set(defaultSelection()),
+  replay: (selection, request) => set({ ...selection, pending: request }),
+  takePending: () => {
+    const pending = get().pending;
+    if (pending) set({ pending: null });
+    return pending;
+  },
+  reset: () => set({ ...defaultSelection(), pending: null }),
 }));
 
 const CATALOG: Record<Exclude<SetupStep, 'duration'>, CatalogItem[]> = {
@@ -124,4 +144,45 @@ export function canBegin(
   themes: Theme[] = THEMES,
 ): boolean {
   return SETUP_STEPS.every((step) => !isStepLocked(selection, step, level, owned, themes));
+}
+
+/** The parts of a past session needed to play it again. */
+export type ReplaySource = {
+  themeId: string;
+  voiceId: string;
+  musicId: string;
+  plannedMinutes: number;
+};
+
+export type ReplayPlan = {
+  selection: SetupSelection;
+  /** The first choice that is locked now (e.g. purchases not restored), if any. */
+  lockedStep: SetupStep | null;
+};
+
+/**
+ * How to play a past session again: its choices as they are today. Items that no
+ * longer exist fall back to the defaults, and the length is kept within today's
+ * limits (older sessions could be up to 60 minutes).
+ */
+export function replayPlan(
+  source: ReplaySource,
+  level: number,
+  owned: ReadonlySet<string> = NO_PURCHASES,
+  themes: Theme[] = THEMES,
+): ReplayPlan {
+  const fallback = defaultSelection(level);
+  const has = (list: CatalogItem[], id: string) => list.some((item) => item.id === id);
+  const selection: SetupSelection = {
+    theme: has(themes, source.themeId) ? source.themeId : fallback.theme,
+    voice: has(VOICES, source.voiceId) ? source.voiceId : fallback.voice,
+    music: has(MUSIC, source.musicId) ? source.musicId : fallback.music,
+    duration: Math.min(
+      MAX_DURATION_MIN,
+      Math.max(MIN_DURATION_MIN, Math.round(source.plannedMinutes) || DEFAULT_DURATION_MIN),
+    ),
+  };
+  const lockedStep =
+    SETUP_STEPS.find((step) => isStepLocked(selection, step, level, owned, themes)) ?? null;
+  return { selection, lockedStep };
 }

@@ -240,6 +240,18 @@ describe('A meditation session', () => {
     expect(screen.getByRole('button', { name: 'Pause' })).toBeTruthy();
   });
 
+  it('can play the same session again from the completion screen', async () => {
+    await startSession(5);
+    await wait(5 * MIN + 1000);
+    expect(screen).toHavePathname('/complete');
+    await act(() => useSessionSetup.getState().choose('duration', 20));
+
+    await press('Play again');
+    await wait(800);
+    expect(screen).toHavePathname('/session');
+    expect(useSessionSetup.getState().duration).toBe(5);
+  });
+
   it('explains that very short sessions earn nothing', async () => {
     await startSession(20);
     await wait(20000);
@@ -270,6 +282,90 @@ describe('Progress and history', () => {
     expect(screen.getByLabelText('Tue 24 Nov · 09:03. Abundance, 3 min. 70 XP.')).toBeTruthy();
     expect(screen.getByText('70')).toBeTruthy(); // total XP tile
     expect(screen.getByLabelText(/Today: Morning done/)).toBeTruthy();
+  });
+
+  it('plays a past session again from the history with one tap', async () => {
+    jest.setSystemTime(new Date(2026, 10, 24, 9, 0));
+    await startSession(5);
+    await wait(5 * MIN + 1000);
+    await press('Done');
+    await wait(500);
+    // Choose something else, to see the replay put the old choices back.
+    await act(() =>
+      useSessionSetup
+        .getState()
+        .replay({ theme: 'health', voice: 'voice2', music: 'music2', duration: 20 }, 'theme'),
+    );
+    await act(() => useSessionSetup.getState().takePending());
+
+    await press(/Your progress and history/);
+    await press('Play again: Abundance, Narrator 1, Music 1, 5 minutes');
+    await wait(800); // back to setup, Begin zoom
+
+    expect(screen).toHavePathname('/session');
+    expect(useSessionSetup.getState()).toMatchObject({
+      theme: 'abundance',
+      voice: 'voice1',
+      music: 'music1',
+      duration: 5,
+    });
+  });
+
+  it('shows a past session’s details and plays it again from there', async () => {
+    jest.setSystemTime(new Date(2026, 10, 24, 9, 0));
+    await startSession(5);
+    await wait(5 * MIN + 1000);
+    await press('Done');
+    await wait(500);
+
+    await press(/Your progress and history/);
+    await press('Tue 24 Nov · 09:05. Abundance, 5 min. 90 XP.');
+    const details = screen.getByTestId('session-details');
+    expect(details).toHaveTextContent(/Narrator 1/);
+    expect(details).toHaveTextContent(/Morning/);
+    expect(details).toHaveTextContent(/The whole session/);
+
+    await press('Play again');
+    await wait(800);
+    expect(screen).toHavePathname('/session');
+  });
+
+  it('opens the locked choice instead of starting when it is not available now', async () => {
+    await act(() =>
+      useProgress.setState({
+        byProfile: {
+          p1: {
+            ...progressOf({}, 'p1'),
+            history: [
+              {
+                id: 'old',
+                endedAt: '2026-11-20T20:00:00.000Z',
+                themeId: 'peace',
+                voiceId: 'voice8', // paid, not owned on this phone
+                musicId: 'music2',
+                plannedMinutes: 45, // older sessions could be longer
+                listenedMs: 45 * MIN,
+                completed: true,
+                period: 'night',
+                xp: 475,
+              },
+            ],
+          },
+        },
+      }),
+    );
+    await renderRouter(appRoutes, { wrapper: themeWrapper(), initialUrl: '/home' });
+    await screen.findByRole('tab', { name: 'Theme' });
+    await press(/Your progress and history/);
+
+    await press(
+      /^Play again: Peace of Mind, Narrator 8, Music 2, 30 minutes\. Narrator is locked now/,
+    );
+    await wait(800);
+
+    expect(screen).toHavePathname('/home');
+    expect(screen.getByRole('tab', { name: 'Narrator' })).toBeSelected();
+    expect(useSessionSetup.getState()).toMatchObject({ voice: 'voice8', duration: 30 });
   });
 
   it('still opens the profile picker from the switch button', async () => {

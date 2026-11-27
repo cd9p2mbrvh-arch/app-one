@@ -8,6 +8,7 @@ import {
   defaultSelection,
   isStepFixed,
   isStepLocked,
+  replayPlan,
   resolveSelection,
   useSessionSetup,
 } from '../sessionSetup';
@@ -110,5 +111,47 @@ describe('themes with their own narrator and music', () => {
   it('brings the user’s own choices back when switching to a normal theme', () => {
     const back = { ...mine, theme: 'sleep' };
     expect(resolveSelection({ ...back, theme: 'peace' }, themes).voice).toBe('voice2');
+  });
+});
+
+describe('replayPlan (play a past session again)', () => {
+  const past = { themeId: 'peace', voiceId: 'voice2', musicId: 'music2', plannedMinutes: 15 };
+
+  it('uses the past session’s choices', () => {
+    expect(replayPlan(past, 1)).toEqual({
+      selection: { theme: 'peace', voice: 'voice2', music: 'music2', duration: 15 },
+      lockedStep: null,
+    });
+  });
+
+  it('keeps the length within today’s 5–30 minutes', () => {
+    expect(replayPlan({ ...past, plannedMinutes: 60 }, 1).selection.duration).toBe(30);
+    expect(replayPlan({ ...past, plannedMinutes: 3 }, 1).selection.duration).toBe(5);
+  });
+
+  it('falls back to the defaults for items that no longer exist', () => {
+    const plan = replayPlan({ ...past, voiceId: 'gone', musicId: 'gone' }, 1);
+    expect(plan.selection.voice).toBe('voice1');
+    expect(plan.selection.music).toBe('music1');
+  });
+
+  it('points at the first choice that is locked now', () => {
+    expect(replayPlan({ ...past, voiceId: 'voice8' }, 1).lockedStep).toBe('voice');
+    expect(
+      replayPlan({ ...past, voiceId: 'voice8' }, 1, new Set(['narrator.voice8'])).lockedStep,
+    ).toBeNull();
+    expect(replayPlan({ ...past, musicId: 'music4' }, 1).lockedStep).toBe('music'); // level 4
+  });
+});
+
+describe('setup requests', () => {
+  afterEach(() => useSessionSetup.getState().reset());
+
+  it('hands a replay request to the setup screen exactly once', () => {
+    const selection = { theme: 'health', voice: 'voice3', music: 'music2', duration: 20 };
+    useSessionSetup.getState().replay(selection, 'begin');
+    expect(useSessionSetup.getState()).toMatchObject(selection);
+    expect(useSessionSetup.getState().takePending()).toBe('begin');
+    expect(useSessionSetup.getState().takePending()).toBeNull();
   });
 });

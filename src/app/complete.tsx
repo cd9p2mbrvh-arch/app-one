@@ -7,6 +7,7 @@ import { Animated, Easing, StyleSheet, View } from 'react-native';
 import { AppText, ChunkyButton, DayTracker, Screen } from '@/components';
 import { MUSIC, THEMES, VOICES } from '@/content/manifest';
 import { xpToReachLevel } from '@/domain/progress';
+import { useReplay } from '@/hooks/useReplay';
 import { useActiveProfile } from '@/state/profiles';
 import { useProfileProgress } from '@/state/progress';
 import { radius, spacing, useTheme, useGlass } from '@/theme';
@@ -22,7 +23,11 @@ export default function CompleteScreen() {
   const { colors } = useTheme();
   const glass = useGlass();
   const profile = useActiveProfile();
-  const result = useProfileProgress(profile?.id).lastResult;
+  const progress = useProfileProgress(profile?.id);
+  const result = progress.lastResult;
+  // The session just finished is the newest history entry.
+  const justFinished = progress.history[0];
+  const replay = useReplay();
   const [fill] = useState(() => new Animated.Value(0));
   const [shownLevel, setShownLevel] = useState(result?.levelBefore ?? 1);
   const [celebrate] = useState(() => new Animated.Value(0));
@@ -79,7 +84,20 @@ export default function CompleteScreen() {
   ];
 
   return (
-    <Screen footer={<ChunkyButton title="Done" onPress={() => router.dismissTo('/home')} />}>
+    <Screen
+      footer={
+        <View style={styles.footer}>
+          {justFinished ? (
+            <ChunkyButton
+              title="Play again"
+              variant="secondary"
+              onPress={() => replay.play(justFinished)}
+            />
+          ) : null}
+          <ChunkyButton title="Done" onPress={() => router.dismissTo('/home')} />
+        </View>
+      }
+    >
       <View style={styles.top}>
         <Ionicons
           name={result.completed ? 'sparkles' : 'leaf-outline'}
@@ -169,6 +187,7 @@ export default function CompleteScreen() {
 }
 
 const styles = StyleSheet.create({
+  footer: { gap: spacing.sm },
   top: { alignItems: 'center', gap: spacing.sm, marginTop: spacing.lg },
   center: { textAlign: 'center' },
   card: { borderWidth: 2, borderRadius: radius.md, padding: spacing.md, gap: spacing.sm },
